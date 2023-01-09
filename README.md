@@ -44,4 +44,4 @@ You can preview the production build with `npm run preview`.
 
 ## Author
 
-- **Vadim Egorov** - [Your GitHub](https://github.com/vadimegorov13)
+- **Vadim Egorov** - [My GitHub](https://github.com/vadimegorov13)
