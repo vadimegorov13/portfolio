@@ -15,6 +15,9 @@ module.exports = {
         background: '#282C33',
       },
     },
+    fontFamily: {
+      fira: ['Fira Code'],
+    },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
