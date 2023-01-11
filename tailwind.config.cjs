@@ -13,6 +13,7 @@ module.exports = {
         transparent: 'transparent',
         current: 'currentColor',
         background: '#282C33',
+        primary: '#F74080',
       },
     },
     fontFamily: {
