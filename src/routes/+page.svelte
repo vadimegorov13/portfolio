@@ -1,4 +1,4 @@
-<div class="border border-primar">
+<div class="border border-border">
   <h1 class="text-xl font-semibold text-primary h-96">
     /<span class="text-white">Vadim</span> Egorov
   </h1>

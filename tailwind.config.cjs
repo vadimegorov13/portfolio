@@ -14,6 +14,7 @@ module.exports = {
         current: 'currentColor',
         background: '#282C33',
         primary: '#F74080',
+        border: '#606060',
       },
     },
     fontFamily: {

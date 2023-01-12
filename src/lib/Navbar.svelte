@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Link } from 'src/types';
+  import Icon from '@iconify/svelte';
 
   let showBg = false;
   let open = false;
@@ -21,19 +22,19 @@
   const links: Link[] = [
     {
       slug: '/',
-      text: 'home',
+      name: 'home',
     },
     {
       slug: '/about',
-      text: 'about-me',
+      name: 'about-me',
     },
     {
       slug: '/works',
-      text: 'works',
+      name: 'works',
     },
     {
       slug: '/contacts',
-      text: 'contacts',
+      name: 'contacts',
     },
   ];
 </script>
@@ -44,8 +45,8 @@
   <div
     class={`duration-200 block sm:flex sm:flex-row justify-center py-2 px-4 sm:px-10 md:px-20 lg:px-40 border border-b-1 border-x-0 border-t-0 ${
       showBg || open
-        ? `border-[#333333] bg-darker/90 backdrop-blur-xl ${
-            open ? 'h-[9.5rem]' : 'h-14'
+        ? `border-border bg-darker/90 backdrop-blur-xl ${
+            open ? 'h-[10rem]' : 'h-14'
           }`
         : 'bg-transparent border-transparent h-40'
     }`}
@@ -62,7 +63,7 @@
             href={`${link.slug}`}
             class="duration-200 cursor-pointer hover:text-primary"
           >
-            <span class="text-primary">#</span>{`${link.text}`}
+            <span class="text-primary">#</span>{`${link.name}`}
           </a>
         {/each}
       </div>
@@ -72,11 +73,10 @@
             open = !open;
           }}
         >
-          {#if open}
-            x
-          {:else}
-            +
-          {/if}
+          <Icon
+            icon={`carbon:${open ? 'close' : 'text-align-justify'}`}
+            class="text-white text-3xl duration-200 hover:text-primary"
+          />
         </button>
       </div>
     </div>
@@ -88,7 +88,7 @@
               href={`${link.slug}`}
               class="duration-200 cursor-pointer hover:text-primary"
             >
-              <span class="text-primary">#</span>{`${link.text}`}
+              <span class="text-primary">#</span>{`${link.name}`}
             </a>
           {/each}
         </div>
