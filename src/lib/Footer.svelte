@@ -25,7 +25,7 @@
         <p class="flex justify-center">My Media</p>
         <div class="pt-2 flex flex-row">
           {#each links as media}
-            <a href={media.slug}>
+            <a href={media.slug} target={`_blank`}>
               <Icon
                 icon={`carbon:logo-${media.name}`}
                 class="text-white text-4xl mx-2 duration-200 hover:text-primary"
