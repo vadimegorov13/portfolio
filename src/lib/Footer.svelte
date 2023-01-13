@@ -14,7 +14,9 @@
 </script>
 
 <div class="border border-t-1 border-b-0 border-x-0 border-border">
-  <div class="flex flex-col pt-10 pb-4 px-4 sm:px-10 md:px-20 lg:px-40">
+  <div
+    class="flex flex-col mx-auto max-w-[90rem] pt-10 pb-4 px-4 sm:px-10 md:px-20 lg:px-40"
+  >
     <div class="flex flex-row gap-20 justify-between ">
       <div class="flex flex-col ">
         <p class="text-xs text-border">vadegor00@gmail.com</p>
