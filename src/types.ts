@@ -1,4 +1,15 @@
 export type Link = {
+  href?: string;
+  icon?: string;
+  name?: string;
+};
+
+export type ProjectCard = {
   slug: string;
-  name: string;
+  title: string;
+  description: string;
+  github: string;
+  stack: string[];
+  img?: string;
+  link?: string;
 };

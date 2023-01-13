@@ -17,7 +17,7 @@
         class="h-[10rem] w-full object-cover"
       />
       <div
-        class="h-full px-2 border border-border border-t-0 border-b-0 border-l-0 border-r-[1px] md:border-r-0 md:border-b-[1px]"
+        class="h-full px-2 border border-border border-y-0 border-l-0 border-r-[1px] md:border-r-0 md:border-y-[1px]"
       >
         {#each project.stack as stack}
           <span class="text-xs text-zinc-400">{stack} </span>
