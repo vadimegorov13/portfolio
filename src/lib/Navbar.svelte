@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Link } from 'src/types';
   import Icon from '@iconify/svelte';
+  import { slide } from 'svelte/transition';
 
   let showBg = false;
   let open = false;
@@ -41,48 +42,30 @@
 
 <svelte:window bind:scrollY />
 
-<div class="w-screen top-0 z-50 fixed flex flex-col">
+<div class="w-screen top-0 z-50 fixed">
   <div
-    class={`duration-200 block sm:flex sm:flex-row justify-center py-2 px-4 sm:px-10 md:px-20 lg:px-40 border border-b-1 border-x-0 border-t-0 ${
-      showBg || open
-        ? `border-border bg-darker/90 backdrop-blur-xl ${
-            open ? 'h-[10rem]' : 'h-14'
-          }`
-        : 'bg-transparent border-transparent h-40'
-    }`}
+    class={`block sm:flex sm:flex-row items-center justify-center duration-500 
+      border border-b-1 border-x-0 border-t-0 ${
+        showBg || open
+          ? `border-border bg-darker/90 backdrop-blur-xl ${
+              open ? 'h-[10rem]' : 'h-14'
+            }`
+          : 'bg-transparent border-transparent h-40'
+      }`}
   >
-    <div class="flex w-full flex-row justify-between items-center">
-      <a class="p-2 sm:p-0 items-center justify-start no-underline" href="/">
-        VE
-      </a>
-      <div
-        class="hidden sm:flex flex-row items-center justify-center gap-6 transition-all ease-in-out duration-500"
-      >
-        {#each links as link}
-          <a
-            href={`${link.slug}`}
-            class="duration-200 cursor-pointer hover:text-primary"
-          >
-            <span class="text-primary">#</span>{`${link.name}`}
-          </a>
-        {/each}
-      </div>
-      <div class="block sm:hidden p-2">
-        <button
-          on:click={() => {
-            open = !open;
-          }}
+    <div
+      class="w-full mx-auto max-w-[90rem]  py-2 px-4 sm:px-10 md:px-20 lg:px-40"
+    >
+      <div class="w-full flex flex-row justify-between items-center">
+        <a
+          class="p-2 sm:p-0 font-semibold items-center justify-start no-underline"
+          href="/"
         >
-          <Icon
-            icon={`carbon:${open ? 'close' : 'text-align-justify'}`}
-            class="text-white text-3xl duration-200 hover:text-primary"
-          />
-        </button>
-      </div>
-    </div>
-    <div class="w-full block sm:hidden">
-      {#if open}
-        <div class="w-full flex flex-col">
+          VE
+        </a>
+        <div
+          class="hidden sm:flex flex-row items-center justify-center gap-6 transition-all ease-in-out duration-500"
+        >
           {#each links as link}
             <a
               href={`${link.slug}`}
@@ -92,7 +75,34 @@
             </a>
           {/each}
         </div>
-      {/if}
+        <div class="block sm:hidden p-2">
+          <button
+            on:click={() => {
+              open = !open;
+            }}
+          >
+            <Icon
+              icon={`carbon:${open ? 'close' : 'text-align-justify'}`}
+              class="text-white text-3xl duration-200 hover:text-primary"
+            />
+          </button>
+        </div>
+      </div>
+      <div class="block sm:hidden">
+        {#if open}
+          <div class="flex flex-col duration-500 transition-all">
+            {#each links as link}
+              <a
+                transition:slide={{ duration: 600 }}
+                href={`${link.slug}`}
+                class="cursor-pointer hover:text-primary"
+              >
+                <span class="text-primary">#</span>{`${link.name}`}
+              </a>
+            {/each}
+          </div>
+        {/if}
+      </div>
     </div>
   </div>
 </div>
