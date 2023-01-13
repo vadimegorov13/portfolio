@@ -22,19 +22,19 @@
 
   const links: Link[] = [
     {
-      slug: '/',
+      href: '/',
       name: 'home',
     },
     {
-      slug: '/about',
+      href: '/about',
       name: 'about-me',
     },
     {
-      slug: '/works',
+      href: '/works',
       name: 'works',
     },
     {
-      slug: '/contacts',
+      href: '/contacts',
       name: 'contacts',
     },
   ];
@@ -53,7 +53,7 @@
           : 'bg-transparent border-transparent h-40'
       }`}
   >
-    <div class="w-full mx-auto max-w-[90rem] px-4 sm:px-10 md:px-20 lg:px-40">
+    <div class="w-full mx-auto max-w-[80rem] px-4 sm:px-10 md:px-20 lg:px-40">
       <div class="w-full flex flex-row justify-between items-center">
         <a
           class="p-2 sm:p-0 font-semibold items-center justify-start no-underline"
@@ -66,7 +66,7 @@
         >
           {#each links as link}
             <a
-              href={`${link.slug}`}
+              href={`${link.href}`}
               class="duration-200 cursor-pointer hover:text-primary"
             >
               <span class="text-primary">#</span>{`${link.name}`}
@@ -92,7 +92,7 @@
             {#each links as link}
               <a
                 transition:slide={{ duration: 600 }}
-                href={`${link.slug}`}
+                href={`${link.href}`}
                 class="cursor-pointer hover:text-primary"
               >
                 <span class="text-primary">#</span>{`${link.name}`}

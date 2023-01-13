@@ -1,21 +1,26 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
   import type { Link } from 'src/types';
+
   const links: Link[] = [
     {
-      slug: 'https://github.com/vadimegorov13',
-      name: 'github',
+      href: 'https://github.com/vadimegorov13',
+      icon: 'carbon:logo-github',
     },
     {
-      slug: 'https://www.linkedin.com/in/vadimegorov13/',
-      name: 'linkedin',
+      href: 'https://www.linkedin.com/in/vadimegorov13/',
+      icon: 'carbon:logo-linkedin',
+    },
+    {
+      href: 'https://devpost.com/vadegor00?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav',
+      icon: 'simple-icons:devpost',
     },
   ];
 </script>
 
 <div class="border border-t-1 border-b-0 border-x-0 border-border">
   <div
-    class="flex flex-col mx-auto max-w-[90rem] pt-10 pb-4 px-4 sm:px-10 md:px-20 lg:px-40"
+    class="flex flex-col mx-auto max-w-[80rem] pt-10 pb-4 px-4 sm:px-10 md:px-20 lg:px-40"
   >
     <div class="flex flex-row gap-20 justify-between ">
       <div class="flex flex-col ">
@@ -27,10 +32,10 @@
         <p class="flex justify-center">My Media</p>
         <div class="pt-2 flex flex-row">
           {#each links as media}
-            <a href={media.slug} target={`_blank`}>
+            <a href={media.href} target={`_blank`}>
               <Icon
-                icon={`carbon:logo-${media.name}`}
-                class="text-white text-4xl mx-2 duration-200 hover:text-primary"
+                icon={media.icon}
+                class="text-zinc-400 text-4xl mx-2 duration-200 hover:text-primary"
               />
             </a>
           {/each}
