@@ -14,7 +14,23 @@ module.exports = {
         current: 'currentColor',
         background: '#282C33',
         primary: '#F74080',
+        secondary: '#6366f1',
         border: '#606060',
+      },
+      animation: {
+        text: 'text 2s ease infinite',
+      },
+      keyframes: {
+        text: {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center',
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center',
+          },
+        },
       },
     },
     fontFamily: {
