@@ -47,13 +47,13 @@
     class={`pt-10 sm:pt-0  block sm:flex sm:flex-row items-center justify-center duration-500 
       border border-b-1 border-x-0 border-t-0 ${
         showBg || open
-          ? `border-border bg-darker/90 backdrop-blur-xl pt-0 ${
+          ? `border-border bg-darker/90 backdrop-blur-2xl pt-0 ${
               open ? 'h-[10rem]' : 'h-14'
             }`
           : 'bg-transparent border-transparent h-40'
       }`}
   >
-    <div class="w-full mx-auto max-w-[80rem] px-4 sm:px-10 md:px-20 lg:px-40">
+    <div class="w-full mx-auto max-w-[70rem] px-4 sm:px-10 md:px-20 lg:px-40">
       <div class="w-full flex flex-row justify-between items-center">
         <a
           class="p-2 sm:p-0 font-semibold items-center justify-start no-underline"
