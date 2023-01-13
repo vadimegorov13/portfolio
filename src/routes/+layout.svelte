@@ -6,7 +6,9 @@
 
 <div class="h-screen text-white">
   <Navbar />
-  <div class="px-4 pt-40 pb-20 sm:px-10 md:px-20 lg:px-40">
+  <div
+    class="mx-auto max-w-[90rem] px-4 pt-40 pb-20 sm:px-10 md:px-20 lg:px-40"
+  >
     <slot />
   </div>
   <Footer />
