@@ -44,59 +44,61 @@
   ];
 </script>
 
-<div>
-  <h1 class="text-xl font-semibold">
-    <span class="text-primary">/</span>contacts
-  </h1>
-  <p class="text-zinc-400">Let's be friends,</p>
+<div class="flex flex-col gap-20">
+  <div>
+    <h1 class="text-xl font-semibold">
+      <span class="text-primary">/</span>contacts
+    </h1>
 
-  <div class="flex flex-col gap-10 mt-10 max-w-[40rem] text-zinc-400">
-    <p>
-      I'm always happy to connect with other professionals in the industry. You
-      can reach me through email, connect with me on LinkedIn, or even drop me a
-      message on Discord. Don't hesitate to reach out if you have any questions
-      or just want to chat about a project. My contact information is readily
-      available for you to reach out to me.
-    </p>
+    <div class="flex flex-col gap-10 mt-10 text-zinc-400">
+      <p>
+        I'm always happy to connect with other professionals in the industry.
+        You can reach me through email, connect with me on LinkedIn, or even
+        drop me a message on Discord. Don't hesitate to reach out if you have
+        any questions or just want to chat about a project. My contact
+        information is readily available for you to reach out to me.
+      </p>
+    </div>
   </div>
 
-  <div class="flex flex-col mt-10  text-sm group">
+  <div class="flex flex-col text-sm group gap-6">
     {#each contacts as contact}
-      <div class="flex flex-row mt-8 text-zinc-400  ">
-        <div class="w-full flex flex-row">
-          <Icon icon={contact.icon} class="text-2xl smd:text-6xl mr-2 " />
+      <div class="w-full flex flex-row text-zinc-400 gap-6">
+        <Icon
+          icon={contact.icon}
+          class="text-2xl smd:text-6xl text-zinc-400 mr-2 "
+        />
 
-          <div class="flex flex-col justify-center">
-            {#if contact.href}
-              <a
-                class="group-hover:gr-animation justify-start border border-border border-x-0 border-t-0"
-                href={contact.href}
-                target={`_blank`}
-              >
-                {contact.name}
-              </a>
-            {:else}
-              <p
-                class="group-hover:gr-animation justify-end border border-border border-x-0 border-t-0"
-              >
-                {contact.name}
-              </p>
-            {/if}
-            <p class="w-full mt-2">{contact.description}</p>
-          </div>
+        <div class="flex flex-col justify-center">
+          {#if contact.href}
+            <a
+              class="group-hover:gr-animation justify-start border border-border border-x-0 border-t-0"
+              href={contact.href}
+              target={`_blank`}
+            >
+              {contact.name}
+            </a>
+          {:else}
+            <p
+              class="group-hover:gr-animation justify-end border border-border border-x-0 border-t-0"
+            >
+              {contact.name}
+            </p>
+          {/if}
+          <p class="w-full mt-2">{contact.description}</p>
         </div>
       </div>
     {/each}
   </div>
 
   <div class="flex flex-col">
-    <h1 class="text-xl font-semibold mt-10">
+    <h1 class="text-xl font-semibold">
       <span class="text-primary">#</span>email-me
     </h1>
     <form
       action="https://api.staticforms.xyz/submit"
       method="post"
-      class="flex flex-col gap-3 content m-4"
+      class="flex flex-col gap-4 content m-4"
     >
       <input
         type="hidden"
@@ -120,17 +122,6 @@
           name="email"
           placeholder="email"
           id="email"
-          class="pl-1 text-border"
-        />
-      </div>
-
-      <div>
-        <label for="phone">Phone#</label>
-        <input
-          type="text"
-          name="phone"
-          placeholder="phone"
-          id="phone"
           class="pl-1 text-border"
         />
       </div>
