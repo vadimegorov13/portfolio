@@ -1,5 +1,5 @@
 <div class="flex flex-col smd:flex-row justify-between h-full w-full">
-  <div class="flex flex-col gap-6 mt-20">
+  <div class="flex flex-col gap-6 mt-0 smd:mt-20">
     <p class="text-xl">
       <span class="text-primary">/</span>Vadim Egorov is a
       <span class="text-primary">software engineer</span>
@@ -15,7 +15,6 @@
     <div>
       <a
         href={'/contacts'}
-        target={'_blank'}
         class="border border-primary/50 hover:gr-animation p-2 text-sm"
       >
         Contact me!

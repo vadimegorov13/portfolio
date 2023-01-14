@@ -14,3 +14,13 @@ export type ProjectCard = {
   img?: string;
   link?: string;
 };
+
+type Skill = {
+  icon?: string;
+  name: string;
+};
+
+export type SkillList = {
+  langs: Skill[];
+  technologies: Skill[];
+};

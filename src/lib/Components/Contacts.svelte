@@ -36,12 +36,12 @@
       My contact information is readily available for you to reach out to me.
     </div>
     <div
-      class="flex flex-col border border-border text-sm my-auto group-hover:-translate-y-2 duration-200"
+      class="flex flex-col gap-2 p-2 text-sm my-auto border border-border group-hover:-translate-y-2 duration-200"
     >
-      <p class="w-full p-2 flex justify-center">Message me here</p>
+      <p class="w-full flex justify-center">Message me here</p>
       {#each contacts as contact}
-        <div class="flex flex-row px-2 items-center text-zinc-400 ">
-          <Icon icon={contact.icon} class="text-2xl mr-2 mb-2 " />
+        <div class="flex flex-row items-center text-zinc-400 gap-2">
+          <Icon icon={contact.icon} class="text-2xl" />
 
           {#if contact.href}
             <a
