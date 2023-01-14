@@ -7,7 +7,7 @@
       <span class="text-primary">web developer</span>
     </p>
 
-    <p class="text-sm">
+    <p class="text-sm w-full smd:max-w-[18rem]">
       I have recently completed a Bachelor of Science, majoring in Computer
       Science at the University of Alaska Anchorage.
     </p>

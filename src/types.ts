@@ -2,6 +2,7 @@ export type Link = {
   href?: string;
   icon?: string;
   name?: string;
+  description?: string;
 };
 
 export type ProjectCard = {
