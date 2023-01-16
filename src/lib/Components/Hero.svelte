@@ -1,6 +1,3 @@
-<script lang="ts">
-</script>
-
 <div class="flex flex-col smd:flex-row justify-between h-full w-full">
   <div class="flex flex-col gap-6 mt-0 smd:mt-20">
     <p class="text-xl">
