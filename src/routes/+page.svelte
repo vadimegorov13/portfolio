@@ -4,7 +4,7 @@
   import Projects from '$lib/Components/Projects.svelte';
 </script>
 
-<div class="w-full mx-auto flex flex-col gap-20">
+<div class="w-full flex flex-col gap-20">
   <Hero />
 
   <div class="flex flex-col">

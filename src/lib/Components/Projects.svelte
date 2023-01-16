@@ -4,46 +4,39 @@
 
   const projects: ProjectCard[] = [
     {
+      slug: 'portfolio',
+      title: 'Portfolio',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
+      github: 'https://github.com/vadimegorov13/portfolio',
+      stack: ['TypeScript', 'Svelte', 'Tailwind'],
+      img: 'src/lib/img/portfolio.png',
+      link: '/',
+      date: 'Jan. 2023',
+    },
+    {
       slug: 'sup4bubb4',
       title: 'sup4bubb4',
       description:
-        "A simple app that compiles song requests from bubb4bot and Amelia Watson's superchat reading streams.",
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
       github: 'https://github.com/vadimegorov13/sup4bubb4',
       stack: ['TypeScript', 'Firebase', 'Svelte', 'Tailwind'],
-      img: 'https://images.unsplash.com/photo-1611621052831-4fe109be83a4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80',
+      img: 'src/lib/img/sup4bubb4.png',
       link: 'https://sup4bubb4.com',
+      date: 'Sep. 2022',
     },
     {
       slug: 'pomofriends',
       title: 'PomoFriends',
       description:
-        'PomoFriends is an innovative web application that promotes a healthy and productive environment by introducing social features that other Pomodoro apps lack. With messaging and task sharing capabilities, PomoFriends encourages accountability amongst its users, especially when working with others or in a group setting.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
       github: 'https://github.com/PomoFriends/pomofriends-app',
       stack: ['TypeScript', 'Firebase', 'Next.js'],
-      img: 'https://images.unsplash.com/photo-1513544705284-99373737fab6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1162&q=80',
+      img: 'src/lib/img/pomofriends.png',
       link: 'https://pomofriends.app',
-    },
-
-    {
-      slug: 'pomofriends',
-      title: 'PomoFriends',
-      description:
-        'PomoFriends is an innovative web application that promotes a healthy and productive environment by introducing social features that other Pomodoro apps lack. With messaging and task sharing capabilities, PomoFriends encourages accountability amongst its users, especially when working with others or in a group setting.',
-      github: 'https://github.com/PomoFriends/pomofriends-app',
-      stack: ['TypeScript', 'Firebase', 'Next.js'],
-      img: 'https://images.unsplash.com/photo-1513544705284-99373737fab6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1162&q=80',
-      link: 'https://pomofriends.app',
+      date: 'May 2022',
     },
   ];
-
-  $: current = 0;
-  setInterval(() => {
-    if (current == projects.length - 1) {
-      current = 0;
-    } else {
-      current++;
-    }
-  }, 3000);
 </script>
 
 <div>

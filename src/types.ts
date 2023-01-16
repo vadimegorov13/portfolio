@@ -11,6 +11,7 @@ export type ProjectCard = {
   description: string;
   github: string;
   stack: string[];
+  date?: string;
   img?: string;
   link?: string;
 };

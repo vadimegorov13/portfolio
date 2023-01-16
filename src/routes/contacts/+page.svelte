@@ -50,15 +50,13 @@
       <span class="text-primary">/</span>contacts
     </h1>
 
-    <div class="flex flex-col gap-10 mt-10 text-zinc-400">
-      <p>
-        I'm always happy to connect with other professionals in the industry.
-        You can reach me through email, connect with me on LinkedIn, or even
-        drop me a message on Discord. Don't hesitate to reach out if you have
-        any questions or just want to chat about a project. My contact
-        information is readily available for you to reach out to me.
-      </p>
-    </div>
+    <p class="mt-10 text-zinc-400">
+      I'm always happy to connect with other professionals in the industry. You
+      can reach me through email, connect with me on LinkedIn, or even drop me a
+      message on Discord. Don't hesitate to reach out if you have any questions
+      or just want to chat about a project. My contact information is readily
+      available for you to reach out to me.
+    </p>
   </div>
 
   <div class="flex flex-col text-sm group gap-6">
