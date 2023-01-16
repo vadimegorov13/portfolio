@@ -4,6 +4,10 @@
   import Projects from '$lib/Components/Projects.svelte';
 </script>
 
+<svelte:head>
+  <title>Vadim Egorov | Home Page</title>
+</svelte:head>
+
 <div class="w-full flex flex-col gap-20">
   <Hero />
 

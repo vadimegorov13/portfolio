@@ -68,6 +68,10 @@
   ];
 </script>
 
+<svelte:head>
+  <title>Works</title>
+</svelte:head>
+
 <div class="flex flex-col gap-20">
   <div>
     <h1 class="text-xl font-semibold">
