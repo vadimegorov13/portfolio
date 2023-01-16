@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ImageLoader from '$lib/Components/Image/ImageLoader.svelte';
   import type { ProjectCard } from 'src/types';
 
   const projects: ProjectCard[] = [
@@ -132,10 +133,10 @@
               </a>
             {/if}
           </div>
-          <img
-            alt={project.title}
+          <ImageLoader
             src={project.img ? project.img : 'null'}
-            class={`h-full w-full object-cover ${
+            alt={project.title}
+            classProps={`h-full w-full object-cover ${
               project.img?.includes('flower') ? 'bg-white' : ''
             }`}
           />

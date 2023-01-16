@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ProjectCard } from 'src/types';
+  import ImageLoader from './Image/ImageLoader.svelte';
 
   export let project: ProjectCard;
 </script>
@@ -11,10 +12,10 @@
         group-hover:-translate-y-2 duration-200 h-full`}
   >
     <div class="flex flex-col w-full">
-      <img
-        alt={project.title}
+      <ImageLoader
         src={project.img ? project.img : 'null'}
-        class="h-[9rem] w-full object-cover"
+        alt={project.title}
+        classProps="h-[9rem] w-full object-cover"
       />
       <div
         class="h-full px-2 border border-border border-y-0 border-l-0 border-r-[1px] md:border-r-0 md:border-y-[1px]"
