@@ -13,21 +13,20 @@
     </h1>
     <div class="flex flex-col gap-10 mt-10 max-w-[40rem] text-zinc-400 text-sm">
       <p>
-        My name is Vadim Egorov, and I have recently completed a Bachelor of
-        Science, majoring in Computer Science and minoring in mathematics at the
-        University of Alaska Anchorage. My education has provided me with
-        proficiency in Python and Java and hands-on experience in data analysis
-        and machine learning. Additionally, I am a self-taught web developer
-        with strong skills in TypeScript and various web dev frameworks. I am
-        capable of building and maintaining modern web applications, with a
-        focus on back-end development and server-side logic.
+        I am Vadim Egorov, a recent computer science graduate with a minor in
+        mathematics from University of Alaska Anchorage. My education has
+        provided me with proficiency in Python and Java and hands-on experience
+        in data analysis and machine learning. Additionally, I am a self-taught
+        web developer with strong skills in TypeScript and various web dev
+        frameworks. I am capable of building and maintaining modern web
+        applications, with a focus on back-end development and server-side
+        logic.
       </p>
 
       <p>
         I have a deep passion for technology and a drive to stay up-to-date with
         the latest advancements in the field. In addition to technology, I am
-        also interested in education, history, music, art, philosophy,
-        neuroscience, and economics.
+        also interested in education, history, music, and art.
       </p>
 
       <p>

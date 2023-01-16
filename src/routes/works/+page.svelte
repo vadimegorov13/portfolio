@@ -6,7 +6,7 @@
       slug: 'portfolio',
       title: 'Portfolio',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
+        'This is my personal website built using Svelte and Typescript, it showcases my skills, experiences, and projects. It has a clean and simple design, and fully responsive. If you like the design and want to build your own, you can check out my repository.',
       github: 'https://github.com/vadimegorov13/portfolio',
       stack: ['TypeScript', 'Svelte', 'Tailwind'],
       img: 'src/lib/img/portfolio.png',
@@ -18,18 +18,18 @@
       title:
         'Predicting Student Learning Outcomes using EEG Correlation with Teacher/Expert Neural Activity',
       description:
-        'I produced a study design during my "Neuroscience and Engagement" course at UAA that aims to investigate the relationship between student learning outcomes and brain activity correlation between a student and a teacher using electroencephalography (EEG). The study proposed to record the neural activity of a teacher while giving a lecture and the neural activity of two experts while watching stimuli and to recruit 100 students to participate in the study and watch the lecture in one of three forms: original, shortened, or scrambled version. The student learning outcomes are proposed to be assessed through pre-tests and post-tests. The study proposed to analyze the results to determine if there is a significant relationship between teacher/expert-student brain activity and learning outcomes. The findings have the potential to inform the development of more effective teaching strategies and personalized learning plans, improving the overall quality of education and student learning outcomes. This study is significant because it has the potential to uncover new ways of understanding and enhancing students learning, which can be applied to education.',
+        "I designed a study which aimed to investigate the relationship between student learning outcomes and brain activity correlation between a student and a teacher using electroencephalography (EEG). The findings have the potential to inform the development of more effective teaching strategies and personalized learning plans, improving the overall quality of education and student's learning.",
       github: '',
       stack: ['Neuroscience', 'Electroencephalography'],
       img: 'src/lib/img/eeg.jpeg',
       link: 'https://docs.google.com/document/d/e/2PACX-1vRhIXIMdK_THCrDiCFVUoPwRJJx9idk9eNi3z67r_S1mKSYXECP9I7q8scigBF9Og/pub',
-      date: 'Dec. 2023',
+      date: 'Dec. 2022',
     },
     {
       slug: 'sup4bubb4',
       title: 'sup4bubb4',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
+        'sup4bubb4 is a website that allows users to compile song requests from the StreamElements API and syncs them with the recording of a livestream. It includes a cloud function that checks for new livestreams and triggers the compilation of song requests from StreamElements. It was built with a responsive design to ensure that it can be used on a variety of devices, it was developed using Svelte, Tailwind, Firebase, and Firebase Cloud Functions',
       github: 'https://github.com/vadimegorov13/sup4bubb4',
       stack: ['TypeScript', 'Firebase', 'Svelte', 'Tailwind'],
       img: 'src/lib/img/sup4bubb4.png',
@@ -40,7 +40,7 @@
       slug: 'flower-classification-using-convolutional-neural-networks',
       title: 'Flower Classification using Convolutional Neural Networks',
       description:
-        "This project is a flower classification using convolutional neural network(CNN) that was trained on a dataset from Kaggle, the goal of this project is to classify 14 different flower species with high accuracy. The model was fine-tuned using a custom hyperparameter tuning function, resulting in an accuracy of 92% on the validation set. The project's outcome is a model that able to classify different flower species with a high degree of accuracy.",
+        "I developed a machine learning model using Python and Jupyter Notebooks that utilizes a convolutional neural network (CNN) to classify 14 different flower species with high accuracy. The model was trained on a dataset from Kaggle and fine-tuned using a custom hyperparameter tuning function, resulting in an accuracy of 92% on the validation set. The project's outcome is a model that able to classify different flower species with a high degree of accuracy.",
       github:
         'https://colab.research.google.com/drive/1b_KxwB7gffG31p4ktXyIo97GHr-TJKLQ?usp=sharing',
       stack: [
@@ -58,7 +58,7 @@
       slug: 'pomofriends',
       title: 'PomoFriends',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
+        "PomoFriends is a responsive web application for productivity built using the Pomodoro Technique, it includes features such as group creation and messaging to encourage accountability among users and facilitate collaboration, user authentication and authorization using Firebase authentication. To enhance performance, it uses NextJS for server-rendering pages and preloading data, and Firebase's real-time database to store and manage user data and app functionality.",
       github: 'https://github.com/PomoFriends/pomofriends-app',
       stack: ['TypeScript', 'Firebase', 'Next.js'],
       img: 'src/lib/img/pomofriends.png',
@@ -124,7 +124,7 @@
               >
                 {project.github.includes('colab.research.google.com')
                   ? 'Code'
-                  : 'Gitub'}
+                  : 'GitHub'}
               </a>
             {/if}
           </div>

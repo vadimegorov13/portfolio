@@ -7,19 +7,19 @@
       icon: 'carbon:email',
       name: 'vadegor00@gmail.com',
       description:
-        'I check my email twice a day and will not ignore your email',
+        ' I am prompt in responding to emails and will make sure to address all inquiries.',
     },
     {
       icon: 'carbon:logo-discord',
       name: 'VadimLovesTea#9562',
       description:
-        "I'm almost always online and will answer quicker then by email",
+        'I am active on Discord and will reply to messages as soon as possible.',
     },
     {
       href: 'https://github.com/vadimegorov13',
       icon: 'carbon:logo-github',
       name: 'GitHub',
-      description: "Check out what I'm working on",
+      description: 'Check out my latest projects on Github.',
     },
     {
       href: 'https://www.linkedin.com/in/vadimegorov13/',
@@ -32,14 +32,14 @@
       icon: 'cib:indeed',
       name: 'Indeed',
       description:
-        'There is a lot of things I did not include in my portfolio, so feel free to learn more',
+        'My Indeed profile has additional information about my experience and skills.',
     },
     {
       href: 'https://devpost.com/vadegor00?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav',
       icon: 'simple-icons:devpost',
       name: 'Devpost',
       description:
-        "I've participated in number of online Hackathons, see all my projects and ",
+        'Check out my Devpost profile for an overview of my hackathon projects and participation.',
     },
   ];
 </script>

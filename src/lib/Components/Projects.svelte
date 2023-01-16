@@ -4,37 +4,37 @@
 
   const projects: ProjectCard[] = [
     {
-      slug: 'portfolio',
-      title: 'Portfolio',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
-      github: 'https://github.com/vadimegorov13/portfolio',
-      stack: ['TypeScript', 'Svelte', 'Tailwind'],
-      img: 'src/lib/img/portfolio.png',
-      link: '/',
-      date: 'Jan. 2023',
-    },
-    {
-      slug: 'sup4bubb4',
-      title: 'sup4bubb4',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
-      github: 'https://github.com/vadimegorov13/sup4bubb4',
-      stack: ['TypeScript', 'Firebase', 'Svelte', 'Tailwind'],
-      img: 'src/lib/img/sup4bubb4.png',
-      link: 'https://sup4bubb4.com',
-      date: 'Sep. 2022',
-    },
-    {
       slug: 'pomofriends',
       title: 'PomoFriends',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nibh arcu, volutpat eget blandit at, semper id justo. Etiam sodales dapibus neque in venenatis. Fusce fermentum volutpat vehicula. Duis varius ultricies augue id interdum. Aenean dapibus purus leo, ac rhoncus ligula tristique sed. Nulla hendrerit mi dolor, eget eleifend turpis ultrices sit amet. Mauris ac malesuada lorem. Aenean pellentesque in ipsum id commodo. Pellentesque eros velit, euismod vel tincidunt sit amet, ornare a augue.',
+        "PomoFriends is a responsive web application for productivity built using the Pomodoro Technique, it includes features such as group creation and messaging to encourage accountability among users and facilitate collaboration, user authentication and authorization using Firebase authentication. To enhance performance, it uses NextJS for server-rendering pages and preloading data, and Firebase's real-time database to store and manage user data and app functionality.",
       github: 'https://github.com/PomoFriends/pomofriends-app',
       stack: ['TypeScript', 'Firebase', 'Next.js'],
       img: 'src/lib/img/pomofriends.png',
       link: 'https://pomofriends.app',
       date: 'May 2022',
+    },
+    {
+      slug: 'predicting-student-learning-outcomes-using-eeg-correlation',
+      title: 'Predicting Student Learning Outcomes with EEG Correlation',
+      description:
+        "I designed a study which aimed to investigate the relationship between student learning outcomes and brain activity correlation between a student and a teacher using electroencephalography (EEG). The findings have the potential to inform the development of more effective teaching strategies and personalized learning plans, improving the overall quality of education and student's learning.",
+      github: '',
+      stack: ['Neuroscience', 'Electroencephalography'],
+      img: 'src/lib/img/eeg.jpeg',
+      link: 'https://docs.google.com/document/d/e/2PACX-1vRhIXIMdK_THCrDiCFVUoPwRJJx9idk9eNi3z67r_S1mKSYXECP9I7q8scigBF9Og/pub',
+      date: 'Dec. 2022',
+    },
+    {
+      slug: 'sup4bubb4',
+      title: 'sup4bubb4',
+      description:
+        'sup4bubb4 is a website that allows users to compile song requests from the StreamElements API and syncs them with the recording of a livestream. It includes a cloud function that checks for new livestreams and triggers the compilation of song requests from StreamElements. It was built with a responsive design to ensure that it can be used on a variety of devices, it was developed using Svelte, Tailwind, Firebase, and Firebase Cloud Functions.',
+      github: 'https://github.com/vadimegorov13/sup4bubb4',
+      stack: ['TypeScript', 'Firebase', 'Svelte', 'Tailwind'],
+      img: 'src/lib/img/sup4bubb4.png',
+      link: 'https://sup4bubb4.com',
+      date: 'Sep. 2022',
     },
   ];
 </script>

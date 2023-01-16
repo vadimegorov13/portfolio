@@ -14,7 +14,7 @@
       <img
         alt={project.title}
         src={project.img ? project.img : 'null'}
-        class="h-[10rem] w-full object-cover"
+        class="h-[9rem] w-full object-cover"
       />
       <div
         class="h-full px-2 border border-border border-y-0 border-l-0 border-r-[1px] md:border-r-0 md:border-y-[1px]"
@@ -38,17 +38,21 @@
             target={'_blank'}
             class="border border-border group-hover:gr-animation px-1 text-md"
           >
-            Live
+            {project.link.includes('docs.google.com') ? 'Read' : 'Live'}
           </a>
         {/if}
 
-        <a
-          href={project.github}
-          target={'_blank'}
-          class="border border-border group-hover:gr-animation px-1 text-md"
-        >
-          GitHub
-        </a>
+        {#if project.github}
+          <a
+            href={project.github}
+            target={'_blank'}
+            class="border border-border group-hover:gr-animation px-1 text-md"
+          >
+            {project.github.includes('colab.research.google.com')
+              ? 'Code'
+              : 'GitHub'}
+          </a>
+        {/if}
       </div>
     </div>
   </div>

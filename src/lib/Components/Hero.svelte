@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <div class="flex flex-col smd:flex-row justify-between h-full w-full">
   <div class="flex flex-col gap-6 mt-0 smd:mt-20">
     <p class="text-xl">
@@ -8,8 +11,9 @@
     </p>
 
     <p class="text-sm w-full smd:max-w-[18rem]">
-      I have recently completed a Bachelor of Science, majoring in Computer
-      Science at the University of Alaska Anchorage.
+      A recent computer science graduate with a passion for problem-solving, I
+      am excited to bring my skills and knowledge to the tech industry and make
+      a meaningful impact.
     </p>
 
     <div>
