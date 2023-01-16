@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { SkillList } from 'src/types';
   import Icon from '@iconify/svelte';
+  import { MetaTags } from 'svelte-meta-tags';
 
   const skills: SkillList = {
     langs: [
@@ -130,9 +131,7 @@
   };
 </script>
 
-<svelte:head>
-  <title>About</title>
-</svelte:head>
+<MetaTags title="About me" description="Vadim Egorov's about me page" />
 
 <div class="flex flex-col gap-20">
   <div>

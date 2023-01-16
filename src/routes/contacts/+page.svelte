@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Link } from 'src/types';
   import Icon from '@iconify/svelte';
+  import { MetaTags } from 'svelte-meta-tags';
 
   const contacts: Link[] = [
     {
@@ -44,9 +45,7 @@
   ];
 </script>
 
-<svelte:head>
-  <title>Contacts</title>
-</svelte:head>
+<MetaTags title="Contacts" description="Vadim Egorov's list of contacts" />
 
 <div class="flex flex-col gap-20">
   <div>

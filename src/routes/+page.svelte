@@ -2,11 +2,10 @@
   import Contacts from '$lib/Components/Contacts.svelte';
   import Hero from '$lib/Components/Hero.svelte';
   import Projects from '$lib/Components/Projects.svelte';
+  import { MetaTags } from 'svelte-meta-tags';
 </script>
 
-<svelte:head>
-  <title>Vadim Egorov | Home Page</title>
-</svelte:head>
+<MetaTags title="Vadim Egorov" description="Vadim Egorov's portfolio" />
 
 <div class="w-full flex flex-col gap-20">
   <Hero />

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { MetaTags } from 'svelte-meta-tags';
   import ImageLoader from '$lib/Components/Image/ImageLoader.svelte';
   import type { ProjectCard } from 'src/types';
 
@@ -69,9 +70,14 @@
   ];
 </script>
 
-<svelte:head>
+<!-- <svelte:head>
   <title>Works</title>
-</svelte:head>
+</svelte:head> -->
+
+<MetaTags
+  title="Works"
+  description="List of the projects built by Vadim Egorov"
+/>
 
 <div class="flex flex-col gap-20">
   <div>
