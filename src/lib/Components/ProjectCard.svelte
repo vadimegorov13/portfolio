@@ -27,7 +27,7 @@
     </div>
     <div class="flex flex-col gap-2 p-2 justify-between">
       <h1 class="text-white/90 text-md">
-        {project.title} - {project.date}
+        {project.title}
       </h1>
       <p class="text-zinc-400 text-xs">
         {project.description}
