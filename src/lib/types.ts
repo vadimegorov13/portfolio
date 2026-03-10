@@ -2,6 +2,7 @@ export type Link = {
   href?: string;
   icon?: string;
   name?: string;
+  value?: string;
   description?: string;
 };
 
