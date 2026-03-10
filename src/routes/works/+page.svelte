@@ -1,10 +1,11 @@
 <script lang="ts">
   import { MetaTags } from 'svelte-meta-tags';
-  import ImageLoader from '$lib/Components/Image/ImageLoader.svelte';
-  import type { ProjectCard } from 'src/types';
+  import ImageLoader from '$lib/components/Image/ImageLoader.svelte';
+  import type { ProjectCard } from '$lib/types';
 
   const projects: ProjectCard[] = [
     {
+      id: 1,
       slug: 'portfolio',
       title: 'Portfolio',
       description:
@@ -16,6 +17,7 @@
       date: 'Jan. 2023',
     },
     {
+      id: 2,
       slug: 'predicting-student-learning-outcomes-using-eeg-correlation',
       title:
         'Predicting Student Learning Outcomes using EEG Correlation with Teacher/Expert Neural Activity',
@@ -28,6 +30,7 @@
       date: 'Dec. 2022',
     },
     {
+      id: 3,
       slug: 'sup4bubb4',
       title: 'sup4bubb4',
       description:
@@ -39,6 +42,7 @@
       date: 'Sep. 2022',
     },
     {
+      id: 4,
       slug: 'flower-classification-using-convolutional-neural-networks',
       title: 'Flower Classification using Convolutional Neural Networks',
       description:
@@ -57,6 +61,7 @@
       date: 'May 2022',
     },
     {
+      id: 5,
       slug: 'pomofriends',
       title: 'PomoFriends',
       description:
@@ -97,7 +102,7 @@
   </div>
 
   <div class="flex flex-col gap-20 text-zinc-400">
-    {#each projects as project}
+    {#each projects as project (project.title)}
       <div class="group">
         <div
           class="flex flex-col gap-4 p-4 group-hover:-translate-y-2 duration-200"
@@ -111,7 +116,7 @@
             </p>
           </div>
           <div class="flex flex-row gap-2 text-white/80">
-            {#each project.stack as tech, index}
+            {#each project.stack as tech, index (tech)}
               <span>{index === 0 ? tech : `| ${tech}`}</span>
             {/each}
           </div>
@@ -120,7 +125,7 @@
             {#if project.link}
               <a
                 href={project.link}
-                target={'_blank'}
+                target="_blank"
                 class="border border-border group-hover:gr-animation px-1 text-md"
               >
                 {project.link.includes('docs.google.com') ? 'Read' : 'Live'}
@@ -130,7 +135,7 @@
             {#if project.github}
               <a
                 href={project.github}
-                target={'_blank'}
+                target="_blank"
                 class="border border-border group-hover:gr-animation px-1 text-md"
               >
                 {project.github.includes('colab.research.google.com')

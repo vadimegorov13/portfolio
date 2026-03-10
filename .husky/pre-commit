@@ -4,18 +4,18 @@
 echo '🏗️👷 Styling, testing and building the project before committing'
 
 # Check Prettier standards
-npm run check-format ||
+yarn lc ||
 (
     echo 'Bad styling
-    Prettier Check Failed. Run "npm run format", add changes, and try commit again.';
+    Prettier and ESLint Check Failed. Run "yarn format", add changes, and try commit again.';
     false;
 )
 
 # Check tsconfig standards
-npm run check-types ||
+yarn tc ||
 (
     echo 'Failed Type check.
-    Make the changes required above.'
+    TypeScript Check Failed. Run "yarn tc", fix errors, add changes, and try commit again.';
     false;
 )
 

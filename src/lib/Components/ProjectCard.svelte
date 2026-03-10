@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { ProjectCard } from 'src/types';
-  import ImageLoader from './Image/ImageLoader.svelte';
+  import type { ProjectCard } from '$lib/types';
+  import ImageLoader from '$lib/components/Image/ImageLoader.svelte';
 
   export let project: ProjectCard;
 </script>
 
-<div class="group ">
+<div class="group">
   <div
     class={`
         flex flex-row md:flex-col border border-border
@@ -18,9 +18,9 @@
         classProps="h-[9rem] w-full object-cover"
       />
       <div
-        class="h-full px-2 border border-border border-y-0 border-l-0 border-r-[1px] md:border-r-0 md:border-y-[1px]"
+        class="h-full px-2 border border-border border-y-0 border-l-0 border-r md:border-r-0 md:border-y"
       >
-        {#each project.stack as stack}
+        {#each project.stack as stack (stack)}
           <span class="text-xs text-zinc-400">{stack} </span>
         {/each}
       </div>
@@ -36,7 +36,7 @@
         {#if project.link}
           <a
             href={project.link}
-            target={'_blank'}
+            target="_blank"
             class="border border-border group-hover:gr-animation px-1 text-md"
           >
             {project.link.includes('docs.google.com') ? 'Read' : 'Live'}
@@ -46,7 +46,7 @@
         {#if project.github}
           <a
             href={project.github}
-            target={'_blank'}
+            target="_blank"
             class="border border-border group-hover:gr-animation px-1 text-md"
           >
             {project.github.includes('colab.research.google.com')

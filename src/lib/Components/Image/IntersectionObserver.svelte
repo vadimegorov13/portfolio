@@ -8,17 +8,19 @@
   export let right = 0;
 
   let intersecting = false;
-  let container: any;
+  let container: HTMLElement | undefined;
 
   onMount(() => {
-    if (typeof IntersectionObserver !== 'undefined') {
+    if (typeof IntersectionObserver !== 'undefined' && container) {
       const rootMargin = `${bottom}px ${left}px ${top}px ${right}px`;
 
       const observer = new IntersectionObserver(
         (entries) => {
           intersecting = entries[0].isIntersecting;
           if (intersecting && once) {
-            observer.unobserve(container);
+            if (container) {
+              observer.unobserve(container);
+            }
           }
         },
         {
@@ -27,11 +29,13 @@
       );
 
       observer.observe(container);
-      return () => observer.unobserve(container);
+      return () => container && observer.unobserve(container);
     }
 
     // The following is a fallback for older browsers
     function handler() {
+      if (!container) return;
+
       const bcr = container.getBoundingClientRect();
 
       intersecting =

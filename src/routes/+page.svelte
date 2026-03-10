@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Contacts from '$lib/Components/Contacts.svelte';
-  import Hero from '$lib/Components/Hero.svelte';
-  import Projects from '$lib/Components/Projects.svelte';
+  import Contacts from '$lib/components/Contacts.svelte';
+  import Hero from '$lib/components/Hero.svelte';
+  import Projects from '$lib/components/Projects.svelte';
   import { MetaTags } from 'svelte-meta-tags';
 </script>
 
@@ -12,9 +12,9 @@
 
   <div class="flex flex-col">
     <h1 class="flex flex-row w-full justify-end text-primary text-xl">
-      ----------------- #<span class="text-white">about-me</span>
+      ----------------- #<span class="text-white">about</span>
     </h1>
-    <div class="flex flex-col gap-10 mt-10 max-w-[40rem] text-zinc-400 text-sm">
+    <div class="flex flex-col gap-10 mt-10 max-w-160 text-zinc-400 text-sm">
       <p>
         I am Vadim Egorov, a recent computer science graduate with a minor in
         mathematics from University of Alaska Anchorage. My education has

@@ -1,8 +1,13 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import type { UserConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
+import { defineConfig } from 'vite';
 
-const config: UserConfig = {
-  plugins: [sveltekit()],
-};
-
-export default config;
+export default defineConfig({
+  plugins: [tailwindcss(), sveltekit()],
+  resolve: {
+    alias: {
+      $lib: path.resolve('./src/lib'),
+    },
+  },
+});

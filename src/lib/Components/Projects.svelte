@@ -1,9 +1,10 @@
 <script lang="ts">
-  import type { ProjectCard } from 'src/types';
-  import Card from '$lib/Components/ProjectCard.svelte';
+  import type { ProjectCard } from '$lib/types';
+  import Card from '$lib/components/ProjectCard.svelte';
 
   const projects: ProjectCard[] = [
     {
+      id: 1,
       slug: 'pomofriends',
       title: 'PomoFriends',
       description:
@@ -15,6 +16,7 @@
       date: 'May 2022',
     },
     {
+      id: 2,
       slug: 'predicting-student-learning-outcomes-using-eeg-correlation',
       title: 'Predicting Student Learning Outcomes with EEG Correlation',
       description:
@@ -26,6 +28,7 @@
       date: 'Dec. 2022',
     },
     {
+      id: 3,
       slug: 'sup4bubb4',
       title: 'sup4bubb4',
       description:
@@ -54,7 +57,7 @@
   </div>
 
   <div class="mt-10 grid gap-3 md:grid-cols-3">
-    {#each projects as project}
+    {#each projects as project (project.title)}
       <Card {project} />
     {/each}
   </div>

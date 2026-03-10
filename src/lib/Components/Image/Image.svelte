@@ -6,12 +6,14 @@
   export let classProps: string;
 
   let loaded = false;
-  let thisImage: any;
+  let thisImage: HTMLImageElement | undefined;
 
   onMount(() => {
-    thisImage.onload = () => {
-      loaded = true;
-    };
+    if (thisImage) {
+      thisImage.onload = () => {
+        loaded = true;
+      };
+    }
   });
 </script>
 
@@ -21,7 +23,5 @@
   class:loaded
   bind:this={thisImage}
   loading="lazy"
-  class={`duration-[1200ms] ${
-    loaded ? 'opacity-100' : 'opacity-0'
-  } ${classProps}`}
+  class={`duration-1200 ${loaded ? 'opacity-100' : 'opacity-0'} ${classProps}`}
 />

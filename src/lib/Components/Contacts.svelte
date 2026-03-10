@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Link } from 'src/types';
+  import type { Link } from '$lib/types';
   import Icon from '@iconify/svelte';
 
   const contacts: Link[] = [
@@ -24,9 +24,9 @@
     ------------- #<span class="text-white">contacts</span>
   </h1>
   <div
-    class="flex flex-col group sm:flex-row sm:justify-between justify-center gap-6 mt-10 "
+    class="flex flex-col group sm:flex-row sm:justify-between justify-center gap-6 mt-10"
   >
-    <div class="text-sm text-zinc-400 max-w-[40rem]">
+    <div class="text-sm text-zinc-400 max-w-160">
       I'm always happy to connect with other professionals in the industry. You
       can reach me through <span class="group-hover:gr-animation">email</span>,
       connect with me on <span class="group-hover:gr-animation">LinkedIn</span>,
@@ -39,15 +39,20 @@
       class="flex flex-col gap-2 p-2 text-sm my-auto border border-border group-hover:-translate-y-2 duration-200"
     >
       <p class="w-full flex justify-center">Message me here</p>
-      {#each contacts as contact}
-        <div class="flex flex-row items-center text-zinc-400 gap-2">
-          <Icon icon={contact.icon} class="text-2xl" />
+      {#each contacts as contact (contact.name)}
+        <div
+          id={contact.name}
+          class="flex flex-row items-center text-zinc-400 gap-2"
+        >
+          {#if contact.icon}
+            <Icon icon={contact.icon} class="text-2xl" />
+          {/if}
 
           {#if contact.href}
             <a
               class="group-hover:gr-animation"
               href={contact.href}
-              target={`_blank`}
+              target="_blank"
             >
               {contact.name}
             </a>

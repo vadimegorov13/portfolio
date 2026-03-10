@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Link } from 'src/types';
+  import type { Link } from '$lib/types';
   import Icon from '@iconify/svelte';
   import { MetaTags } from 'svelte-meta-tags';
 
@@ -63,19 +63,21 @@
   </div>
 
   <div class="flex flex-col text-sm group gap-6">
-    {#each contacts as contact}
+    {#each contacts as contact (contact.name)}
       <div class="w-full flex flex-row text-zinc-400 gap-6">
-        <Icon
-          icon={contact.icon}
-          class="text-2xl smd:text-6xl text-zinc-400 mr-2 "
-        />
+        {#if contact.icon}
+          <Icon
+            icon={contact.icon}
+            class="text-2xl smd:text-6xl text-zinc-400 mr-2 "
+          />
+        {/if}
 
         <div class="flex flex-col justify-center">
           {#if contact.href}
             <a
               class="group-hover:gr-animation justify-start border border-border border-x-0 border-t-0"
               href={contact.href}
-              target={`_blank`}
+              target="_blank"
             >
               {contact.name}
             </a>
@@ -145,7 +147,7 @@
           placeholder="message"
           id="message"
           class="pl-1 mt-1 text-border h-40"
-        />
+        ></textarea>
       </div>
 
       <input

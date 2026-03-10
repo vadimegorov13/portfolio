@@ -6,6 +6,7 @@ export type Link = {
 };
 
 export type ProjectCard = {
+  id: number;
   slug: string;
   title: string;
   description: string;
