@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Link } from 'src/types';
+  import type { Link } from '$lib/types';
   import Icon from '@iconify/svelte';
   import { slide } from 'svelte/transition';
 
-  let showBg = false;
-  let open = false;
-  let scrollY = 0;
+  let showBg = $state(false);
+  let open = $state(false);
+  let scrollY = $state(0);
 
   const handleShowBg = () => {
     const scrollListener = () => {
@@ -18,7 +18,9 @@
     window.addEventListener('scroll', scrollListener);
   };
 
-  $: scrollY && handleShowBg();
+  $effect(() => {
+    if (scrollY) handleShowBg();
+  });
 
   const links: Link[] = [
     {
@@ -27,11 +29,11 @@
     },
     {
       href: '/about',
-      name: 'about-me',
+      name: 'about',
     },
     {
-      href: '/works',
-      name: 'works',
+      href: '/projects',
+      name: 'projects',
     },
     {
       href: '/contacts',
@@ -45,15 +47,15 @@
 <div class="w-screen top-0 z-50 fixed">
   <div
     class={`pt-10 sm:pt-0  block sm:flex sm:flex-row items-center justify-center duration-500 
-      border border-b-1 border-x-0 border-t-0 ${
+      border border-b border-x-0 border-t-0 ${
         showBg || open
           ? `border-border bg-darker/90 backdrop-blur-2xl pt-0 ${
-              open ? 'h-[10rem]' : 'h-14'
+              open ? 'h-40' : 'h-14'
             }`
           : 'bg-transparent border-transparent h-40'
       }`}
   >
-    <div class="w-full mx-auto max-w-[70rem] px-4 sm:px-10 md:px-20 lg:px-40">
+    <div class="w-full mx-auto max-w-280 px-4 sm:px-10 md:px-20 lg:px-40">
       <div class="w-full flex flex-row justify-between items-center">
         <a
           class="p-2 sm:p-0 font-semibold items-center justify-start no-underline"
@@ -64,7 +66,7 @@
         <div
           class="hidden sm:flex flex-row items-center justify-center gap-6 transition-all ease-in-out duration-500"
         >
-          {#each links as link}
+          {#each links as link (link.href)}
             <a
               href={`${link.href}`}
               class="duration-200 cursor-pointer hover:text-primary"
@@ -75,7 +77,7 @@
         </div>
         <div class="block sm:hidden p-2">
           <button
-            on:click={() => {
+            onclick={() => {
               open = !open;
             }}
           >
@@ -89,7 +91,7 @@
       <div class="block sm:hidden">
         {#if open}
           <div class="flex flex-col duration-500 transition-all">
-            {#each links as link}
+            {#each links as link (link.href)}
               <a
                 transition:slide={{ duration: 600 }}
                 href={`${link.href}`}

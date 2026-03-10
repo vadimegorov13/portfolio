@@ -2,10 +2,12 @@ export type Link = {
   href?: string;
   icon?: string;
   name?: string;
+  value?: string;
   description?: string;
 };
 
 export type ProjectCard = {
+  id: number;
   slug: string;
   title: string;
   description: string;

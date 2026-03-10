@@ -1,14 +1,12 @@
 <script lang="ts">
-  import Footer from '$lib/Components/Layout/Footer.svelte';
-  import Navbar from '$lib/Components/Layout/Navbar.svelte';
+  import Footer from '$lib/components/Layout/Footer.svelte';
+  import Navbar from '$lib/components/Layout/Navbar.svelte';
   import '../app.css';
 </script>
 
 <div class="h-screen text-white">
   <Navbar />
-  <div
-    class="mx-auto max-w-[70rem] px-4 pt-40 pb-20 sm:px-10 md:px-20 lg:px-40"
-  >
+  <div class="mx-auto max-w-200 px-4 pt-40 pb-20 sm:px-10 md:px-20">
     <slot />
   </div>
   <Footer />

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { SkillList } from 'src/types';
+  import type { SkillList } from '$lib/types';
   import Icon from '@iconify/svelte';
   import { MetaTags } from 'svelte-meta-tags';
 
@@ -136,7 +136,7 @@
 <div class="flex flex-col gap-20">
   <div>
     <h1 class="text-xl font-semibold">
-      <span class="text-primary">/</span>about-me
+      <span class="text-primary">/</span>about
     </h1>
     <div class="text-zinc-400 flex flex-col gap-10">
       <p>Hi there,</p>
@@ -175,9 +175,11 @@
       </p>
       <div class="flex justify-center">
         <div class="grid grid-cols-4 smd:grid-cols-5 gap-8">
-          {#each skills.langs as lang}
+          {#each skills.langs as lang (lang.name)}
             <div class="flex flex-col gap-1 justify-center items-center">
-              <Icon icon={lang.icon} class="text-5xl text-zinc-400" />
+              {#if lang.icon}
+                <Icon icon={lang.icon} class="text-5xl text-zinc-400" />
+              {/if}
               <p class="text-sm">{lang.name}</p>
             </div>
           {/each}
@@ -191,9 +193,11 @@
       </p>
       <div class="flex justify-center">
         <div class="grid grid-cols-4 smd:grid-cols-5 gap-8">
-          {#each skills.technologies as tech}
+          {#each skills.technologies as tech (tech.name)}
             <div class="flex flex-col gap-1 justify-center items-center">
-              <Icon icon={tech.icon} class="text-5xl" />
+              {#if tech.icon}
+                <Icon icon={tech.icon} class="text-5xl" />
+              {/if}
               <p class="text-sm">{tech.name}</p>
             </div>
           {/each}

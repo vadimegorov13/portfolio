@@ -6,7 +6,14 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "bracketSameLine": false,
-  "plugins": ["prettier-plugin-svelte"],
-  "pluginSearchDirs": ["."],
-  "overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }]
+  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-svelte"],
+  "overrides": [
+    {
+      "files": "*.svelte",
+      "options": {
+        "parser": "svelte"
+      }
+    }
+  ],
+  "tailwindStylesheet": "./src/app.css"
 }

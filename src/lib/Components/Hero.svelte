@@ -15,7 +15,7 @@
 
     <div>
       <a
-        href={'/contacts'}
+        href="/contacts"
         class="border border-primary/50 hover:gr-animation p-2 text-sm"
       >
         Contact me!
@@ -26,10 +26,6 @@
   <div
     class="flex flex-row justify-end mr-10 w-full border border-primary border-b-2 border-x-0 border-t-0"
   >
-    <img
-      src="headshot.png"
-      alt="vadim"
-      class="h-[20rem] bg-opacity-0 shrink-0"
-    />
+    <img src="headshot.png" alt="vadim" class="h-80 bg-opacity-0 shrink-0" />
   </div>
 </div>
