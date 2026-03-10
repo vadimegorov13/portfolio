@@ -28,15 +28,15 @@
   >
     <div class="text-sm text-zinc-400 max-w-160">
       I'm always happy to connect with other professionals in the industry. You
-      can reach me through <span class="group-hover:gr-animation">email</span>,
-      connect with me on <span class="group-hover:gr-animation">LinkedIn</span>,
-      or even drop me a message on
-      <span class="group-hover:gr-animation">Discord</span>. Don't hesitate to
-      reach out if you have any questions or just want to chat about a project.
-      My contact information is readily available for you to reach out to me.
+      can reach me through <span class="gr-animation">email</span>, connect with
+      me on <span class="gr-animation">LinkedIn</span>, or even drop me a
+      message on
+      <span class="gr-animation">Discord</span>. Don't hesitate to reach out if
+      you have any questions or just want to chat about a project. My contact
+      information is readily available for you to reach out to me.
     </div>
     <div
-      class="flex flex-col gap-2 p-2 text-sm my-auto border border-border group-hover:-translate-y-2 duration-200"
+      class="flex flex-col gap-2 p-2 text-sm my-auto border border-border -translate-y-2 duration-200"
     >
       <p class="w-full flex justify-center">Message me here</p>
       {#each contacts as contact (contact.name)}
@@ -49,15 +49,11 @@
           {/if}
 
           {#if contact.href}
-            <a
-              class="group-hover:gr-animation"
-              href={contact.href}
-              target="_blank"
-            >
+            <a class="gr-animation" href={contact.href} target="_blank">
               {contact.name}
             </a>
           {:else}
-            <p class="group-hover:gr-animation">{contact.name}</p>
+            <p class="gr-animation">{contact.name}</p>
           {/if}
         </div>
       {/each}

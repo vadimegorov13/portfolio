@@ -49,7 +49,7 @@
     </h1>
 
     <a
-      href="/works"
+      href="/projects"
       class="flex w-full flex-row justify-end text-zinc-400 text-sm hover:gr-animation"
     >
       See more ->

@@ -32,8 +32,8 @@
       name: 'about',
     },
     {
-      href: '/works',
-      name: 'works',
+      href: '/projects',
+      name: 'projects',
     },
     {
       href: '/contacts',

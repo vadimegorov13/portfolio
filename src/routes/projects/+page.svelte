@@ -80,14 +80,14 @@
 </svelte:head> -->
 
 <MetaTags
-  title="Works"
+  title="Projects"
   description="List of the projects built by Vadim Egorov"
 />
 
 <div class="flex flex-col gap-20">
   <div>
     <h1 class="text-xl font-semibold">
-      <span class="text-primary">/</span>works
+      <span class="text-primary">/</span>projects
     </h1>
 
     <p class="mt-10 text-zinc-400">
