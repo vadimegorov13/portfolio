@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { reveal } from '$lib/actions/reveal';
   import Badge from '$components/common/Badge.svelte';
   import LinkBlock from '$components/common/LinkBlock.svelte';
@@ -54,7 +55,54 @@
     'Research',
   ];
 
+  const headshotSrc = 'headshot.jpeg';
+  const capybaraSrc = 'coding_capybara.png';
+
   let showAltImage = $state(false);
+  let headshotLoaded = $state(false);
+  let capybaraLoaded = $state(false);
+
+  const currentImageSrc = $derived(showAltImage ? capybaraSrc : headshotSrc);
+  const currentImageAlt = $derived(
+    showAltImage ? 'Coding Capybara Illustration' : 'Vadim Egorov Headshot'
+  );
+  const currentImageName = $derived(showAltImage ? capybaraSrc : headshotSrc);
+  const currentImageLoaded = $derived(
+    showAltImage ? capybaraLoaded : headshotLoaded
+  );
+
+  function markImageLoaded(src: string) {
+    if (src === headshotSrc) {
+      headshotLoaded = true;
+      return;
+    }
+
+    if (src === capybaraSrc) {
+      capybaraLoaded = true;
+    }
+  }
+
+  function preloadImage(src: string) {
+    const image = new window.Image();
+
+    if (image.complete) {
+      markImageLoaded(src);
+      return;
+    }
+
+    image.onload = () => markImageLoaded(src);
+    image.onerror = () => markImageLoaded(src);
+    image.src = src;
+
+    if (image.complete) {
+      markImageLoaded(src);
+    }
+  }
+
+  onMount(() => {
+    preloadImage(headshotSrc);
+    preloadImage(capybaraSrc);
+  });
 
   function toggleImage() {
     showAltImage = !showAltImage;
@@ -141,11 +189,7 @@
           class="flex items-center justify-between border border-border border-x-0 border-t-0 px-3 py-2 text-xs text-zinc-400"
         >
           <div class="min-w-0 truncate pr-2">
-            {#if !showAltImage}
-              headshot.jpeg
-            {:else}
-              coding_capybara.png
-            {/if}
+            {currentImageName}
           </div>
           <div class="shrink-0">
             <button type="button" onclick={toggleImage}>
@@ -158,14 +202,29 @@
           </div>
         </div>
         <div
-          class="motion-card-image-wrap relative flex items-center justify-center p-6"
+          class="motion-card-image-wrap relative flex min-h-96 items-center justify-center p-6"
         >
+          {#if !currentImageLoaded}
+            <div
+              class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/50 px-6 text-center"
+            >
+              <div
+                class="h-9 w-9 animate-pulse rounded-full border border-primary/50"
+              ></div>
+              <div class="space-y-1">
+                <p class="text-xs uppercase tracking-[0.18em] text-primary">
+                  Loading image
+                </p>
+                <p class="text-xs text-zinc-400">{currentImageName}</p>
+              </div>
+            </div>
+          {/if}
+
           <img
-            src={!showAltImage ? 'headshot.jpeg' : 'coding_capybara.png'}
-            alt={!showAltImage
-              ? 'Vadim Egorov Headshot'
-              : 'Coding Capybara Illustration'}
-            class="motion-card-image h-auto w-full max-h-100 object-contain xl:max-h-140 xl:max-w-100"
+            src={currentImageSrc}
+            alt={currentImageAlt}
+            onload={() => markImageLoaded(currentImageSrc)}
+            class={`motion-card-image h-auto w-full max-h-100 object-contain transition-opacity duration-300 xl:max-h-140 xl:max-w-100 ${currentImageLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         </div>
       </div>
