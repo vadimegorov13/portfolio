@@ -44,7 +44,14 @@
     },
   ];
 
-  const techRow = ['TypeScript', 'React', 'Svelte', 'GraphQL', 'SQL', 'Python'];
+  const techRow = [
+    'Software',
+    'Product',
+    'Web Apps',
+    'Backend',
+    'Machine Learning',
+    'Research',
+  ];
 
   let showAltImage = $state(false);
 
@@ -72,7 +79,7 @@
 <div class="w-full flex flex-col gap-24 pb-8">
   <section
     id="home"
-    class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12"
+    class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-10 xl:gap-12"
   >
     <div class="flex flex-col gap-6">
       <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
@@ -80,7 +87,7 @@
       </h1>
       <div class="flex flex-col gap-3 max-w-2xl">
         <h1
-          class="text-3xl sm:text-4xl lg:text-5xl leading-tight font-semibold text-white"
+          class="text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl leading-tight font-semibold text-white"
         >
           Software engineer building product systems, modern web applications,
           and machine learning projects.
@@ -119,44 +126,39 @@
       </div>
     </div>
 
-    <div class="border border-border bg-black/20">
+    <div>
       <div
-        class="border border-border border-x-0 border-t-0 px-3 py-2 text-xs text-zinc-400 flex justify-between items-center"
+        class="md:mx-4 lg:mx-0 min-w-0 overflow-hidden border border-border bg-black/20"
       >
-        <div>
-          {#if !showAltImage}
-            headshot.png
-          {:else}
-            coding_capybara.png
-          {/if}
-        </div>
-        <div>
-          <button onclick={toggleImage}>
-            <Icon
-              icon="pixelarticons:arrow-right"
-              width="16px"
-              class="text-zinc-400 hover:text-primary cursor-pointer"
-            />
-          </button>
-        </div>
-      </div>
-      <div
-        class="p-6 flex flex-col items-center justify-center min-h-80 relative"
-      >
-        <img
-          src={!showAltImage ? 'headshot.png' : 'coding_capybara.png'}
-          alt={!showAltImage
-            ? 'Vadim Egorov Headshot'
-            : 'Coding Capybara Illustration'}
-        />
-        {#if showAltImage}
-          <div
-            class="absolute text-sm text-white right-6 top-6 p-2 bg-black/20"
-          >
-            <div class="items-center">Just a capybara drawing</div>
-            <div class="items-center">I use for my profile pictures</div>
+        <div
+          class="flex items-center justify-between border border-border border-x-0 border-t-0 px-3 py-2 text-xs text-zinc-400"
+        >
+          <div class="min-w-0 truncate pr-2">
+            {#if !showAltImage}
+              headshot.jpeg
+            {:else}
+              coding_capybara.png
+            {/if}
           </div>
-        {/if}
+          <div class="shrink-0">
+            <button type="button" onclick={toggleImage}>
+              <Icon
+                icon="pixelarticons:arrow-right"
+                width="16px"
+                class="text-zinc-400 hover:text-primary cursor-pointer"
+              />
+            </button>
+          </div>
+        </div>
+        <div class="relative flex items-center justify-center p-6">
+          <img
+            src={!showAltImage ? 'headshot.jpeg' : 'coding_capybara.png'}
+            alt={!showAltImage
+              ? 'Vadim Egorov Headshot'
+              : 'Coding Capybara Illustration'}
+            class="h-auto w-full max-h-100 object-contain xl:max-h-140 xl:max-w-100"
+          />
+        </div>
       </div>
     </div>
   </section>
@@ -172,7 +174,9 @@
       </p>
     </div>
 
-    <article class="border border-border bg-black/20 p-6 flex flex-col gap-4">
+    <article
+      class="md:mx-4 border border-border bg-black/20 p-6 flex flex-col gap-4"
+    >
       <div class="flex flex-col gap-1">
         <p class="text-white text-lg font-semibold">Software Engineer</p>
         <p class="text-primary text-sm">
@@ -210,7 +214,7 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="md:mx-4 grid grid-cols-1 lg:grid-cols-3 gap-5">
       {#each featuredProjects as project (project.title)}
         <article
           class="border border-border bg-black/20 p-4 flex flex-col gap-4"
@@ -291,20 +295,9 @@
         machine learning, with a focus on building software that is practical,
         reliable, and well designed.
       </p>
-
-      <div>
-        <LinkBlock
-          href="/about"
-          label="Read more"
-          icon="pixelarticons:arrow-right"
-          isPrimaryText
-          noBorder
-          size="sm"
-        />
-      </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-3">
+    <div class="md:mx-4 lg:mx-0 grid grid-cols-1 gap-3">
       <div class="border border-border bg-black/20 p-4">
         <p class="text-primary text-xs">Education</p>
         <p class="text-zinc-300 text-sm mt-2">
@@ -324,6 +317,17 @@
         </p>
       </div>
     </div>
+
+    <div>
+      <LinkBlock
+        href="/about"
+        label="Read more"
+        icon="pixelarticons:arrow-right"
+        isPrimaryText
+        noBorder
+        size="sm"
+      />
+    </div>
   </section>
 
   <section id="contacts" class="scroll-mt-20 flex flex-col gap-6">
@@ -337,7 +341,7 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div class="md:mx-4 lg:mx-0 grid grid-cols-1 lg:grid-cols-3 gap-3">
       {#each contacts as contact (contact.name)}
         <div class="border border-border bg-black/20 p-4 flex gap-3">
           {#if contact.icon}

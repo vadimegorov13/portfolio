@@ -21,7 +21,7 @@
 </script>
 
 <footer class="border-t border-border bg-darker/50 mt-20">
-  <div class="mx-auto max-w-350 px-4 sm:px-10 md:px-20 lg:px-40 py-12">
+  <div class="mx-auto max-w-300 px-4 md:px-10 py-8 md:py-12">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
       <div class="flex flex-col">
         <a

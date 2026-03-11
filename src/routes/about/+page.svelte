@@ -58,7 +58,9 @@
         A little more about who I am, what I work on, and what I care about.
       </p>
     </div>
-    <article class="mx-4 max-w-5xl border border-border bg-black/20 p-5 sm:p-6">
+    <article
+      class="md:mx-4 max-w-5xl border border-border bg-black/20 p-5 sm:p-6"
+    >
       <p class="max-w-4xl text-sm leading-8 text-zinc-200 sm:text-base">
         I'm Vadim Egorov, a software engineer currently pursuing an M.S. in
         Artificial Intelligence, Data Science, and Engineering at the University
@@ -89,7 +91,7 @@
       maintainable, and useful.
     </p>
     <article
-      class="mx-4 max-w-5xl border border-border bg-zinc-900/20 p-5 sm:p-6"
+      class="md:mx-4 max-w-5xl border border-border bg-zinc-900/20 p-5 sm:p-6"
     >
       <p class="text-xs uppercase tracking-[0.2em] text-primary">
         Flyntlok - Software Engineer
@@ -125,7 +127,7 @@
       the most rewarding work usually combines engineering depth with a strong
       sense of purpose and usability.
     </p>
-    <div class="mx-4">
+    <div class="md:mx-4">
       <a
         href="/projects"
         class="border border-primary/70 px-4 py-2 text-sm text-primary transition-colors duration-200 hover:bg-primary/10"
@@ -149,7 +151,7 @@
       meaningful experiments.
     </p>
 
-    <div class="mx-4 grid gap-5 md:grid-cols-2">
+    <div class="md:mx-4 grid gap-5 md:grid-cols-2">
       <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
         <p class="text-xs uppercase tracking-[0.2em] text-primary">Education</p>
         <div
@@ -184,7 +186,7 @@
       through user-facing products, data-driven systems, or thoughtful backend
       and application design.
     </p>
-    <div class="mx-4 grid gap-5 md:grid-cols-2">
+    <div class="md:mx-4 grid gap-5 md:grid-cols-2">
       <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
         <p class="text-xs uppercase tracking-[0.2em] text-primary">
           Software Engineering
@@ -223,7 +225,7 @@
       Technologies and areas I work with most often.
     </p>
 
-    <div class="mx-4 grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="md:mx-4 grid grid-cols-1 md:grid-cols-2 gap-5">
       {#each stackGroups as group (group.title)}
         <div class="border border-border bg-black/20 p-4">
           <p class="text-primary text-xs uppercase">{group.title}</p>
