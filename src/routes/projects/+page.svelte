@@ -1,28 +1,44 @@
 <script lang="ts">
   import { MetaTags } from 'svelte-meta-tags';
   import ImageLoader from '$components/Image/ImageLoader.svelte';
-  import type { ProjectCard } from '$lib/types';
+  import Badge from '$lib/components/common/Badge.svelte';
+  import LinkBlock from '$lib/components/common/LinkBlock.svelte';
 
-  const projects: ProjectCard[] = [
-    {
-      id: 1,
-      slug: 'portfolio',
-      title: 'Portfolio',
-      description:
-        'This is my personal website built using Svelte and Typescript, it showcases my skills, experiences, and projects. It has a clean and simple design, and fully responsive. If you like the design and want to build your own, you can check out my repository.',
-      github: 'https://github.com/vadimegorov13/portfolio',
-      stack: ['TypeScript', 'Svelte', 'Tailwind'],
-      img: 'portfolio.png',
-      link: '/',
-      date: 'Jan. 2023',
-    },
+  type ProjectEntry = {
+    id: number;
+    slug: string;
+    title: string;
+    category: string;
+    description: string;
+    github: string;
+    stack: string[];
+    img: string;
+    link: string;
+    date: string;
+  };
+
+  const projects: ProjectEntry[] = [
+    // {
+    //   id: 1,
+    //   slug: 'portfolio',
+    //   title: 'Portfolio',
+    //   category: 'Product / Personal Site',
+    //   description:
+    //     'My personal website built with Svelte, TypeScript, and Tailwind. It serves as a home for my projects, experience, and background, with a focus on clean design, responsiveness, and a developer-oriented presentation.',
+    //   github: 'https://github.com/vadimegorov13/portfolio',
+    //   stack: ['TypeScript', 'Svelte', 'Tailwind'],
+    //   img: 'portfolio.png',
+    //   link: '/',
+    //   date: 'Jan. 2023',
+    // },
     {
       id: 2,
       slug: 'predicting-student-learning-outcomes-using-eeg-correlation',
       title:
         'Predicting Student Learning Outcomes using EEG Correlation with Teacher/Expert Neural Activity',
+      category: 'Research / Brain Activity Data',
       description:
-        "I designed a study which aimed to investigate the relationship between student learning outcomes and brain activity correlation between a student and a teacher using electroencephalography (EEG). The findings have the potential to inform the development of more effective teaching strategies and personalized learning plans, improving the overall quality of education and student's learning.",
+        'A research study exploring how student learning outcomes may relate to correlations in brain activity between students and teachers. The project focused on using brain activity data to better understand learning dynamics and support more effective educational strategies.',
       github: '',
       stack: ['Neuroscience', 'Electroencephalography'],
       img: 'eeg.jpeg',
@@ -33,8 +49,9 @@
       id: 3,
       slug: 'sup4bubb4',
       title: 'sup4bubb4',
+      category: 'Web Platform / Full-stack',
       description:
-        'sup4bubb4 is a website that allows users to compile song requests from the StreamElements API and syncs them with the recording of a livestream. It includes a cloud function that checks for new livestreams and triggers the compilation of song requests from StreamElements. It was built with a responsive design to ensure that it can be used on a variety of devices, it was developed using Svelte, Tailwind, Firebase, and Firebase Cloud Functions',
+        'A web platform that compiles song requests from livestreams and syncs them with recorded content. It uses StreamElements data, Firebase services, and cloud functions to automate collection and processing, while providing a responsive interface built with Svelte and Tailwind.',
       github: 'https://github.com/vadimegorov13/sup4bubb4',
       stack: ['TypeScript', 'Firebase', 'Svelte', 'Tailwind'],
       img: 'sup4bubb4.png',
@@ -45,8 +62,9 @@
       id: 4,
       slug: 'flower-classification-using-convolutional-neural-networks',
       title: 'Flower Classification using Convolutional Neural Networks',
+      category: 'Machine Learning / Computer Vision',
       description:
-        "I developed a machine learning model using Python and Jupyter Notebooks that utilizes a convolutional neural network (CNN) to classify 14 different flower species with high accuracy. The model was trained on a dataset from Kaggle and fine-tuned using a custom hyperparameter tuning function, resulting in an accuracy of 92% on the validation set. The project's outcome is a model that able to classify different flower species with a high degree of accuracy.",
+        'A machine learning project using a convolutional neural network to classify 14 flower species. The model was developed in Python and Jupyter Notebook, with training, tuning, and evaluation focused on improving classification accuracy across the dataset.',
       github:
         'https://colab.research.google.com/drive/1b_KxwB7gffG31p4ktXyIo97GHr-TJKLQ?usp=sharing',
       stack: [
@@ -64,8 +82,9 @@
       id: 5,
       slug: 'pomofriends',
       title: 'PomoFriends',
+      category: 'Product / Full-stack',
       description:
-        "PomoFriends is a responsive web application for productivity built using the Pomodoro Technique, it includes features such as group creation and messaging to encourage accountability among users and facilitate collaboration, user authentication and authorization using Firebase authentication. To enhance performance, it uses NextJS for server-rendering pages and preloading data, and Firebase's real-time database to store and manage user data and app functionality.",
+        'A productivity web application built around the Pomodoro Technique, designed to support focus, accountability, and collaboration. It includes features such as group creation, messaging, authentication, and real-time data handling using Next.js and Firebase.',
       github: 'https://github.com/PomoFriends/pomofriends-app',
       stack: ['TypeScript', 'Firebase', 'Next.js'],
       img: 'pomofriends.png',
@@ -73,6 +92,24 @@
       date: 'May 2022',
     },
   ];
+
+  const categories = ['Product', 'Research', 'Full-stack', 'Experimental'];
+
+  const actionLabel = (url: string, fallback = 'Live') => {
+    if (!url) {
+      return fallback;
+    }
+
+    if (url.includes('docs.google.com')) {
+      return 'Read';
+    }
+
+    if (url.includes('colab.research.google.com')) {
+      return 'Code';
+    }
+
+    return fallback;
+  };
 </script>
 
 <!-- <svelte:head>
@@ -84,77 +121,103 @@
   description="List of the projects built by Vadim Egorov"
 />
 
-<div class="flex flex-col gap-20">
-  <div>
-    <h1 class="text-xl font-semibold">
+<div class="flex flex-col gap-14 sm:gap-18">
+  <section class="flex flex-col gap-4">
+    <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
       <span class="text-primary">/</span>projects
     </h1>
-
-    <p class="mt-10 text-zinc-400">
-      On this page, you will find a range of projects showcasing my skills and
-      experience in various fields, including web development, data analysis,
-      and research. Explore the live projects to see my work in action, and
-      learn more about other projects and papers that showcase my
-      problem-solving abilities and technical expertise. Don't hesitate to
-      contact me if you have any questions or would like to collaborate on a
-      project.
+    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+      This page highlights a selection of projects across product development,
+      machine learning, research, and web development. Some are polished
+      applications, while others reflect experiments, studies, and technical
+      exploration across different areas of my work.
     </p>
-  </div>
+    <div class="mt-2 flex flex-wrap gap-2">
+      {#each categories as category (category)}
+        <span
+          class="border border-border bg-zinc-900/30 px-3 py-1 text-xs uppercase tracking-[0.18em] text-zinc-300"
+        >
+          {category}
+        </span>
+      {/each}
+    </div>
+  </section>
 
-  <div class="flex flex-col gap-20 text-zinc-400">
+  <section class="flex flex-col gap-10">
     {#each projects as project (project.title)}
-      <div>
-        <div class="flex flex-col gap-4 p-4">
-          <div class="flex flex-row items-center justify-between">
-            <h1 class="text-2xl smd:text-3xl text-primary">
+      <article
+        class="border border-border bg-zinc-900/20 px-4 py-5 sm:px-6 sm:py-6"
+      >
+        <div class="flex flex-col gap-5">
+          <div
+            class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+          >
+            <h2
+              class="max-w-4xl text-xl font-semibold leading-tight text-zinc-100 sm:text-2xl"
+            >
               {project.title}
-            </h1>
-            <p class="text-lg flex flex-col justify-start">
+            </h2>
+            <p
+              class="shrink-0 text-xs uppercase tracking-[0.2em] text-zinc-500 sm:pt-1"
+            >
               {project.date}
             </p>
           </div>
-          <div class="flex flex-row gap-2 text-white/80">
-            {#each project.stack as tech, index (tech)}
-              <span>{index === 0 ? tech : `| ${tech}`}</span>
+
+          <p
+            class="w-fit border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs uppercase tracking-[0.18em] text-primary"
+          >
+            {project.category}
+          </p>
+
+          <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+            {project.description}
+          </p>
+
+          <div class="flex flex-wrap gap-2">
+            {#each project.stack as tech (tech)}
+              <Badge text={tech} size="md" />
             {/each}
           </div>
-          <div>{project.description}</div>
-          <div class="flex h-6 flex-row justify-start gap-2 text-zinc-400">
+
+          <div class="flex flex-wrap gap-2">
             {#if project.link}
-              <a
+              <LinkBlock
                 href={project.link}
-                target="_blank"
-                class="border border-border text-primary px-1 text-md"
-              >
-                {project.link.includes('docs.google.com') ? 'Read' : 'Live'}
-              </a>
+                label={actionLabel(project.link, 'Live')}
+                size="md"
+                isPrimaryText
+                isPrimaryBorder
+                isExternal
+              />
             {/if}
 
             {#if project.github}
-              <a
+              <LinkBlock
                 href={project.github}
-                target="_blank"
-                class="border border-border text-primary px-1 text-md"
-              >
-                {project.github.includes('colab.research.google.com')
-                  ? 'Code'
-                  : 'GitHub'}
-              </a>
+                label={actionLabel(project.github, 'GitHub')}
+                size="md"
+                isExternal
+              />
             {/if}
           </div>
-          <ImageLoader
-            src={project.img ? project.img : 'null'}
-            alt={project.title}
-            classProps={`h-full w-full object-cover ${
-              project.img?.includes('flower') ? 'bg-white' : ''
-            }`}
-          />
+
+          <div class="overflow-hidden border border-border">
+            <ImageLoader
+              src={project.img ? project.img : 'null'}
+              alt={project.title}
+              classProps={`aspect-[16/9] w-full object-cover ${
+                project.img?.includes('flower') ? 'bg-white' : ''
+              }`}
+            />
+          </div>
         </div>
-      </div>
+      </article>
     {/each}
-    <div class="text-sm text-center">
-      This represents just a small selection of the projects I have worked on
-      over the years. I have many more pieces of personal and university work.
-    </div>
-  </div>
+
+    <p class="text-center text-sm leading-7 text-zinc-400">
+      This is a small selection of projects from personal work, research, and
+      technical experiments developed over time.
+    </p>
+  </section>
 </div>

@@ -1,208 +1,252 @@
 <script lang="ts">
-  import type { SkillList } from '$lib/types';
-  import Icon from '@iconify/svelte';
+  import Badge from '$lib/components/common/Badge.svelte';
   import { MetaTags } from 'svelte-meta-tags';
 
-  const skills: SkillList = {
-    langs: [
-      {
-        name: 'TypeScript',
-        icon: 'logos:typescript-icon',
-      },
-      {
-        name: 'JavaScript',
-        icon: 'logos:javascript',
-      },
-      {
-        name: 'Python',
-        icon: 'logos:python',
-      },
-      {
-        name: 'Java',
-        icon: 'logos:java',
-      },
-      {
-        name: 'GO',
-        icon: 'vscode-icons:file-type-go',
-      },
-      {
-        name: 'C',
-        icon: 'logos:c',
-      },
-      {
-        name: 'C++',
-        icon: 'logos:c-plusplus',
-      },
-      {
-        name: 'C#',
-        icon: 'logos:c-sharp',
-      },
-      {
-        name: 'Lua',
-        icon: 'logos:lua',
-      },
-      {
-        name: 'Haskell',
-        icon: 'logos:haskell-icon',
-      },
-    ],
-    technologies: [
-      {
-        name: 'ReactJS',
-        icon: 'logos:react',
-      },
-      {
-        name: 'NextJS',
-        icon: 'logos:nextjs-icon',
-      },
-      {
-        name: 'Svelte',
-        icon: 'logos:svelte-icon',
-      },
-      {
-        name: 'VueJS',
-        icon: 'logos:vue',
-      },
-      {
-        name: 'NodeJS',
-        icon: 'logos:nodejs',
-      },
-      {
-        name: 'Firebase',
-        icon: 'logos:firebase',
-      },
-      {
-        name: 'AWS',
-        icon: 'logos:aws',
-      },
-      {
-        name: 'Azure',
-        icon: 'logos:microsoft-azure',
-      },
-      {
-        name: 'Docker',
-        icon: 'logos:docker-icon',
-      },
-      {
-        name: 'Linux',
-        icon: 'logos:linux-tux',
-      },
-      {
-        name: 'MongoDB',
-        icon: 'vscode-icons:file-type-mongo',
-      },
-      {
-        name: 'PostgreSQL',
-        icon: 'logos:postgresql',
-      },
-      {
-        name: 'GraphQL',
-        icon: 'logos:graphql',
-      },
-      {
-        name: 'MySQL',
-        icon: 'logos:mysql',
-      },
-      {
-        name: 'Tensorflow',
-        icon: 'logos:tensorflow',
-      },
-      {
-        name: 'Jupyter',
-        icon: 'logos:jupyter',
-      },
-      {
-        name: 'Git',
-        icon: 'logos:git-icon',
-      },
-      {
-        name: 'HTML',
-        icon: 'logos:html-5',
-      },
-      {
-        name: 'CSS',
-        icon: 'logos:css-3',
-      },
-      {
-        name: 'Tailwindcss',
-        icon: 'logos:tailwindcss-icon',
-      },
-    ],
-  };
+  const softwareInterests = [
+    'Product systems',
+    'Web architecture',
+    'Backend integration',
+    'State management',
+  ];
+
+  const mlInterests = [
+    'Applied machine learning',
+    'Brain activity data',
+    'Representation learning',
+    'Experimental workflows',
+  ];
+
+  const stackGroups = [
+    {
+      title: 'Languages',
+      items: ['TypeScript', 'Python', 'SQL', 'Java'],
+    },
+    {
+      title: 'Frameworks',
+      items: ['React', 'Svelte', 'Next.js', 'GraphQL', 'Firebase'],
+    },
+    {
+      title: 'Engineering',
+      items: [
+        'Application architecture',
+        'State management',
+        'API development',
+        'Backend integration',
+      ],
+    },
+    {
+      title: 'Machine Learning',
+      items: [
+        'Data analysis',
+        'Representation learning',
+        'Signal-based research',
+        'Experimental workflows',
+      ],
+    },
+  ];
 </script>
 
 <MetaTags title="About me" description="Vadim Egorov's about me page" />
 
-<div class="flex flex-col gap-20">
-  <div>
-    <h1 class="text-xl font-semibold">
-      <span class="text-primary">/</span>about
-    </h1>
-    <div class="text-zinc-400 flex flex-col gap-10">
-      <p>Hi there,</p>
-      <p>
-        I am Vadim Egorov, a recent computer science graduate with a minor in
-        mathematics from University of Alaska Anchorage. My education has
-        provided me with proficiency in Python and Java and hands-on experience
-        in data analysis and machine learning. Additionally, I am a self-taught
-        web developer with strong skills in TypeScript and various web dev
-        frameworks. I am capable of building and maintaining modern web
-        applications, with a focus on back-end development and server-side
-        logic.
-      </p>
-
-      <p>
-        I have a deep passion for technology and a drive to stay up-to-date with
-        the latest advancements in the field. In addition to technology, I am
-        also interested in education, history, music, and art.
-      </p>
-
-      <p>
-        I am seeking a software development role where I can put my technical
-        skills and passion to use and continue to learn and grow as a developer.
+<div class="flex flex-col gap-14 sm:gap-18">
+  <section id="about" class="scroll-mt-20 flex flex-col gap-4">
+    <div>
+      <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
+        <span class="text-primary">/</span>about
+      </h1>
+      <p class="max-w-3xl text-sm leading-7 text-zinc-400 sm:text-base">
+        A little more about who I am, what I work on, and what I care about.
       </p>
     </div>
-  </div>
+    <article class="mx-4 max-w-5xl border border-border bg-black/20 p-5 sm:p-6">
+      <p class="max-w-4xl text-sm leading-8 text-zinc-200 sm:text-base">
+        I'm Vadim Egorov, a software engineer currently pursuing an M.S. in
+        Artificial Intelligence, Data Science, and Engineering at the University
+        of Alaska Anchorage.
+      </p>
 
-  <div class="flex flex-col gap-10">
-    <h1 class="text-xl font-semibold">
+      <p class="mt-6 max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+        My background includes professional experience building large-scale web
+        applications and complex business systems, along with personal and
+        research work in product development, machine learning, and brain signal
+        modeling. I enjoy working on software that sits at the intersection of
+        strong engineering, practical functionality, and thoughtful design.
+      </p>
+    </article>
+  </section>
+
+  <section id="experience" class="scroll-mt-20 flex flex-col gap-4">
+    <h2 class="text-lg font-semibold sm:text-xl">
+      <span class="text-primary">#</span>experience
+    </h2>
+    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+      Professionally, I've worked on cloud-based business software that supports
+      real operational workflows. That experience gave me the opportunity to
+      work on application architecture, backend integration, structured state
+      management, and systems that need to remain reliable while supporting
+      complex user and business requirements. I'm especially drawn to work that
+      involves turning complicated processes into software that feels clear,
+      maintainable, and useful.
+    </p>
+    <article
+      class="mx-4 max-w-5xl border border-border bg-zinc-900/20 p-5 sm:p-6"
+    >
+      <p class="text-xs uppercase tracking-[0.2em] text-primary">
+        Flyntlok - Software Engineer
+      </p>
+      <p class="mt-4 max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+        At Flyntlok, I worked on a cloud-based dealership management platform
+        built to support complex operational workflows. I contributed to product
+        functionality across quoting, purchasing, approvals, and sales
+        processes, with a focus on building systems that were both reliable and
+        practical for real business use.
+      </p>
+      <p class="mt-5 max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+        A major part of my work centered on Sales Project, a large module that
+        supported quoting and sales coordination across multiple stages of the
+        workflow. Working on it deepened my interest in application
+        architecture, structured state management, backend integration, and the
+        challenge of designing software that can handle complexity without
+        becoming difficult to use or maintain.
+      </p>
+    </article>
+  </section>
+
+  <section id="projects" class="scroll-mt-20 flex flex-col gap-4">
+    <h2 class="text-lg font-semibold sm:text-xl">
+      <span class="text-primary">#</span>projects
+    </h2>
+    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+      Alongside professional development, I've continued building personal
+      projects that reflect both my technical interests and the kinds of
+      products I enjoy creating. I like building applications that solve real
+      problems, whether that means productivity tools, collaborative platforms,
+      or projects that explore machine learning and data-driven ideas. For me,
+      the most rewarding work usually combines engineering depth with a strong
+      sense of purpose and usability.
+    </p>
+    <div class="mx-4">
+      <a
+        href="/projects"
+        class="border border-primary/70 px-4 py-2 text-sm text-primary transition-colors duration-200 hover:bg-primary/10"
+      >
+        View Projects
+      </a>
+    </div>
+  </section>
+
+  <section id="education" class="scroll-mt-20 flex flex-col gap-4">
+    <h2 class="text-lg font-semibold sm:text-xl">
+      <span class="text-primary">#</span>education
+    </h2>
+
+    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+      My graduate studies have given me the chance to explore machine learning
+      more deeply, especially in research involving brain activity data and
+      representation learning. That side of my work has pushed me to think not
+      only about building systems, but also about how models learn, how data
+      should be structured, and how technical ideas can be translated into
+      meaningful experiments.
+    </p>
+
+    <div class="mx-4 grid gap-5 md:grid-cols-2">
+      <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
+        <p class="text-xs uppercase tracking-[0.2em] text-primary">Education</p>
+        <div
+          class="mt-4 space-y-4 text-sm leading-7 text-zinc-300 sm:text-base"
+        >
+          <p>
+            M.S. in Artificial Intelligence, Data Science, and Engineering at
+            the University of Alaska Anchorage
+          </p>
+          <p>B.S. in Computer Science with a minor in Mathematics</p>
+        </div>
+      </article>
+
+      <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
+        <p class="text-xs uppercase tracking-[0.2em] text-primary">
+          Current Focus
+        </p>
+        <p class="mt-4 text-sm leading-7 text-zinc-300 sm:text-base">
+          Product systems, machine learning, backend logic, application
+          architecture, and practical software design.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="interests" class="scroll-mt-20 flex flex-col gap-4">
+    <h2 class="text-lg font-semibold sm:text-xl">
+      <span class="text-primary">#</span>interests
+    </h2>
+    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+      I'm especially interested in software that solves real problems, whether
+      through user-facing products, data-driven systems, or thoughtful backend
+      and application design.
+    </p>
+    <div class="mx-4 grid gap-5 md:grid-cols-2">
+      <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
+        <p class="text-xs uppercase tracking-[0.2em] text-primary">
+          Software Engineering
+        </p>
+        <ul class="mt-4 flex flex-col gap-2 text-sm text-zinc-300 sm:text-base">
+          {#each softwareInterests as item (item)}
+            <li class="flex items-start gap-2">
+              <span class="text-primary">-</span>
+              <span>{item}</span>
+            </li>
+          {/each}
+        </ul>
+      </article>
+
+      <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
+        <p class="text-xs uppercase tracking-[0.2em] text-primary">
+          Machine Learning
+        </p>
+        <ul class="mt-4 flex flex-col gap-2 text-sm text-zinc-300 sm:text-base">
+          {#each mlInterests as item (item)}
+            <li class="flex items-start gap-2">
+              <span class="text-primary">-</span>
+              <span>{item}</span>
+            </li>
+          {/each}
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills" class="scroll-mt-20 flex flex-col gap-4">
+    <h2 class="text-lg font-semibold sm:text-xl">
       <span class="text-primary">#</span>skills
-    </h1>
+    </h2>
+    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+      Technologies and areas I work with most often.
+    </p>
 
-    <div class="flex flex-col gap-10">
-      <p class="flex justify-start">
-        <span class="text-primary">-</span>Programming Languages
-      </p>
-      <div class="flex justify-center">
-        <div class="grid grid-cols-4 smd:grid-cols-5 gap-8">
-          {#each skills.langs as lang (lang.name)}
-            <div class="flex flex-col gap-1 justify-center items-center">
-              {#if lang.icon}
-                <Icon icon={lang.icon} class="text-5xl text-zinc-400" />
-              {/if}
-              <p class="text-sm">{lang.name}</p>
-            </div>
-          {/each}
+    <div class="mx-4 grid grid-cols-1 md:grid-cols-2 gap-5">
+      {#each stackGroups as group (group.title)}
+        <div class="border border-border bg-black/20 p-4">
+          <p class="text-primary text-xs uppercase">{group.title}</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            {#each group.items as item (item)}
+              <Badge text={item} size="sm" />
+            {/each}
+          </div>
         </div>
-      </div>
+      {/each}
     </div>
+  </section>
 
-    <div class="flex flex-col gap-10">
-      <p class="flex justify-start">
-        <span class="text-primary">-</span>Technologies
-      </p>
-      <div class="flex justify-center">
-        <div class="grid grid-cols-4 smd:grid-cols-5 gap-8">
-          {#each skills.technologies as tech (tech.name)}
-            <div class="flex flex-col gap-1 justify-center items-center">
-              {#if tech.icon}
-                <Icon icon={tech.icon} class="text-5xl" />
-              {/if}
-              <p class="text-sm">{tech.name}</p>
-            </div>
-          {/each}
-        </div>
-      </div>
-    </div>
-  </div>
+  <section id="outside-of-work" class="scroll-mt-20 flex flex-col gap-4">
+    <h2 class="text-lg font-semibold sm:text-xl">
+      <span class="text-primary">#</span>outside-of-work
+    </h2>
+    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+      Outside of work and school, I'm also interested in education, history,
+      music, and art. Those interests shape the way I think about creativity,
+      communication, and the experience of using technology. I care about
+      building software that is not only functional, but also thoughtful,
+      well-structured, and enjoyable to interact with.
+    </p>
+  </section>
 </div>

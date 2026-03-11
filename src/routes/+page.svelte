@@ -44,35 +44,6 @@
     },
   ];
 
-  const stackGroups = [
-    {
-      title: 'Languages',
-      items: ['TypeScript', 'Python', 'SQL', 'Java'],
-    },
-    {
-      title: 'Frameworks',
-      items: ['React', 'Svelte', 'Next.js', 'GraphQL', 'Firebase'],
-    },
-    {
-      title: 'Engineering',
-      items: [
-        'Application architecture',
-        'State management',
-        'API development',
-        'Backend integration',
-      ],
-    },
-    {
-      title: 'Machine Learning',
-      items: [
-        'Data analysis',
-        'Representation learning',
-        'Signal-based research',
-        'Experimental workflows',
-      ],
-    },
-  ];
-
   const techRow = ['TypeScript', 'React', 'Svelte', 'GraphQL', 'SQL', 'Python'];
 
   let showAltImage = $state(false);
@@ -104,7 +75,9 @@
     class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12"
   >
     <div class="flex flex-col gap-6">
-      <p class="text-sm text-primary">/vadim-egorov</p>
+      <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
+        <span class="text-primary">/</span>vadim-egorov
+      </h1>
       <div class="flex flex-col gap-3 max-w-2xl">
         <h1
           class="text-3xl sm:text-4xl lg:text-5xl leading-tight font-semibold text-white"
@@ -136,7 +109,7 @@
           isPrimaryText
           isPrimaryBorder
         />
-        <LinkBlock href="/contacts" label="Get in Touch" size="lg" />
+        <LinkBlock href="#contacts" label="Get in Touch" size="lg" />
       </div>
 
       <div class="flex flex-wrap gap-2">
@@ -350,30 +323,6 @@
           Web apps, ML, backend logic, and application design
         </p>
       </div>
-    </div>
-  </section>
-
-  <section id="skills" class="flex flex-col gap-6">
-    <div class="flex flex-col gap-3">
-      <h2 class="text-xl font-semibold text-white">
-        <span class="text-primary">#</span>stack
-      </h2>
-      <p class="text-zinc-400 text-sm sm:text-base">
-        Technologies and areas I work with most often.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {#each stackGroups as group (group.title)}
-        <div class="border border-border bg-black/20 p-4">
-          <p class="text-primary text-xs">{group.title}</p>
-          <div class="flex flex-wrap gap-2 mt-3">
-            {#each group.items as item (item)}
-              <Badge text={item} size="sm" />
-            {/each}
-          </div>
-        </div>
-      {/each}
     </div>
   </section>
 
