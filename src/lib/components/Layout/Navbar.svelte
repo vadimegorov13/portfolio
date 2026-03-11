@@ -42,18 +42,22 @@
       return () => {};
     }
 
-    const sections = links
-      .map((link) => document.getElementById(link.href.slice(1)))
-      .filter((section): section is HTMLElement => Boolean(section));
+    let initialCheckFrame = 0;
 
-    if (!sections.length) {
-      activeSection = '';
-      return () => {};
-    }
+    const getSections = () =>
+      links
+        .map((link) => document.getElementById(link.href.slice(1)))
+        .filter((section): section is HTMLElement => Boolean(section));
 
     let ticking = false;
 
     const updateActiveSection = () => {
+      const sections = getSections();
+
+      if (!sections.length) {
+        return;
+      }
+
       const viewportAnchor = Math.min(window.innerHeight * 0.32, 260);
 
       const inViewSection = sections.find((section) => {
@@ -110,13 +114,27 @@
       updateActiveSection();
     };
 
-    setFromHash();
-    window.requestAnimationFrame(updateActiveSection);
+    const waitForSections = () => {
+      const sections = getSections();
+
+      if (sections.length) {
+        setFromHash();
+        return;
+      }
+
+      initialCheckFrame = window.requestAnimationFrame(waitForSections);
+    };
+
+    waitForSections();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     window.addEventListener('hashchange', setFromHash);
 
     return () => {
+      if (initialCheckFrame) {
+        window.cancelAnimationFrame(initialCheckFrame);
+      }
+
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
       window.removeEventListener('hashchange', setFromHash);
