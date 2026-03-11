@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ProjectCard } from '$lib/types';
-  import ImageLoader from '$lib/components/Image/ImageLoader.svelte';
+  import ImageLoader from '$components/Image/ImageLoader.svelte';
 
   export let project: ProjectCard;
 </script>

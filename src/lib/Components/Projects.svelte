@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ProjectCard } from '$lib/types';
-  import Card from '$lib/components/ProjectCard.svelte';
+  import Card from '$components/ProjectCard.svelte';
 
   const projects: ProjectCard[] = [
     {

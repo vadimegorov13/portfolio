@@ -1,6 +1,6 @@
 <script lang="ts">
   import { MetaTags } from 'svelte-meta-tags';
-  import ImageLoader from '$lib/components/Image/ImageLoader.svelte';
+  import ImageLoader from '$components/Image/ImageLoader.svelte';
   import type { ProjectCard } from '$lib/types';
 
   const projects: ProjectCard[] = [

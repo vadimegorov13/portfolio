@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Contacts from '$lib/components/Contacts.svelte';
-  import Hero from '$lib/components/Hero.svelte';
-  import Projects from '$lib/components/Projects.svelte';
+  import Contacts from '$components/Contacts.svelte';
+  import Hero from '$components/Hero.svelte';
+  import Projects from '$components/Projects.svelte';
   import { MetaTags } from 'svelte-meta-tags';
 </script>
 
