@@ -196,7 +196,7 @@
         onclick={() => (open = !open)}
       >
         <Icon
-          icon={`carbon:${open ? 'close' : 'text-align-justify'}`}
+          icon={`pixelarticons:${open ? 'close' : 'text-align-justify'}`}
           class="text-white text-3xl"
         />
       </button>
