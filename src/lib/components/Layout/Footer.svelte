@@ -20,7 +20,7 @@
 
 <div class="border border-t border-b-0 border-x-0 border-border">
   <div
-    class="flex flex-col mx-auto max-w-280 pt-10 pb-4 px-4 sm:px-10 md:px-20 lg:px-40"
+    class="flex flex-col mx-auto max-w-350 pt-10 pb-4 px-4 sm:px-10 md:px-20 lg:px-40"
   >
     <div class="flex flex-row gap-20 justify-between">
       <div class="flex flex-col">

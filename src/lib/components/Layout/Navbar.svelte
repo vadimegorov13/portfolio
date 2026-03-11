@@ -54,7 +54,7 @@
           : 'bg-transparent border-transparent h-40'
       }`}
   >
-    <div class="w-full mx-auto max-w-280 px-4 sm:px-10 md:px-20 lg:px-40">
+    <div class="w-full mx-auto max-w-350 px-4 sm:px-10 md:px-20 lg:px-40">
       <div class="w-full flex flex-row justify-between items-center">
         <a
           class="p-2 sm:p-0 font-semibold items-center justify-start no-underline"
