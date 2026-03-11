@@ -202,7 +202,17 @@
     <article class="border border-border bg-black/20 p-6 flex flex-col gap-4">
       <div class="flex flex-col gap-1">
         <p class="text-white text-lg font-semibold">Software Engineer</p>
-        <p class="text-primary text-sm">Flyntlok</p>
+        <p class="text-primary text-sm">
+          <a
+            href="https://www.flyntlok.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary inline-flex items-center gap-1 whitespace-nowrap"
+          >
+            <span> Flyntlok </span>
+            <Icon icon="pixelarticons:external-link-sharp" />
+          </a>
+        </p>
       </div>
       <p class="text-zinc-300 leading-7 text-sm sm:text-base">
         Built and maintained product functionality for a cloud-based dealership

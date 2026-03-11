@@ -1,5 +1,6 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
+  import { page } from '$app/state';
 
   let open = $state(false);
 
@@ -18,22 +19,24 @@
   <div class="mx-auto max-w-350 px-4 sm:px-10 md:px-20 lg:px-40">
     <div class="flex flex-row justify-between items-center h-5 sm:h-10">
       <a
-        href="#home"
+        href="/"
         class="font-mono text-sm font-semibold text-white hover:text-primary no-underline transition-colors"
       >
         VE
       </a>
 
-      <nav class="hidden sm:flex flex-row items-center gap-6">
-        {#each navLinks as link (link.href)}
-          <a
-            href={link.href}
-            class="font-mono text-xs text-gray-300 hover:text-primary no-underline transition-colors"
-          >
-            <span class="text-primary">#</span>{link.label}
-          </a>
-        {/each}
-      </nav>
+      {#if page.route.id === '/'}
+        <nav class="hidden sm:flex flex-row items-center gap-6">
+          {#each navLinks as link (link.href)}
+            <a
+              href={link.href}
+              class="font-mono text-xs text-gray-300 hover:text-primary no-underline transition-colors"
+            >
+              <span class="text-primary">#</span>{link.label}
+            </a>
+          {/each}
+        </nav>
+      {/if}
 
       <button
         class="block sm:hidden p-2 hover:text-primary transition-colors"
