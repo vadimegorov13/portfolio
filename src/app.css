@@ -193,7 +193,181 @@
   }
 }
 
+@layer components {
+  .page-shell {
+    transition:
+      opacity 320ms ease,
+      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .page-shell-intro-hidden {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    pointer-events: none;
+  }
+
+  .page-shell-intro-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@layer components {
+  .opening-intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background:
+      radial-gradient(circle at top, rgba(247, 64, 128, 0.1), transparent 36%),
+      linear-gradient(180deg, rgba(6, 7, 10, 0.98), rgba(15, 17, 22, 0.98));
+    opacity: 1;
+    transition:
+      opacity 280ms ease,
+      transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .opening-intro-outro {
+    opacity: 0;
+    transform: scale(1.01);
+    pointer-events: none;
+  }
+}
+
+@layer components {
+  .opening-intro-shell {
+    width: min(100%, 46rem);
+  }
+
+  .opening-intro-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@layer components {
+  .opening-intro-label {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgb(228 228 231);
+    transition:
+      opacity 260ms ease,
+      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .opening-intro-label.opening-intro-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@layer components {
+  .opening-intro-line {
+    height: 1px;
+    width: 100%;
+    transform: scaleX(0.05);
+    transform-origin: left center;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary),
+      rgba(247, 64, 128, 0.08)
+    );
+    opacity: 0;
+    transition:
+      opacity 180ms ease,
+      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .opening-intro-line.opening-intro-visible {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@layer components {
+  .opening-intro-panel {
+    overflow: hidden;
+    border: 1px solid
+      color-mix(in srgb, var(--color-primary) 20%, var(--color-border));
+    background: rgba(7, 9, 12, 0.82);
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.985);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+    transition:
+      opacity 240ms ease,
+      transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 240ms ease;
+  }
+
+  .opening-intro-panel.opening-intro-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@layer components {
+  .opening-intro-panel-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.7rem 0.9rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(161 161 170);
+  }
+
+  .opening-intro-panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.2rem 1rem 1.4rem;
+  }
+}
+
+@layer components {
+  .opening-intro-kicker {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .opening-intro-heading {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    max-width: 38rem;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.15;
+    font-weight: 600;
+    color: rgb(250 250 250);
+    transition:
+      opacity 260ms ease,
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .opening-intro-heading.opening-intro-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .page-shell,
+  .opening-intro-overlay,
+  .opening-intro-label,
+  .opening-intro-line,
+  .opening-intro-panel,
+  .opening-intro-heading,
   .reveal-base,
   .reveal-stagger .stagger-item,
   .motion-card,
@@ -210,5 +384,12 @@
   .reveal-stagger .stagger-item {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .page-shell-intro-hidden,
+  .page-shell-intro-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
   }
 }
