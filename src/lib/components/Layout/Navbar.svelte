@@ -3,6 +3,7 @@
   import { page } from '$app/state';
 
   let open = $state(false);
+  let activeSection = $state('');
 
   const homeNavLinks = [
     { href: '#home', label: 'home' },
@@ -20,6 +21,117 @@
     { href: '#interests', label: 'interests' },
     { href: '#skills', label: 'skills' },
   ];
+
+  function getCurrentLinks() {
+    if (page.route.id === '/') {
+      return homeNavLinks;
+    }
+
+    if (page.route.id === '/about') {
+      return aboutNavLinks;
+    }
+
+    return [];
+  }
+
+  function setupSectionTracking() {
+    const links = getCurrentLinks();
+
+    if (!links.length || typeof window === 'undefined') {
+      activeSection = '';
+      return () => {};
+    }
+
+    const sections = links
+      .map((link) => document.getElementById(link.href.slice(1)))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    if (!sections.length) {
+      activeSection = '';
+      return () => {};
+    }
+
+    let ticking = false;
+
+    const updateActiveSection = () => {
+      const viewportAnchor = Math.min(window.innerHeight * 0.32, 260);
+
+      const inViewSection = sections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= viewportAnchor && rect.bottom > viewportAnchor;
+      });
+
+      if (inViewSection) {
+        activeSection = `#${inViewSection.id}`;
+        return;
+      }
+
+      const closestSection = sections.reduce<HTMLElement | null>(
+        (closest, section) => {
+          const rect = section.getBoundingClientRect();
+          const distance = Math.abs(rect.top - viewportAnchor);
+
+          if (!closest) {
+            return section;
+          }
+
+          const closestDistance = Math.abs(
+            closest.getBoundingClientRect().top - viewportAnchor
+          );
+
+          return distance < closestDistance ? section : closest;
+        },
+        null
+      );
+
+      if (closestSection) {
+        activeSection = `#${closestSection.id}`;
+      }
+    };
+
+    const onScroll = () => {
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        updateActiveSection();
+        ticking = false;
+      });
+    };
+
+    const setFromHash = () => {
+      if (window.location.hash) {
+        activeSection = window.location.hash;
+        return;
+      }
+
+      updateActiveSection();
+    };
+
+    setFromHash();
+    window.requestAnimationFrame(updateActiveSection);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    window.addEventListener('hashchange', setFromHash);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      window.removeEventListener('hashchange', setFromHash);
+    };
+  }
+
+  $effect(() => {
+    const routeId = page.route.id;
+
+    if (!routeId) {
+      return;
+    }
+
+    return setupSectionTracking();
+  });
 </script>
 
 <header
@@ -39,7 +151,7 @@
           {#each homeNavLinks as link (link.href)}
             <a
               href={link.href}
-              class="font-mono text-xs text-gray-300 hover:text-primary no-underline transition-colors"
+              class={`motion-nav-link font-mono text-xs text-gray-300 hover:text-primary no-underline transition-colors ${activeSection === link.href ? 'is-active' : ''}`}
             >
               <span class="text-primary">#</span>{link.label}
             </a>
@@ -52,7 +164,7 @@
           {#each aboutNavLinks as link (link.href)}
             <a
               href={link.href}
-              class="font-mono text-xs text-gray-300 hover:text-primary no-underline transition-colors"
+              class={`motion-nav-link font-mono text-xs text-gray-300 hover:text-primary no-underline transition-colors ${activeSection === link.href ? 'is-active' : ''}`}
             >
               <span class="text-primary">#</span>{link.label}
             </a>
@@ -78,7 +190,7 @@
           {#each homeNavLinks as link (link.href)}
             <a
               href={link.href}
-              class="font-mono text-sm text-gray-300 hover:text-primary no-underline transition-colors"
+              class={`motion-nav-link font-mono text-sm text-gray-300 hover:text-primary no-underline transition-colors ${activeSection === link.href ? 'is-active' : ''}`}
               onclick={() => (open = false)}
             >
               <span class="text-primary">#</span>{link.label}
@@ -90,7 +202,7 @@
           {#each aboutNavLinks as link (link.href)}
             <a
               href={link.href}
-              class="font-mono text-sm text-gray-300 hover:text-primary no-underline transition-colors"
+              class={`motion-nav-link font-mono text-sm text-gray-300 hover:text-primary no-underline transition-colors ${activeSection === link.href ? 'is-active' : ''}`}
               onclick={() => (open = false)}
             >
               <span class="text-primary">#</span>{link.label}

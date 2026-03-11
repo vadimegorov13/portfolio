@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { reveal } from '$lib/actions/reveal';
   import Badge from '$lib/components/common/Badge.svelte';
   import { MetaTags } from 'svelte-meta-tags';
 
@@ -50,7 +51,7 @@
 
 <div class="flex flex-col gap-14 sm:gap-18">
   <section id="about" class="scroll-mt-20 flex flex-col gap-4">
-    <div>
+    <div use:reveal={{ type: 'up' }}>
       <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
         <span class="text-primary">/</span>about
       </h1>
@@ -59,7 +60,8 @@
       </p>
     </div>
     <article
-      class="md:mx-4 max-w-5xl border border-border bg-black/20 p-5 sm:p-6"
+      use:reveal={{ type: 'scale', delay: 70 }}
+      class="motion-card md:mx-4 max-w-5xl border border-border bg-black/20 p-5 sm:p-6"
     >
       <p class="max-w-4xl text-sm leading-8 text-zinc-200 sm:text-base">
         I'm Vadim Egorov, a software engineer currently pursuing an M.S. in
@@ -78,10 +80,13 @@
   </section>
 
   <section id="experience" class="scroll-mt-20 flex flex-col gap-4">
-    <h2 class="text-lg font-semibold sm:text-xl">
+    <h2 use:reveal={{ type: 'up' }} class="text-lg font-semibold sm:text-xl">
       <span class="text-primary">#</span>experience
     </h2>
-    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+    <p
+      use:reveal={{ type: 'scale', delay: 50 }}
+      class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base"
+    >
       Professionally, I've worked on cloud-based business software that supports
       real operational workflows. That experience gave me the opportunity to
       work on application architecture, backend integration, structured state
@@ -91,7 +96,8 @@
       maintainable, and useful.
     </p>
     <article
-      class="md:mx-4 max-w-5xl border border-border bg-zinc-900/20 p-5 sm:p-6"
+      use:reveal={{ type: 'up', delay: 110 }}
+      class="motion-card md:mx-4 max-w-5xl border border-border bg-zinc-900/20 p-5 sm:p-6"
     >
       <p class="text-xs uppercase tracking-[0.2em] text-primary">
         Flyntlok - Software Engineer
@@ -115,10 +121,13 @@
   </section>
 
   <section id="projects" class="scroll-mt-20 flex flex-col gap-4">
-    <h2 class="text-lg font-semibold sm:text-xl">
+    <h2 use:reveal={{ type: 'up' }} class="text-lg font-semibold sm:text-xl">
       <span class="text-primary">#</span>projects
     </h2>
-    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+    <p
+      use:reveal={{ type: 'scale', delay: 50 }}
+      class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base"
+    >
       Alongside professional development, I've continued building personal
       projects that reflect both my technical interests and the kinds of
       products I enjoy creating. I like building applications that solve real
@@ -127,10 +136,10 @@
       the most rewarding work usually combines engineering depth with a strong
       sense of purpose and usability.
     </p>
-    <div class="md:mx-4">
+    <div use:reveal={{ type: 'up', delay: 100 }} class="md:mx-4">
       <a
         href="/projects"
-        class="border border-primary/70 px-4 py-2 text-sm text-primary transition-colors duration-200 hover:bg-primary/10"
+        class="motion-link border border-primary/70 px-4 py-2 text-sm text-primary transition-colors duration-200 hover:bg-primary/10"
       >
         View Projects
       </a>
@@ -138,11 +147,14 @@
   </section>
 
   <section id="education" class="scroll-mt-20 flex flex-col gap-4">
-    <h2 class="text-lg font-semibold sm:text-xl">
+    <h2 use:reveal={{ type: 'up' }} class="text-lg font-semibold sm:text-xl">
       <span class="text-primary">#</span>education
     </h2>
 
-    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+    <p
+      use:reveal={{ type: 'scale', delay: 50 }}
+      class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base"
+    >
       My graduate studies have given me the chance to explore machine learning
       more deeply, especially in research involving brain activity data and
       representation learning. That side of my work has pushed me to think not
@@ -151,8 +163,13 @@
       meaningful experiments.
     </p>
 
-    <div class="md:mx-4 grid gap-5 md:grid-cols-2">
-      <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
+    <div
+      use:reveal={{ type: 'stagger', delay: 40 }}
+      class="reveal-stagger md:mx-4 grid gap-5 md:grid-cols-2"
+    >
+      <article
+        class="stagger-item motion-card border border-border bg-zinc-900/25 p-5 sm:p-6"
+      >
         <p class="text-xs uppercase tracking-[0.2em] text-primary">Education</p>
         <div
           class="mt-4 space-y-4 text-sm leading-7 text-zinc-300 sm:text-base"
@@ -165,7 +182,9 @@
         </div>
       </article>
 
-      <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
+      <article
+        class="stagger-item motion-card border border-border bg-zinc-900/25 p-5 sm:p-6"
+      >
         <p class="text-xs uppercase tracking-[0.2em] text-primary">
           Current Focus
         </p>
@@ -178,16 +197,24 @@
   </section>
 
   <section id="interests" class="scroll-mt-20 flex flex-col gap-4">
-    <h2 class="text-lg font-semibold sm:text-xl">
+    <h2 use:reveal={{ type: 'up' }} class="text-lg font-semibold sm:text-xl">
       <span class="text-primary">#</span>interests
     </h2>
-    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+    <p
+      use:reveal={{ type: 'scale', delay: 50 }}
+      class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base"
+    >
       I'm especially interested in software that solves real problems, whether
       through user-facing products, data-driven systems, or thoughtful backend
       and application design.
     </p>
-    <div class="md:mx-4 grid gap-5 md:grid-cols-2">
-      <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
+    <div
+      use:reveal={{ type: 'stagger', delay: 40 }}
+      class="reveal-stagger md:mx-4 grid gap-5 md:grid-cols-2"
+    >
+      <article
+        class="stagger-item motion-card border border-border bg-zinc-900/25 p-5 sm:p-6"
+      >
         <p class="text-xs uppercase tracking-[0.2em] text-primary">
           Software Engineering
         </p>
@@ -201,7 +228,9 @@
         </ul>
       </article>
 
-      <article class="border border-border bg-zinc-900/25 p-5 sm:p-6">
+      <article
+        class="stagger-item motion-card border border-border bg-zinc-900/25 p-5 sm:p-6"
+      >
         <p class="text-xs uppercase tracking-[0.2em] text-primary">
           Machine Learning
         </p>
@@ -218,16 +247,24 @@
   </section>
 
   <section id="skills" class="scroll-mt-20 flex flex-col gap-4">
-    <h2 class="text-lg font-semibold sm:text-xl">
+    <h2 use:reveal={{ type: 'up' }} class="text-lg font-semibold sm:text-xl">
       <span class="text-primary">#</span>skills
     </h2>
-    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+    <p
+      use:reveal={{ type: 'scale', delay: 50 }}
+      class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base"
+    >
       Technologies and areas I work with most often.
     </p>
 
-    <div class="md:mx-4 grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div
+      use:reveal={{ type: 'stagger', delay: 40 }}
+      class="reveal-stagger md:mx-4 grid grid-cols-1 gap-5 md:grid-cols-2"
+    >
       {#each stackGroups as group (group.title)}
-        <div class="border border-border bg-black/20 p-4">
+        <div
+          class="stagger-item motion-card border border-border bg-black/20 p-4"
+        >
           <p class="text-primary text-xs uppercase">{group.title}</p>
           <div class="flex flex-wrap gap-2 mt-3">
             {#each group.items as item (item)}
@@ -240,10 +277,13 @@
   </section>
 
   <section id="outside-of-work" class="scroll-mt-20 flex flex-col gap-4">
-    <h2 class="text-lg font-semibold sm:text-xl">
+    <h2 use:reveal={{ type: 'up' }} class="text-lg font-semibold sm:text-xl">
       <span class="text-primary">#</span>outside-of-work
     </h2>
-    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+    <p
+      use:reveal={{ type: 'scale', delay: 50 }}
+      class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base"
+    >
       Outside of work and school, I'm also interested in education, history,
       music, and art. Those interests shape the way I think about creativity,
       communication, and the experience of using technology. I care about

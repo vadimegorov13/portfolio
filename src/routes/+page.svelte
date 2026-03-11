@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { reveal } from '$lib/actions/reveal';
   import Badge from '$components/common/Badge.svelte';
   import LinkBlock from '$components/common/LinkBlock.svelte';
   import { contacts } from '$lib/data/contacts';
@@ -82,10 +83,16 @@
     class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-10 xl:gap-12"
   >
     <div class="flex flex-col gap-6">
-      <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
+      <h1
+        use:reveal={{ type: 'up', delay: 0 }}
+        class="text-xl font-semibold tracking-tight sm:text-2xl"
+      >
         <span class="text-primary">/</span>vadim-egorov
       </h1>
-      <div class="flex flex-col gap-3 max-w-2xl">
+      <div
+        use:reveal={{ type: 'up', delay: 90 }}
+        class="flex max-w-2xl flex-col gap-3"
+      >
         <h1
           class="text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl leading-tight font-semibold text-white"
         >
@@ -99,7 +106,7 @@
         </p>
       </div>
 
-      <div class="flex flex-wrap gap-3">
+      <div use:reveal={{ type: 'up', delay: 180 }} class="flex flex-wrap gap-3">
         <button
           type="button"
           onclick={() => downloadCV()}
@@ -119,16 +126,16 @@
         <LinkBlock href="#contacts" label="Get in Touch" size="lg" />
       </div>
 
-      <div class="flex flex-wrap gap-2">
+      <div use:reveal={{ type: 'up', delay: 260 }} class="flex flex-wrap gap-2">
         {#each techRow as tech (tech)}
           <Badge text={tech} />
         {/each}
       </div>
     </div>
 
-    <div>
+    <div use:reveal={{ type: 'right', delay: 120 }}>
       <div
-        class="md:mx-4 lg:mx-0 min-w-0 overflow-hidden border border-border bg-black/20"
+        class="motion-card md:mx-4 lg:mx-0 min-w-0 overflow-hidden border border-border bg-black/20"
       >
         <div
           class="flex items-center justify-between border border-border border-x-0 border-t-0 px-3 py-2 text-xs text-zinc-400"
@@ -150,13 +157,15 @@
             </button>
           </div>
         </div>
-        <div class="relative flex items-center justify-center p-6">
+        <div
+          class="motion-card-image-wrap relative flex items-center justify-center p-6"
+        >
           <img
             src={!showAltImage ? 'headshot.jpeg' : 'coding_capybara.png'}
             alt={!showAltImage
               ? 'Vadim Egorov Headshot'
               : 'Coding Capybara Illustration'}
-            class="h-auto w-full max-h-100 object-contain xl:max-h-140 xl:max-w-100"
+            class="motion-card-image h-auto w-full max-h-100 object-contain xl:max-h-140 xl:max-w-100"
           />
         </div>
       </div>
@@ -164,7 +173,7 @@
   </section>
 
   <section id="experience" class="scroll-mt-20 flex flex-col gap-6">
-    <div class="flex flex-col gap-3">
+    <div use:reveal={{ type: 'up' }} class="flex flex-col gap-3">
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>experience
       </h2>
@@ -175,7 +184,8 @@
     </div>
 
     <article
-      class="md:mx-4 border border-border bg-black/20 p-6 flex flex-col gap-4"
+      use:reveal={{ type: 'scale', delay: 80 }}
+      class="motion-card md:mx-4 flex flex-col gap-4 border border-border bg-black/20 p-6"
     >
       <div class="flex flex-col gap-1">
         <p class="text-white text-lg font-semibold">Software Engineer</p>
@@ -204,7 +214,7 @@
   </section>
 
   <section id="projects" class="scroll-mt-20 flex flex-col gap-6">
-    <div class="flex flex-col gap-3">
+    <div use:reveal={{ type: 'up' }} class="flex flex-col gap-3">
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>projects
       </h2>
@@ -214,12 +224,15 @@
       </p>
     </div>
 
-    <div class="md:mx-4 grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div
+      use:reveal={{ type: 'stagger', delay: 40 }}
+      class="reveal-stagger md:mx-4 grid grid-cols-1 gap-5 lg:grid-cols-3"
+    >
       {#each featuredProjects as project (project.title)}
         <article
-          class="border border-border bg-black/20 p-4 flex flex-col gap-4"
+          class="stagger-item motion-card flex flex-col gap-4 border border-border bg-black/20 p-4"
         >
-          <p class="text-primary text-xs">{project.type}</p>
+          <p class="text-primary text-xs uppercase">{project.type}</p>
           <h3 class="text-white text-lg font-semibold">{project.title}</h3>
           <p class="text-zinc-400 text-sm leading-6">{project.description}</p>
 
@@ -268,7 +281,7 @@
       {/each}
     </div>
 
-    <div>
+    <div use:reveal={{ type: 'up', delay: 80 }}>
       <LinkBlock
         href="/projects"
         label="View all projects"
@@ -284,7 +297,7 @@
     id="about"
     class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-6"
   >
-    <div class="flex flex-col gap-3">
+    <div use:reveal={{ type: 'left' }} class="flex flex-col gap-3">
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>about
       </h2>
@@ -297,28 +310,37 @@
       </p>
     </div>
 
-    <div class="md:mx-4 lg:mx-0 grid grid-cols-1 gap-3">
-      <div class="border border-border bg-black/20 p-4">
-        <p class="text-primary text-xs">Education</p>
+    <div
+      use:reveal={{ type: 'stagger', delay: 40 }}
+      class="reveal-stagger md:mx-4 lg:mx-0 grid grid-cols-1 gap-3"
+    >
+      <div
+        class="stagger-item motion-card border border-border bg-black/20 p-4"
+      >
+        <p class="text-primary text-xs uppercase">Education</p>
         <p class="text-zinc-300 text-sm mt-2">
           M.S. in AI, Data Science, and Engineering at UAA
         </p>
       </div>
-      <div class="border border-border bg-black/20 p-4">
-        <p class="text-primary text-xs">Experience</p>
+      <div
+        class="stagger-item motion-card border border-border bg-black/20 p-4"
+      >
+        <p class="text-primary text-xs uppercase">Experience</p>
         <p class="text-zinc-300 text-sm mt-2">
           Large-scale web apps, product systems, and workflow-heavy software
         </p>
       </div>
-      <div class="border border-border bg-black/20 p-4">
-        <p class="text-primary text-xs">Focus</p>
+      <div
+        class="stagger-item motion-card border border-border bg-black/20 p-4"
+      >
+        <p class="text-primary text-xs uppercase">Focus</p>
         <p class="text-zinc-300 text-sm mt-2">
           Web apps, ML, backend logic, and application design
         </p>
       </div>
     </div>
 
-    <div>
+    <div use:reveal={{ type: 'up', delay: 80 }}>
       <LinkBlock
         href="/about"
         label="Read more"
@@ -331,7 +353,7 @@
   </section>
 
   <section id="contacts" class="scroll-mt-20 flex flex-col gap-6">
-    <div class="flex flex-col gap-3 max-w-3xl">
+    <div use:reveal={{ type: 'up' }} class="flex max-w-3xl flex-col gap-3">
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>contacts
       </h2>
@@ -341,9 +363,14 @@
       </p>
     </div>
 
-    <div class="md:mx-4 lg:mx-0 grid grid-cols-1 lg:grid-cols-3 gap-3">
+    <div
+      use:reveal={{ type: 'stagger', delay: 50 }}
+      class="reveal-stagger md:mx-4 lg:mx-0 grid grid-cols-1 gap-3 lg:grid-cols-3"
+    >
       {#each contacts as contact (contact.name)}
-        <div class="border border-border bg-black/20 p-4 flex gap-3">
+        <div
+          class="stagger-item motion-card flex gap-3 border border-border bg-black/20 p-4"
+        >
           {#if contact.icon}
             <div class="w-9 h-9 min-w-9 flex items-center justify-center">
               <Icon icon={contact.icon} width="34px" class="text-zinc-300" />

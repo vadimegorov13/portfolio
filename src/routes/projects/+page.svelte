@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { reveal } from '$lib/actions/reveal';
   import { MetaTags } from 'svelte-meta-tags';
   import ImageLoader from '$components/Image/ImageLoader.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
@@ -123,19 +124,28 @@
 
 <div class="flex flex-col gap-14 sm:gap-18">
   <section class="flex flex-col gap-4">
-    <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
+    <h1
+      use:reveal={{ type: 'up' }}
+      class="text-xl font-semibold tracking-tight sm:text-2xl"
+    >
       <span class="text-primary">/</span>projects
     </h1>
-    <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
+    <p
+      use:reveal={{ type: 'scale', delay: 50 }}
+      class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base"
+    >
       This page highlights a selection of projects across product development,
       machine learning, research, and web development. Some are polished
       applications, while others reflect experiments, studies, and technical
       exploration across different areas of my work.
     </p>
-    <div class="mt-2 flex flex-wrap gap-2">
+    <div
+      use:reveal={{ type: 'stagger', delay: 30 }}
+      class="reveal-stagger mt-2 flex flex-wrap gap-2"
+    >
       {#each categories as category (category)}
         <span
-          class="border border-border bg-zinc-900/30 px-3 py-1 text-xs uppercase tracking-[0.18em] text-zinc-300"
+          class="stagger-item border border-border bg-zinc-900/30 px-3 py-1 text-xs uppercase tracking-[0.18em] text-zinc-300"
         >
           {category}
         </span>
@@ -144,9 +154,10 @@
   </section>
 
   <section class="flex flex-col gap-10">
-    {#each projects as project (project.title)}
+    {#each projects as project, index (project.title)}
       <article
-        class="border border-border bg-zinc-900/20 px-4 py-5 sm:px-6 sm:py-6"
+        use:reveal={{ type: 'up', delay: index * 90 }}
+        class="motion-card border border-border bg-zinc-900/20 px-4 py-5 sm:px-6 sm:py-6"
       >
         <div class="flex flex-col gap-5">
           <div
@@ -202,11 +213,13 @@
             {/if}
           </div>
 
-          <div class="overflow-hidden border border-border">
+          <div
+            class="motion-card-image-wrap overflow-hidden border border-border"
+          >
             <ImageLoader
               src={project.img ? project.img : 'null'}
               alt={project.title}
-              classProps={`aspect-[16/9] w-full object-cover ${
+              classProps={`motion-card-image aspect-[16/9] w-full object-cover ${
                 project.img?.includes('flower') ? 'bg-white' : ''
               }`}
             />
@@ -215,7 +228,10 @@
       </article>
     {/each}
 
-    <p class="text-center text-sm leading-7 text-zinc-400">
+    <p
+      use:reveal={{ type: 'up', delay: 80 }}
+      class="text-center text-sm leading-7 text-zinc-400"
+    >
       This is a small selection of projects from personal work, research, and
       technical experiments developed over time.
     </p>

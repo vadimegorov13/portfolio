@@ -28,7 +28,7 @@
   {href}
   {target}
   {rel}
-  class={`inline-flex items-center gap-2 whitespace-nowrap text-sm ${padding} ${textColor} ${border}`}
+  class={`motion-link inline-flex items-center gap-2 whitespace-nowrap text-sm ${padding} ${textColor} ${border}`}
 >
   <span>{label}</span>
   {#if isExternal}
