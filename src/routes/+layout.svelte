@@ -46,7 +46,9 @@
   class={`page-shell min-h-screen text-white ${showOpeningIntro ? 'page-shell-intro-hidden' : 'page-shell-intro-visible'}`}
 >
   <Navbar />
-  <div class="mx-auto max-w-300 px-4 pt-40 pb-20 sm:px-10 md:px-20">
+  <div
+    class="mx-auto max-w-300 px-4 pt-10 md:pt-20 lg:pt-40 pb-5 md:pb-10 lg:pb-20 sm:px-10 md:px-20"
+  >
     {#if introReady || !showOpeningIntro}
       {@render children?.()}
     {/if}
