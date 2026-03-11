@@ -1,101 +1,64 @@
 <script lang="ts">
-  import type { Link } from '$lib/types';
   import Icon from '@iconify/svelte';
 
-  let showBg = $state(false);
   let open = $state(false);
-  let scrollY = $state(0);
 
-  const handleShowBg = () => {
-    const scrollListener = () => {
-      if (scrollY > 30 || open == true) {
-        showBg = true;
-      } else {
-        showBg = false;
-      }
-    };
-    window.addEventListener('scroll', scrollListener);
-  };
-
-  $effect(() => {
-    if (scrollY) handleShowBg();
-  });
-
-  const links: Link[] = [
-    {
-      href: '/',
-      name: 'home',
-    },
-    {
-      href: '/about',
-      name: 'about',
-    },
-    {
-      href: '/projects',
-      name: 'projects',
-    },
-    {
-      href: '/contacts',
-      name: 'contacts',
-    },
+  const navLinks = [
+    { href: '#home', label: 'home' },
+    { href: '#experience', label: 'experience' },
+    { href: '#projects', label: 'projects' },
+    { href: '#about', label: 'about' },
+    { href: '#contacts', label: 'contacts' },
   ];
 </script>
 
-<svelte:window bind:scrollY />
+<header
+  class="bg-background border-b border-border fixed top-0 left-0 right-0 z-50"
+>
+  <div class="mx-auto max-w-350 px-4 sm:px-10 md:px-20 lg:px-40">
+    <div class="flex flex-row justify-between items-center h-5 sm:h-10">
+      <a
+        href="#home"
+        class="font-mono text-sm font-semibold text-white hover:text-primary no-underline transition-colors"
+      >
+        VE
+      </a>
 
-<div class="w-screen top-0 z-50 fixed">
-  <div
-    class={`pt-10 sm:pt-0 block sm:flex sm:flex-row items-center justify-center 
-      border border-b border-x-0 border-t-0 ${
-        showBg || open
-          ? `border-border bg-darker/90 backdrop-blur-2xl pt-0 ${
-              open ? 'h-40' : 'h-14'
-            }`
-          : 'bg-transparent border-transparent h-40'
-      }`}
-  >
-    <div class="w-full mx-auto max-w-350 px-4 sm:px-10 md:px-20 lg:px-40">
-      <div class="w-full flex flex-row justify-between items-center">
-        <a
-          class="p-2 sm:p-0 font-semibold items-center justify-start no-underline"
-          href="/"
-        >
-          VE
-        </a>
-        <div class="hidden sm:flex flex-row items-center justify-center gap-6">
-          {#each links as link (link.href)}
-            <a href={`${link.href}`} class="cursor-pointer hover:text-primary">
-              <span class="text-primary">#</span>{`${link.name}`}
-            </a>
-          {/each}
-        </div>
-        <div class="block sm:hidden p-2">
-          <button
-            onclick={() => {
-              open = !open;
-            }}
+      <nav class="hidden sm:flex flex-row items-center gap-6">
+        {#each navLinks as link (link.href)}
+          <a
+            href={link.href}
+            class="font-mono text-xs text-gray-300 hover:text-primary no-underline transition-colors"
           >
-            <Icon
-              icon={`carbon:${open ? 'close' : 'text-align-justify'}`}
-              class="text-white text-3xl hover:text-primary"
-            />
-          </button>
-        </div>
-      </div>
-      <div class="block sm:hidden">
-        {#if open}
-          <div class="flex flex-col">
-            {#each links as link (link.href)}
-              <a
-                href={`${link.href}`}
-                class="cursor-pointer hover:text-primary"
-              >
-                <span class="text-primary">#</span>{`${link.name}`}
-              </a>
-            {/each}
-          </div>
-        {/if}
-      </div>
+            <span class="text-primary">#</span>{link.label}
+          </a>
+        {/each}
+      </nav>
+
+      <button
+        class="block sm:hidden p-2 hover:text-primary transition-colors"
+        aria-label="Toggle menu"
+        onclick={() => (open = !open)}
+      >
+        <Icon
+          icon={`carbon:${open ? 'close' : 'text-align-justify'}`}
+          class="text-white text-3xl"
+        />
+      </button>
     </div>
+
+    {#if open}
+      <nav class="sm:hidden pb-4 flex flex-col gap-3">
+        {#each navLinks as link (link.href)}
+          <a
+            href={link.href}
+            class="font-mono text-sm text-gray-300 hover:text-primary no-underline transition-colors"
+            onclick={() => (open = false)}
+          >
+            <span class="text-primary">#</span>{link.label}
+          </a>
+        {/each}
+      </nav>
+    {/if}
   </div>
-</div>
+</header>

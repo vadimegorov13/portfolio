@@ -1,51 +1,64 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
-  import type { Link } from '$lib/types';
 
-  const links: Link[] = [
+  const socialLinks = [
     {
       href: 'https://github.com/vadimegorov13',
       icon: 'carbon:logo-github',
+      label: 'GitHub',
     },
     {
       href: 'https://www.linkedin.com/in/vadimegorov13/',
       icon: 'carbon:logo-linkedin',
+      label: 'LinkedIn',
     },
     {
-      href: 'https://devpost.com/vadegor00?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav',
-      icon: 'simple-icons:devpost',
+      href: 'mailto:vadegor00@gmail.com',
+      icon: 'carbon:email',
+      label: 'Email',
     },
   ];
 </script>
 
-<div class="border border-t border-b-0 border-x-0 border-border">
-  <div
-    class="flex flex-col mx-auto max-w-350 pt-10 pb-4 px-4 sm:px-10 md:px-20 lg:px-40"
-  >
-    <div class="flex flex-row gap-20 justify-between">
+<footer class="border-t border-border bg-darker/50 mt-20">
+  <div class="mx-auto max-w-350 px-4 sm:px-10 md:px-20 lg:px-40 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
       <div class="flex flex-col">
-        <p class="text-xs text-border">vadegor00@gmail.com</p>
-        <p class="text-sm pt-2">Software Engineer and Web Developer</p>
+        <a
+          href="#home"
+          class="font-mono text-sm font-semibold text-primary mb-3 no-underline hover:text-white transition-colors"
+        >
+          /vadim-egorov
+        </a>
+        <p class="text-sm text-gray-300 leading-relaxed">
+          Software engineer working across product systems, web development, and
+          machine learning.
+        </p>
       </div>
 
-      <div class="flex flex-col">
-        <p class="flex justify-center">My Media</p>
-        <div class="pt-2 flex flex-row">
-          {#each links as media (media.href)}
-            {#if media.href && media.icon}
-              <a href={media.href} target="_blank">
-                <Icon
-                  icon={media.icon}
-                  class="text-zinc-400 text-4xl mx-2 hover:text-primary"
-                />
-              </a>
-            {/if}
+      <div class="flex flex-col md:items-end">
+        <div class="flex flex-row gap-6 mb-6">
+          {#each socialLinks as link (link.href)}
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-mono text-xs text-gray-300 hover:text-primary no-underline transition-colors inline-flex items-center gap-1 whitespace-nowrap"
+              aria-label={link.label}
+            >
+              <span>{link.label}</span>
+              {#if link.label !== 'Email'}
+                <Icon icon="pixelarticons:external-link-sharp" />
+              {/if}
+            </a>
           {/each}
         </div>
+        <p class="text-xs text-gray-500">
+          Built with SvelteKit, TypeScript, and Tailwind
+        </p>
       </div>
     </div>
-    <p class="flex justify-center text-xs text-border pt-4">
-      Vadim Egorov @2023
-    </p>
+
+    <p class="text-xs text-gray-500 text-center">© 2026 Vadim Egorov</p>
   </div>
-</div>
+</footer>

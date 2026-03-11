@@ -101,12 +101,11 @@
 <div class="w-full flex flex-col gap-24 pb-8">
   <section
     id="home"
-    class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12"
+    class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12"
   >
     <div class="flex flex-col gap-6">
-      <p class="text-sm text-primary">/software-engineer</p>
+      <p class="text-sm text-primary">/vadim-egorov</p>
       <div class="flex flex-col gap-3 max-w-2xl">
-        <p class="text-xl text-zinc-300">Vadim Egorov</p>
         <h1
           class="text-3xl sm:text-4xl lg:text-5xl leading-tight font-semibold text-white"
         >
@@ -189,7 +188,7 @@
     </div>
   </section>
 
-  <section id="experience" class="flex flex-col gap-6">
+  <section id="experience" class="scroll-mt-20 flex flex-col gap-6">
     <div class="flex flex-col gap-3">
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>experience
@@ -217,7 +216,7 @@
     </article>
   </section>
 
-  <section id="projects" class="flex flex-col gap-6">
+  <section id="projects" class="scroll-mt-20 flex flex-col gap-6">
     <div class="flex flex-col gap-3">
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>projects
@@ -294,7 +293,10 @@
     </div>
   </section>
 
-  <section id="about" class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-6">
+  <section
+    id="about"
+    class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-6"
+  >
     <div class="flex flex-col gap-3">
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>about
@@ -365,7 +367,7 @@
     </div>
   </section>
 
-  <section id="contacts" class="flex flex-col gap-6">
+  <section id="contacts" class="scroll-mt-20 flex flex-col gap-6">
     <div class="flex flex-col gap-3 max-w-3xl">
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>contacts
