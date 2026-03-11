@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/state';
   import { onMount } from 'svelte';
   import Footer from '$components/Layout/Footer.svelte';
   import Navbar from '$components/Layout/Navbar.svelte';
@@ -7,9 +8,11 @@
   import { injectAnalytics } from '@vercel/analytics/sveltekit';
   import '../app.css';
 
+  const isHomeInitial = page.route.id === '/';
+
   let { children } = $props();
-  let showOpeningIntro = $state(false);
-  let introReady = $state(false);
+  let showOpeningIntro = $state(isHomeInitial);
+  let introReady = $state(!isHomeInitial);
 
   initializeIconify();
   injectAnalytics();
@@ -22,7 +25,9 @@
 
     if (isHomeRoute && !prefersReducedMotion) {
       showOpeningIntro = true;
+      introReady = false;
     } else {
+      showOpeningIntro = false;
       introReady = true;
     }
   });
