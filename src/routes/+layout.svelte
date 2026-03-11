@@ -1,14 +1,10 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { loadIcons } from '@iconify/svelte';
-  import { ICONIFY_ICONS } from '$lib/data/iconify-icons';
   import Footer from '$components/Layout/Footer.svelte';
   import Navbar from '$components/Layout/Navbar.svelte';
+  import { injectAnalytics } from '@vercel/analytics/sveltekit';
   import '../app.css';
 
-  onMount(() => {
-    loadIcons([...ICONIFY_ICONS]);
-  });
+  injectAnalytics();
 </script>
 
 <div class="h-screen text-white">
