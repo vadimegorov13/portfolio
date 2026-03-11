@@ -16,6 +16,8 @@
   "devDependencies": {
     "@eslint/compat": "^1.4.0",
     "@eslint/js": "^9.39.1",
+    "@iconify-json/carbon": "^1.2.19",
+    "@iconify-json/pixelarticons": "^1.2.4",
     "@iconify/svelte": "^5.1.0",
     "@sveltejs/adapter-auto": "^7.0.1",
     "@sveltejs/adapter-vercel": "^6.1.1",

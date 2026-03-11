@@ -416,6 +416,20 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.4.3.tgz#c2b9d2e374ee62c586d3adbea87199b1d7a7a6ba"
   integrity sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==
 
+"@iconify-json/carbon@^1.2.19":
+  version "1.2.19"
+  resolved "https://registry.yarnpkg.com/@iconify-json/carbon/-/carbon-1.2.19.tgz#eddb7a58025d1ba5ab166245362e1b6a18d34584"
+  integrity sha512-l89XjtEeSA5fxlxPTNSU9AA+rxaz/Dn0X/ux0/3awR+tAayY8iJqWQu3AKxhchfx3LB/fX1Nv3ZppZzrBAt7aA==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify-json/pixelarticons@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@iconify-json/pixelarticons/-/pixelarticons-1.2.4.tgz#3d87ebee7071989a27bf485d370d2f1767d4c433"
+  integrity sha512-nADJKEI3mlxDSmJMLqGvNuvNl1TGa+VbFJIwrtj/8vUA4m15qPNiwxMyw8YxW3gVokuO9MNU462B8uK1hb4rqw==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/svelte@^5.1.0":
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/@iconify/svelte/-/svelte-5.2.1.tgz#238ba16d0ae1e4697a0561af346cc5ecfbdef23e"
@@ -423,7 +437,7 @@
   dependencies:
     "@iconify/types" "^2.0.0"
 
-"@iconify/types@^2.0.0":
+"@iconify/types@*", "@iconify/types@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@iconify/types/-/types-2.0.0.tgz#ab0e9ea681d6c8a1214f30cd741fe3a20cc57f57"
   integrity sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==

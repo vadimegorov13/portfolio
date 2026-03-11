@@ -1,9 +1,11 @@
 <script lang="ts">
   import Footer from '$components/Layout/Footer.svelte';
   import Navbar from '$components/Layout/Navbar.svelte';
+  import { initializeIconify } from '$lib/iconify';
   import { injectAnalytics } from '@vercel/analytics/sveltekit';
   import '../app.css';
 
+  initializeIconify();
   injectAnalytics();
 </script>
 
