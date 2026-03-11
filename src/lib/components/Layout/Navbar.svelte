@@ -135,7 +135,7 @@
 </script>
 
 <header
-  class="bg-background border-b border-border fixed top-0 left-0 right-0 z-50"
+  class="sticky top-0 z-50 border-b border-border/70 bg-transparent backdrop-blur-sm"
 >
   <div class="mx-auto max-w-300 px-4 md:px-10">
     <div class="flex flex-row justify-between items-center h-10">

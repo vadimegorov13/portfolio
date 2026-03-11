@@ -4,10 +4,10 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-background: #282c33;
+  --color-background: #12151c;
   --color-primary: #f74080;
   --color-secondary: #6366f1;
-  --color-border: #606060;
+  --color-border: color-mix(in srgb, var(--color-primary) 20%, #3a404c);
 
   --breakpoint-sm: 480px;
   --breakpoint-smd: 700px;
@@ -19,6 +19,25 @@
 @layer base {
   html {
     font-family: Fira Code;
+    min-height: 100%;
+  }
+
+  body {
+    min-height: 100%;
+    background-color: #12151c;
+    background-attachment: fixed;
+    color: rgb(255 255 255);
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at top, rgba(247, 64, 128, 0.09), transparent 38%),
+      linear-gradient(180deg, #0c0f14 0%, #12151c 58%, #151922 100%);
   }
 }
 

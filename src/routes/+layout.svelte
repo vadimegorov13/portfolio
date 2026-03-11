@@ -38,7 +38,7 @@
 {/if}
 
 <div
-  class={`page-shell h-screen text-white ${showOpeningIntro ? 'page-shell-intro-hidden' : 'page-shell-intro-visible'}`}
+  class={`page-shell min-h-screen text-white ${showOpeningIntro ? 'page-shell-intro-hidden' : 'page-shell-intro-visible'}`}
 >
   <Navbar />
   <div class="mx-auto max-w-300 px-4 pt-40 pb-20 sm:px-10 md:px-20">
