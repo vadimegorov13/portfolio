@@ -103,10 +103,8 @@
 
   <div class="flex flex-col gap-20 text-zinc-400">
     {#each projects as project (project.title)}
-      <div class="group">
-        <div
-          class="flex flex-col gap-4 p-4 group-hover:-translate-y-2 duration-200"
-        >
+      <div>
+        <div class="flex flex-col gap-4 p-4">
           <div class="flex flex-row items-center justify-between">
             <h1 class="text-2xl smd:text-3xl text-primary">
               {project.title}
@@ -126,7 +124,7 @@
               <a
                 href={project.link}
                 target="_blank"
-                class="border border-border group-hover:gr-animation px-1 text-md"
+                class="border border-border text-primary px-1 text-md"
               >
                 {project.link.includes('docs.google.com') ? 'Read' : 'Live'}
               </a>
@@ -136,7 +134,7 @@
               <a
                 href={project.github}
                 target="_blank"
-                class="border border-border group-hover:gr-animation px-1 text-md"
+                class="border border-border text-primary px-1 text-md"
               >
                 {project.github.includes('colab.research.google.com')
                   ? 'Code'

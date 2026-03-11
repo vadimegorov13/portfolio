@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Link } from '$lib/types';
   import Icon from '@iconify/svelte';
-  import { slide } from 'svelte/transition';
 
   let showBg = $state(false);
   let open = $state(false);
@@ -46,7 +45,7 @@
 
 <div class="w-screen top-0 z-50 fixed">
   <div
-    class={`pt-10 sm:pt-0  block sm:flex sm:flex-row items-center justify-center duration-500 
+    class={`pt-10 sm:pt-0 block sm:flex sm:flex-row items-center justify-center 
       border border-b border-x-0 border-t-0 ${
         showBg || open
           ? `border-border bg-darker/90 backdrop-blur-2xl pt-0 ${
@@ -63,14 +62,9 @@
         >
           VE
         </a>
-        <div
-          class="hidden sm:flex flex-row items-center justify-center gap-6 transition-all ease-in-out duration-500"
-        >
+        <div class="hidden sm:flex flex-row items-center justify-center gap-6">
           {#each links as link (link.href)}
-            <a
-              href={`${link.href}`}
-              class="duration-200 cursor-pointer hover:text-primary"
-            >
+            <a href={`${link.href}`} class="cursor-pointer hover:text-primary">
               <span class="text-primary">#</span>{`${link.name}`}
             </a>
           {/each}
@@ -83,17 +77,16 @@
           >
             <Icon
               icon={`carbon:${open ? 'close' : 'text-align-justify'}`}
-              class="text-white text-3xl duration-200 hover:text-primary"
+              class="text-white text-3xl hover:text-primary"
             />
           </button>
         </div>
       </div>
       <div class="block sm:hidden">
         {#if open}
-          <div class="flex flex-col duration-500 transition-all">
+          <div class="flex flex-col">
             {#each links as link (link.href)}
               <a
-                transition:slide={{ duration: 600 }}
                 href={`${link.href}`}
                 class="cursor-pointer hover:text-primary"
               >

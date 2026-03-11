@@ -36,7 +36,7 @@
               <a href={media.href} target="_blank">
                 <Icon
                   icon={media.icon}
-                  class="text-zinc-400 text-4xl mx-2 duration-200 hover:text-primary"
+                  class="text-zinc-400 text-4xl mx-2 hover:text-primary"
                 />
               </a>
             {/if}

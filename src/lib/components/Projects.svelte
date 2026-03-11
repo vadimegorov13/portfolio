@@ -50,7 +50,7 @@
 
     <a
       href="/projects"
-      class="flex w-full flex-row justify-end text-zinc-400 text-sm hover:gr-animation"
+      class="flex w-full flex-row justify-end text-zinc-400 text-sm"
     >
       See more ->
     </a>

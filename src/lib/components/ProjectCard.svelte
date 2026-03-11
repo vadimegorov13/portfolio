@@ -9,7 +9,7 @@
   <div
     class={`
         flex flex-row md:flex-col border border-border
-        group-hover:-translate-y-2 duration-200 h-full`}
+        h-full`}
   >
     <div class="flex flex-col w-full">
       <ImageLoader
@@ -37,7 +37,7 @@
           <a
             href={project.link}
             target="_blank"
-            class="border border-border gr-animation px-1 text-md"
+            class="border border-border text-primary px-1 text-md"
           >
             {project.link.includes('docs.google.com') ? 'Read' : 'Live'}
           </a>
@@ -47,7 +47,7 @@
           <a
             href={project.github}
             target="_blank"
-            class="border border-border gr-animation px-1 text-md"
+            class="border border-border text-primary px-1 text-md"
           >
             {project.github.includes('colab.research.google.com')
               ? 'Code'
