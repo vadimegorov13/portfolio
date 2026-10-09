@@ -19,35 +19,21 @@
   };
 
   const projects: ProjectEntry[] = [
-    // {
-    //   id: 1,
-    //   slug: 'portfolio',
-    //   title: 'Portfolio',
-    //   category: 'Product / Personal Site',
-    //   description:
-    //     'My personal website built with Svelte, TypeScript, and Tailwind. It serves as a home for my projects, experience, and background, with a focus on clean design, responsiveness, and a developer-oriented presentation.',
-    //   github: 'https://github.com/vadimegorov13/portfolio',
-    //   stack: ['TypeScript', 'Svelte', 'Tailwind'],
-    //   img: 'portfolio.png',
-    //   link: '/',
-    //   date: 'Jan. 2023',
-    // },
     {
-      id: 2,
-      slug: 'predicting-student-learning-outcomes-using-eeg-correlation',
-      title:
-        'Predicting Student Learning Outcomes using EEG Correlation with Teacher/Expert Neural Activity',
-      category: 'Research / Brain Activity Data',
+      id: 1,
+      slug: 'pomofriends',
+      title: 'PomoFriends',
+      category: 'Product / Full-stack',
       description:
-        'A research study exploring how student learning outcomes may relate to correlations in brain activity between students and teachers. The project focused on using brain activity data to better understand learning dynamics and support more effective educational strategies.',
+        'A productivity web application built around the Pomodoro Technique, designed to support focus, accountability, and collaboration. It includes features such as group creation, messaging, authentication, and real-time data handling using Next.js and Firebase.',
       github: '',
-      stack: ['Neuroscience', 'Electroencephalography'],
-      img: 'eeg.jpeg',
-      link: 'https://docs.google.com/document/d/e/2PACX-1vRhIXIMdK_THCrDiCFVUoPwRJJx9idk9eNi3z67r_S1mKSYXECP9I7q8scigBF9Og/pub',
-      date: 'Dec. 2022',
+      stack: ['TypeScript', 'Firebase', 'Next.js'],
+      img: '',
+      link: 'https://pomofriends.com',
+      date: 'May 2022',
     },
     {
-      id: 3,
+      id: 2,
       slug: 'sup4bubb4',
       title: 'sup4bubb4',
       category: 'Web Platform / Full-stack',
@@ -60,41 +46,22 @@
       date: 'Sep. 2022',
     },
     {
-      id: 4,
-      slug: 'flower-classification-using-convolutional-neural-networks',
-      title: 'Flower Classification using Convolutional Neural Networks',
-      category: 'Machine Learning / Computer Vision',
+      id: 3,
+      slug: 'predicting-student-learning-outcomes-using-eeg-correlation',
+      title:
+        'Predicting Student Learning Outcomes using EEG Correlation with Teacher/Expert Neural Activity',
+      category: 'Research / Brain Activity Data',
       description:
-        'A machine learning project using a convolutional neural network to classify 14 flower species. The model was developed in Python and Jupyter Notebook, with training, tuning, and evaluation focused on improving classification accuracy across the dataset.',
-      github:
-        'https://colab.research.google.com/drive/1b_KxwB7gffG31p4ktXyIo97GHr-TJKLQ?usp=sharing',
-      stack: [
-        'Python',
-        'Jupyter Notebook',
-        'scikit_learn',
-        'Tensorflow',
-        'Keras',
-      ],
-      img: 'flower.png',
-      link: 'https://docs.google.com/document/d/e/2PACX-1vTBbsT5xHYT0DGv4XjO32TLpsjwWtzTBOXgWZFKjW0bhJHMDU-cWIs0Ey75Ngvv1ORU6V6fGLQAsdIY/pub',
-      date: 'May 2022',
-    },
-    {
-      id: 5,
-      slug: 'pomofriends',
-      title: 'PomoFriends',
-      category: 'Product / Full-stack',
-      description:
-        'A productivity web application built around the Pomodoro Technique, designed to support focus, accountability, and collaboration. It includes features such as group creation, messaging, authentication, and real-time data handling using Next.js and Firebase.',
-      github: 'https://github.com/PomoFriends/pomofriends-app',
-      stack: ['TypeScript', 'Firebase', 'Next.js'],
-      img: 'pomofriends.png',
-      link: 'https://pomofriends.app',
-      date: 'May 2022',
+        'A research study exploring how student learning outcomes may relate to correlations in brain activity between students and teachers. The project focused on using brain activity data to better understand learning dynamics and support more effective educational strategies.',
+      github: '',
+      stack: ['Neuroscience', 'Electroencephalography'],
+      img: 'eeg.jpeg',
+      link: 'https://docs.google.com/document/d/e/2PACX-1vRhIXIMdK_THCrDiCFVUoPwRJJx9idk9eNi3z67r_S1mKSYXECP9I7q8scigBF9Og/pub',
+      date: 'Dec. 2022',
     },
   ];
 
-  const categories = ['Product', 'Research', 'Full-stack', 'Experimental'];
+  const categories = ['Product', 'Research', 'Full-stack'];
 
   const actionLabel = (url: string, fallback = 'Live') => {
     if (!url) {
@@ -154,6 +121,25 @@
   </section>
 
   <section class="flex flex-col gap-10">
+    <article
+      use:reveal={{ type: 'up', delay: 80 }}
+      class="flex flex-col gap-3 border border-dashed border-primary/40 bg-primary/5 px-4 py-5 sm:px-6 sm:py-6"
+    >
+      <p class="text-primary text-xs uppercase flex items-center gap-2">
+        <span class="wip-dot inline-block h-2 w-2 rounded-full bg-primary"
+        ></span>
+        In progress
+      </p>
+      <h2 class="text-xl font-semibold text-zinc-100 sm:text-2xl">
+        Teaching models to understand human activity<span
+          class="wip-cursor ml-1"
+        ></span>
+      </h2>
+      <p class="max-w-4xl text-sm leading-8 text-zinc-400 sm:text-base">
+        My current machine learning project. Still training, details soon.
+      </p>
+    </article>
+
     {#each projects as project, index (project.title)}
       <article
         use:reveal={{ type: 'up', delay: index * 90 }}
@@ -216,24 +202,22 @@
           <div
             class="motion-card-image-wrap overflow-hidden border border-border"
           >
-            <ImageLoader
-              src={project.img ? project.img : 'null'}
-              alt={project.title}
-              classProps={`motion-card-image aspect-[16/9] w-full object-cover ${
-                project.img?.includes('flower') ? 'bg-white' : ''
-              }`}
-            />
+            {#if project.img}
+              <ImageLoader
+                src={project.img}
+                alt={project.title}
+                classProps="motion-card-image aspect-[16/9] w-full object-cover"
+              />
+            {:else}
+              <div
+                class="flex aspect-[16/9] w-full items-center justify-center bg-black/30 text-xs uppercase tracking-[0.2em] text-zinc-500"
+              >
+                Screenshot coming soon
+              </div>
+            {/if}
           </div>
         </div>
       </article>
     {/each}
-
-    <p
-      use:reveal={{ type: 'up', delay: 80 }}
-      class="text-center text-sm leading-7 text-zinc-400"
-    >
-      This is a small selection of projects from personal work, research, and
-      technical experiments developed over time.
-    </p>
   </section>
 </div>

@@ -24,16 +24,7 @@
       description:
         'A productivity platform built around the Pomodoro method with collaboration and accountability features for teams.',
       stack: ['TypeScript', 'Next.js', 'Firebase'],
-      live: 'https://pomofriends.app',
-      github: 'https://github.com/PomoFriends/pomofriends-app',
-    },
-    {
-      type: 'Research',
-      title: 'EEG Learning Outcomes',
-      description:
-        'Research project exploring student-teacher neural correlation and predicting learning outcomes with EEG data.',
-      stack: ['Python', 'EEG', 'Data Analysis'],
-      read: 'https://docs.google.com/document/d/e/2PACX-1vRhIXIMdK_THCrDiCFVUoPwRJJx9idk9eNi3z67r_S1mKSYXECP9I7q8scigBF9Og/pub',
+      live: 'https://pomofriends.com',
     },
     {
       type: 'Platform',
@@ -43,6 +34,14 @@
       stack: ['Svelte', 'Firebase', 'Cloud Functions'],
       live: 'https://sup4bubb4.com',
       github: 'https://github.com/vadimegorov13/sup4bubb4',
+    },
+    {
+      type: 'Research',
+      title: 'EEG Learning Outcomes',
+      description:
+        'Research project exploring student-teacher neural correlation and predicting learning outcomes with EEG data.',
+      stack: ['Python', 'EEG', 'Data Analysis'],
+      read: 'https://docs.google.com/document/d/e/2PACX-1vRhIXIMdK_THCrDiCFVUoPwRJJx9idk9eNi3z67r_S1mKSYXECP9I7q8scigBF9Og/pub',
     },
   ];
 
@@ -108,16 +107,6 @@
     showAltImage = !showAltImage;
   }
 
-  function downloadCV() {
-    // download Vadim_Egorov_CV.pdf from the static
-    const link = document.createElement('a');
-    link.href = '/Vadim_Egorov_CV.pdf';
-    link.download = 'Vadim_Egorov_CV.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
   function isNotExternalMailTo(href?: string) {
     return Boolean(href && !href.startsWith('mailto:'));
   }
@@ -144,29 +133,18 @@
         <h1
           class="text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl leading-tight font-semibold text-white"
         >
-          Software engineer building product systems, modern web applications,
-          and machine learning projects.
+          I build web products and machine learning systems.
         </h1>
         <p class="text-zinc-400 text-sm sm:text-base leading-7 max-w-xl">
-          I work across software engineering, data-heavy business logic, and
-          machine learning, with experience in product development, backend
-          systems, and research-driven work.
+          Software engineer and M.S. student in AI.
         </p>
       </div>
 
       <div use:reveal={{ type: 'up', delay: 180 }} class="flex flex-wrap gap-3">
-        <button
-          type="button"
-          onclick={() => downloadCV()}
-          class="inline-flex items-center gap-2 whitespace-nowrap border border-primary bg-primary px-4 py-2 text-sm font-medium text-background shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)] hover:bg-primary/10 hover:text-primary active:bg-primary/15 active:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:cursor-pointer"
-        >
-          <span>Download CV</span>
-          <Icon icon="pixelarticons:download-sharp" font-size="16px" />
-        </button>
-
         <LinkBlock
           href="/projects"
           label="View Projects"
+          icon="pixelarticons:arrow-right"
           size="lg"
           isPrimaryText
           isPrimaryBorder
@@ -281,6 +259,25 @@
         A selection of projects across product development, research, and
         full-stack engineering.
       </p>
+    </div>
+
+    <div
+      use:reveal={{ type: 'up', delay: 60 }}
+      class="md:mx-4 flex flex-col gap-3 border border-dashed border-primary/40 bg-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div class="flex flex-col gap-1">
+        <p class="text-primary text-xs uppercase flex items-center gap-2">
+          <span class="wip-dot inline-block h-2 w-2 rounded-full bg-primary"
+          ></span>
+          In progress
+        </p>
+        <p class="text-white text-sm sm:text-base">
+          Teaching models to understand human activity<span
+            class="wip-cursor ml-1"
+          ></span>
+        </p>
+      </div>
+      <p class="text-zinc-500 text-xs">Currently training. Details soon.</p>
     </div>
 
     <div
@@ -416,10 +413,6 @@
       <h2 class="text-xl font-semibold text-white">
         <span class="text-primary">#</span>contacts
       </h2>
-      <p class="text-zinc-400 text-sm sm:text-base">
-        If you'd like to connect, discuss a project, or reach out about an
-        opportunity, I'd be glad to hear from you.
-      </p>
     </div>
 
     <div

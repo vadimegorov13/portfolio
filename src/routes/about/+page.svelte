@@ -1,6 +1,7 @@
 <script lang="ts">
   import { reveal } from '$lib/actions/reveal';
   import Badge from '$lib/components/common/Badge.svelte';
+  import LinkBlock from '$lib/components/common/LinkBlock.svelte';
   import { MetaTags } from 'svelte-meta-tags';
 
   const softwareInterests = [
@@ -137,12 +138,14 @@
       sense of purpose and usability.
     </p>
     <div use:reveal={{ type: 'up', delay: 100 }} class="md:mx-4">
-      <a
+      <LinkBlock
         href="/projects"
-        class="motion-link border border-primary/70 px-4 py-2 text-sm text-primary transition-colors duration-200 hover:bg-primary/10"
-      >
-        View Projects
-      </a>
+        label="View Projects"
+        icon="pixelarticons:arrow-right"
+        size="lg"
+        isPrimaryText
+        isPrimaryBorder
+      />
     </div>
   </section>
 
