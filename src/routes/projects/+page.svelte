@@ -28,7 +28,7 @@
         'A productivity web application built around the Pomodoro Technique, designed to support focus, accountability, and collaboration. It includes features such as group creation, messaging, authentication, and real-time data handling using Next.js and Firebase.',
       github: '',
       stack: ['TypeScript', 'Firebase', 'Next.js'],
-      img: '',
+      img: 'pomofriends.png',
       link: 'https://pomofriends.com',
       date: 'May 2022',
     },
