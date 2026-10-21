@@ -5,6 +5,7 @@
   import SoundToggle from '$components/SoundToggle.svelte';
   import { initializeIconify } from '$lib/iconify';
   import { initSound } from '$lib/sound.svelte';
+  import { runBlueprint } from '$lib/blueprint';
   import { injectAnalytics } from '@vercel/analytics/sveltekit';
   import '../app.css';
 
@@ -12,7 +13,10 @@
   initializeIconify();
   injectAnalytics();
 
-  onMount(initSound);
+  onMount(() => {
+    initSound();
+    runBlueprint();
+  });
 </script>
 
 <div class="min-h-screen">

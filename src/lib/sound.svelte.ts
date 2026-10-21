@@ -29,6 +29,54 @@ export function toggleSound() {
   if (sound.on) sfx.toggle(true);
 }
 
+// Try to get audio going without a click. Browsers only allow this for sites
+// the visitor already engages with a lot (Chrome) and otherwise keep it
+// suspended until the first gesture, so this resolves false most of the time.
+export async function tryAutoplay(): Promise<boolean> {
+  unlock();
+  if (!ac || !sound.on) return false;
+  if (ac.state === 'running') return true;
+  // resume() stays pending without a gesture; give it a moment, then give up
+  await Promise.race([ac.resume(), new Promise((r) => setTimeout(r, 120))]);
+  // re-read: the await may have changed the state TS narrowed above
+  return (ac.state as AudioContextState) === 'running';
+}
+
+/** slow rising hum under the blueprint intro; returns a stop function */
+export function introHum(seconds: number): () => void {
+  if (!sound.on || !ac || ac.state !== 'running') return () => {};
+  const ctx = ac;
+  const t = ctx.currentTime;
+  const o = ctx.createOscillator();
+  const o2 = ctx.createOscillator();
+  const filter = ctx.createBiquadFilter();
+  const g = ctx.createGain();
+  o.type = 'sawtooth';
+  o2.type = 'sine';
+  o.frequency.setValueAtTime(70, t);
+  o.frequency.exponentialRampToValueAtTime(220, t + seconds);
+  o2.frequency.setValueAtTime(140, t);
+  o2.frequency.exponentialRampToValueAtTime(440, t + seconds);
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(200, t);
+  filter.frequency.exponentialRampToValueAtTime(1400, t + seconds);
+  g.gain.setValueAtTime(0, t);
+  g.gain.linearRampToValueAtTime(0.035, t + 0.3);
+  o.connect(filter);
+  o2.connect(filter);
+  filter.connect(g).connect(ctx.destination);
+  o.start(t);
+  o2.start(t);
+  return () => {
+    const now = ctx.currentTime;
+    g.gain.cancelScheduledValues(now);
+    g.gain.setValueAtTime(g.gain.value, now);
+    g.gain.linearRampToValueAtTime(0, now + 0.4);
+    o.stop(now + 0.45);
+    o2.stop(now + 0.45);
+  };
+}
+
 function unlock() {
   if (!ac) {
     try {
@@ -156,6 +204,32 @@ export const sfx = {
     const stop = startBuzz();
     setTimeout(stop, seconds * 1000);
   },
+  /** tiny data blip, pitched by position so the wave "plays" upward */
+  blip: (at: number) =>
+    tone({
+      f: 700 + at * 900 + Math.random() * 80,
+      type: 'square',
+      dur: 0.025,
+      vol: 0.012,
+    }),
+  /** two-step glitchy chirp for an icon morphing into shape */
+  glitch: () => {
+    const f = 300 + Math.random() * 500;
+    tone({ f, f2: f * 2.2, type: 'square', dur: 0.05, vol: 0.018 });
+    tone({
+      f: f * 1.5,
+      f2: f * 0.6,
+      type: 'sawtooth',
+      dur: 0.06,
+      vol: 0.014,
+      delay: 0.07,
+    });
+  },
+  /** soft chord when the page is fully built */
+  built: () =>
+    [392, 494, 587, 784].forEach((f, i) =>
+      tone({ f, type: 'sine', dur: 0.6, vol: 0.035, delay: i * 0.03 })
+    ),
   toggle: (on: boolean) => {
     tone({ f: on ? 440 : 660, type: 'triangle', dur: 0.08, vol: 0.06 });
     tone({

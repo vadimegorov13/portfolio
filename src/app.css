@@ -26,6 +26,38 @@
   --breakpoint-xl: 1440px;
 }
 
+/* registered so the blueprint intro can fade the palette back (see
+   src/lib/blueprint.ts) */
+@property --color-background {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0f1218;
+}
+
+@property --color-surface {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #151922;
+}
+
+@property --color-surface-2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #1b2029;
+}
+
+@property --bp-r {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --color-line {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #242a35;
+}
+
 @layer base {
   html {
     min-height: 100%;
@@ -458,4 +490,118 @@
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ---------- blueprint intro (src/lib/blueprint.ts) ---------- */
+/* the navy blueprint paper is its own layer (body::before) so it can clear
+   with the wave; the page background underneath is the real one */
+html.blueprint {
+  --color-background: transparent;
+  background: #0f1218;
+}
+
+/* before the script takes over, every line is blueprint blue; after, each
+   bordered element carries [data-bpl] until the wave reaches it */
+html.blueprint:not(.bp-live),
+[data-bpl] {
+  --color-line: #2e6fd8;
+}
+
+html.bp-fade {
+  background: #0f1218;
+}
+
+html.blueprint body::before,
+html.bp-fade body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: #071a3a;
+  mask-image: radial-gradient(
+    circle at 0 0,
+    transparent var(--bp-r),
+    #000 calc(var(--bp-r) + 220px)
+  );
+}
+
+/* blueprint grid laid over the page */
+html.blueprint body::after,
+html.bp-fade body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(90 160 255 / 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(90 160 255 / 0.22) 1px, transparent 1px),
+    linear-gradient(rgb(90 160 255 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(90 160 255 / 0.08) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+  /* cleared from the top-left corner outward as the wave passes */
+  mask-image: radial-gradient(
+    circle at 0 0,
+    transparent var(--bp-r),
+    #000 calc(var(--bp-r) + 220px)
+  );
+}
+
+/* before the script tags individual pieces, tint everything at once */
+html.blueprint:not(.bp-live) :is(main, aside, header, [data-bp-root]) {
+  filter: var(--bp-filter);
+}
+
+:root {
+  /* darken first so white text also turns blue, then tint */
+  --bp-filter: grayscale(1) brightness(0.72) sepia(1) hue-rotate(178deg)
+    saturate(4.5) brightness(1.35) blur(0.4px);
+}
+
+/* a piece still waiting for its "texture" (a data attribute, because Svelte
+   rewrites reactive class attributes) */
+[data-bp] {
+  filter: var(--bp-filter);
+  outline: 1px solid rgb(110 175 255 / 0.55);
+  outline-offset: 2px;
+}
+
+/* images are empty blueprint frames: the picture is pushed out of its box
+   and an X is drawn across it */
+[data-bpf]:is(img),
+html.blueprint:not(.bp-live) :is(main, aside, header, [data-bp-root]) img {
+  filter: none;
+  object-position: -99999px 0;
+  outline: 1px dashed rgb(110 175 255 / 0.7);
+  background:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - 0.5px),
+      rgb(110 175 255 / 0.45) 50%,
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      to bottom right,
+      transparent calc(50% - 0.5px),
+      rgb(110 175 255 / 0.45) 50%,
+      transparent calc(50% + 0.5px)
+    ),
+    rgb(46 111 216 / 0.08);
+}
+
+[data-bpf]:is(canvas) {
+  opacity: 0;
+}
+
+/* icons are solid blue squares until they glitch into shape */
+[data-bpi],
+html.blueprint:not(.bp-live) :is(main, aside, header, [data-bp-root]) svg {
+  color: transparent !important;
+  background: rgb(80 150 255 / 0.75);
+  object-position: -99999px 0;
 }
