@@ -4,6 +4,21 @@ import { icons as pixelartIcons } from '@iconify-json/pixelarticons';
 
 let initialized = false;
 
+const carbon = [
+  'arrow-right',
+  'arrow-up-right',
+  'checkmark',
+  'close',
+  'copy',
+  'email',
+  'logo-github',
+  'logo-linkedin',
+  'menu',
+  'text-align-justify',
+  'volume-mute',
+  'volume-up',
+];
+
 export function initializeIconify() {
   if (initialized) {
     return;
@@ -11,13 +26,9 @@ export function initializeIconify() {
 
   addCollection({
     prefix: 'carbon',
-    icons: {
-      close: carbonIcons.icons.close,
-      email: carbonIcons.icons.email,
-      'logo-github': carbonIcons.icons['logo-github'],
-      'logo-linkedin': carbonIcons.icons['logo-linkedin'],
-      'text-align-justify': carbonIcons.icons['text-align-justify'],
-    },
+    icons: Object.fromEntries(
+      carbon.map((name) => [name, carbonIcons.icons[name]])
+    ),
     width: carbonIcons.width,
     height: carbonIcons.height,
   });

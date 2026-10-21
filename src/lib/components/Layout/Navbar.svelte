@@ -18,7 +18,6 @@
     { href: '#experience', label: 'experience' },
     { href: '#projects', label: 'projects' },
     { href: '#education', label: 'education' },
-    { href: '#interests', label: 'interests' },
     { href: '#skills', label: 'skills' },
   ];
 

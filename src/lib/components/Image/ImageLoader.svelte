@@ -20,35 +20,27 @@
 
 <IntersectionObserver once={true} let:intersecting>
   {#if intersecting || nativeLoading}
+    <!-- the placeholder overlays the image, so nothing jumps when it loads -->
     <div class="relative h-full w-full">
-      {#if !hasLoaded}
-        <div
-          class={`${classProps} flex items-center justify-center bg-black/30 text-center`}
-        >
-          <div class="flex flex-col items-center gap-3 px-4">
-            <div
-              class="h-9 w-9 animate-pulse rounded-full border border-primary/50"
-            ></div>
-            <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.18em] text-primary">
-                {loadingLabel}
-              </p>
-              <p class="text-xs text-zinc-400">{src}</p>
-            </div>
-          </div>
-        </div>
-      {/if}
-
       <img
         {src}
         {alt}
         loading="lazy"
         onload={() => (hasLoaded = true)}
         onerror={() => (hasLoaded = true)}
-        class={`${classProps} transition-opacity duration-300 ${
+        class={`${classProps} transition-opacity duration-700 ease-out ${
           hasLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       />
+      {#if !hasLoaded}
+        <div
+          class="absolute inset-0 flex items-center justify-center bg-surface-2 text-center"
+        >
+          <p class="font-mono text-xs tracking-[0.18em] text-ink-3 uppercase">
+            {loadingLabel}
+          </p>
+        </div>
+      {/if}
     </div>
   {/if}
 </IntersectionObserver>

@@ -4,220 +4,157 @@
   import ImageLoader from '$components/Image/ImageLoader.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
   import LinkBlock from '$lib/components/common/LinkBlock.svelte';
-
-  type ProjectEntry = {
-    id: number;
-    slug: string;
-    title: string;
-    category: string;
-    description: string;
-    github: string;
-    stack: string[];
-    img: string;
-    link: string;
-    date: string;
-  };
-
-  const projects: ProjectEntry[] = [
-    {
-      id: 1,
-      slug: 'pomofriends',
-      title: 'PomoFriends',
-      category: 'Product / Full-stack',
-      description:
-        'A productivity web application built around the Pomodoro Technique, designed to support focus, accountability, and collaboration. It includes features such as group creation, messaging, authentication, and real-time data handling using Next.js and Firebase.',
-      github: '',
-      stack: ['TypeScript', 'Firebase', 'Next.js'],
-      img: 'pomofriends.png',
-      link: 'https://pomofriends.com',
-      date: 'May 2022',
-    },
-    {
-      id: 2,
-      slug: 'sup4bubb4',
-      title: 'sup4bubb4',
-      category: 'Web Platform / Full-stack',
-      description:
-        'A web platform that compiles song requests from livestreams and syncs them with recorded content. It uses StreamElements data, Firebase services, and cloud functions to automate collection and processing, while providing a responsive interface built with Svelte and Tailwind.',
-      github: 'https://github.com/vadimegorov13/sup4bubb4',
-      stack: ['TypeScript', 'Firebase', 'Svelte', 'Tailwind'],
-      img: 'sup4bubb4.png',
-      link: 'https://sup4bubb4.com',
-      date: 'Sep. 2022',
-    },
-    {
-      id: 3,
-      slug: 'predicting-student-learning-outcomes-using-eeg-correlation',
-      title:
-        'Predicting Student Learning Outcomes using EEG Correlation with Teacher/Expert Neural Activity',
-      category: 'Research / Brain Activity Data',
-      description:
-        'A research study exploring how student learning outcomes may relate to correlations in brain activity between students and teachers. The project focused on using brain activity data to better understand learning dynamics and support more effective educational strategies.',
-      github: '',
-      stack: ['Neuroscience', 'Electroencephalography'],
-      img: 'eeg.jpeg',
-      link: 'https://docs.google.com/document/d/e/2PACX-1vRhIXIMdK_THCrDiCFVUoPwRJJx9idk9eNi3z67r_S1mKSYXECP9I7q8scigBF9Og/pub',
-      date: 'Dec. 2022',
-    },
-  ];
+  import Section from '$lib/components/common/Section.svelte';
+  import { orderedProjects, projectLinks } from '$lib/data/projects';
 
   const categories = ['Product', 'Research', 'Full-stack'];
 
-  const actionLabel = (url: string, fallback = 'Live') => {
-    if (!url) {
-      return fallback;
-    }
-
-    if (url.includes('docs.google.com')) {
-      return 'Read';
-    }
-
-    if (url.includes('colab.research.google.com')) {
-      return 'Code';
-    }
-
-    return fallback;
-  };
+  const inProgress = orderedProjects.filter((p) => p.status === 'wip');
+  const finished = orderedProjects.filter((p) => p.status !== 'wip');
 </script>
-
-<!-- <svelte:head>
-  <title>Works</title>
-</svelte:head> -->
 
 <MetaTags
   title="Projects"
   description="List of the projects built by Vadim Egorov"
 />
 
-<div class="flex flex-col gap-14 sm:gap-18">
-  <section class="flex flex-col gap-4">
-    <h1
-      use:reveal={{ type: 'up' }}
-      class="text-xl font-semibold tracking-tight sm:text-2xl"
-    >
-      <span class="text-primary">/</span>projects
-    </h1>
-    <p
-      use:reveal={{ type: 'scale', delay: 50 }}
-      class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base"
-    >
-      This page highlights a selection of projects across product development,
-      machine learning, research, and web development. Some are polished
-      applications, while others reflect experiments, studies, and technical
-      exploration across different areas of my work.
-    </p>
-    <div
-      use:reveal={{ type: 'stagger', delay: 30 }}
-      class="reveal-stagger mt-2 flex flex-wrap gap-2"
-    >
-      {#each categories as category (category)}
-        <span
-          class="stagger-item border border-border bg-zinc-900/30 px-3 py-1 text-xs uppercase tracking-[0.18em] text-zinc-300"
-        >
-          {category}
-        </span>
-      {/each}
-    </div>
-  </section>
-
-  <section class="flex flex-col gap-10">
-    <article
-      use:reveal={{ type: 'up', delay: 80 }}
-      class="flex flex-col gap-3 border border-dashed border-primary/40 bg-primary/5 px-4 py-5 sm:px-6 sm:py-6"
-    >
-      <p class="text-primary text-xs uppercase flex items-center gap-2">
-        <span class="wip-dot inline-block h-2 w-2 rounded-full bg-primary"
-        ></span>
-        In progress
-      </p>
-      <h2 class="text-xl font-semibold text-zinc-100 sm:text-2xl">
-        Teaching models to understand human activity<span
-          class="wip-cursor ml-1"
-        ></span>
-      </h2>
-      <p class="max-w-4xl text-sm leading-8 text-zinc-400 sm:text-base">
-        My current machine learning project. Still training, details soon.
-      </p>
-    </article>
-
-    {#each projects as project, index (project.title)}
-      <article
-        use:reveal={{ type: 'up', delay: index * 90 }}
-        class="motion-card border border-border bg-zinc-900/20 px-4 py-5 sm:px-6 sm:py-6"
-      >
-        <div class="flex flex-col gap-5">
-          <div
-            class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
-          >
-            <h2
-              class="max-w-4xl text-xl font-semibold leading-tight text-zinc-100 sm:text-2xl"
-            >
-              {project.title}
-            </h2>
-            <p
-              class="shrink-0 text-xs uppercase tracking-[0.2em] text-zinc-500 sm:pt-1"
-            >
-              {project.date}
-            </p>
-          </div>
-
-          <p
-            class="w-fit border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs uppercase tracking-[0.18em] text-primary"
-          >
-            {project.category}
-          </p>
-
-          <p class="max-w-4xl text-sm leading-8 text-zinc-300 sm:text-base">
-            {project.description}
-          </p>
-
-          <div class="flex flex-wrap gap-2">
-            {#each project.stack as tech (tech)}
-              <Badge text={tech} size="md" />
-            {/each}
-          </div>
-
-          <div class="flex flex-wrap gap-2">
-            {#if project.link}
-              <LinkBlock
-                href={project.link}
-                label={actionLabel(project.link, 'Live')}
-                size="md"
-                isPrimaryText
-                isPrimaryBorder
-                isExternal
-              />
-            {/if}
-
-            {#if project.github}
-              <LinkBlock
-                href={project.github}
-                label={actionLabel(project.github, 'GitHub')}
-                size="md"
-                isExternal
-              />
-            {/if}
-          </div>
-
-          <div
-            class="motion-card-image-wrap overflow-hidden border border-border"
-          >
-            {#if project.img}
-              <ImageLoader
-                src={project.img}
-                alt={project.title}
-                classProps="motion-card-image aspect-[16/9] w-full object-cover"
-              />
-            {:else}
-              <div
-                class="flex aspect-[16/9] w-full items-center justify-center bg-black/30 text-xs uppercase tracking-[0.2em] text-zinc-500"
-              >
-                Screenshot coming soon
-              </div>
-            {/if}
-          </div>
-        </div>
-      </article>
+<Section id="projects" prefix="/">
+  <p use:reveal={{ type: 'up' }} class="lead">
+    Product development, machine learning, research, and web development.
+  </p>
+  <p use:reveal={{ type: 'up', delay: 50 }} class="text-ink-2">
+    This page highlights a selection of projects across product development,
+    machine learning, research, and web development. Some are polished
+    applications, while others reflect experiments, studies, and technical
+    exploration across different areas of my work.
+  </p>
+  <div class="flex flex-wrap gap-2">
+    {#each categories as category (category)}
+      <Badge text={category} />
     {/each}
-  </section>
-</div>
+  </div>
+
+  {#each inProgress as project (project.slug)}
+    <article
+      id={project.slug}
+      use:reveal={{ type: 'up', delay: 80 }}
+      class="flex scroll-mt-20 flex-col gap-3 border border-dashed border-primary/40 bg-primary/5 p-5 sm:p-6 lg:scroll-mt-8"
+    >
+      <p
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-primary uppercase"
+      >
+        <span class="wip-dot inline-block size-2 rounded-full bg-primary"
+        ></span>
+        In progress · {project.type}
+      </p>
+      <h2 class="font-mono text-xl font-medium sm:text-2xl">
+        {project.title}<span class="wip-cursor ml-1"></span>
+      </h2>
+      <p class="text-ink-2">{project.description}</p>
+      {#each project.sections ?? [] as block (block.title)}
+        <div class="flex flex-col gap-1.5">
+          <h3 class="font-mono text-sm font-medium text-ink-1">
+            <span class="text-primary">##</span>
+            {block.title}
+          </h3>
+          <p class="text-ink-2">{block.body}</p>
+        </div>
+      {/each}
+      <div class="flex flex-wrap gap-2">
+        {#each project.stack as tech (tech)}
+          <Badge text={tech} />
+        {/each}
+      </div>
+      {#if projectLinks(project).length}
+        <div class="flex flex-wrap gap-2">
+          {#each projectLinks(project) as link (link.href)}
+            <LinkBlock
+              href={link.href}
+              label={link.label}
+              size="sm"
+              isExternal
+            />
+          {/each}
+        </div>
+      {/if}
+    </article>
+  {/each}
+</Section>
+
+{#each finished as project (project.slug)}
+  <Section id={project.slug} label={project.date} prefix="">
+    <article use:reveal={{ type: 'up' }} class="flex flex-col gap-5">
+      <p class="font-mono text-xs tracking-widest text-primary uppercase">
+        {project.category}
+      </p>
+      <h2
+        class="font-mono text-2xl leading-tight font-medium text-balance sm:text-3xl"
+      >
+        {project.title}
+      </h2>
+      <p class="text-ink-2">{project.description}</p>
+      {#if project.metrics?.length}
+        <dl
+          class="grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4"
+        >
+          {#each project.metrics as metric (metric.label)}
+            <div class="flex flex-col gap-1 bg-background p-4">
+              <dt
+                class="order-2 font-mono text-xs tracking-wider text-ink-3 uppercase"
+              >
+                {metric.label}
+              </dt>
+              <dd class="font-mono text-xl font-semibold text-ink-1">
+                {metric.value}
+              </dd>
+            </div>
+          {/each}
+        </dl>
+      {/if}
+      {#each project.sections ?? [] as block (block.title)}
+        <div class="flex flex-col gap-1.5">
+          <h3 class="font-mono text-sm font-medium text-ink-1">
+            <span class="text-primary">##</span>
+            {block.title}
+          </h3>
+          <p class="text-ink-2">{block.body}</p>
+        </div>
+      {/each}
+      <div class="flex flex-wrap gap-2">
+        {#each project.stack as tech (tech)}
+          <Badge text={tech} />
+        {/each}
+      </div>
+      {#if projectLinks(project).length}
+        <div class="flex flex-wrap gap-2">
+          {#each projectLinks(project) as link, i (link.href)}
+            <LinkBlock
+              href={link.href}
+              label={link.label}
+              isPrimaryBorder={i === 0}
+              isExternal
+            />
+          {/each}
+        </div>
+      {/if}
+      <!-- projects with metrics but no screenshot skip the placeholder -->
+      {#if project.img || !project.metrics}
+        <div class="card w-full max-w-xl overflow-hidden">
+          {#if project.img}
+            <ImageLoader
+              src={project.img}
+              alt={project.title}
+              classProps="aspect-video w-full object-cover object-top"
+            />
+          {:else}
+            <div
+              class="flex aspect-video w-full items-center justify-center font-mono text-xs tracking-[0.2em] text-ink-3 uppercase"
+            >
+              Screenshot coming soon
+            </div>
+          {/if}
+        </div>
+      {/if}
+    </article>
+  </Section>
+{/each}

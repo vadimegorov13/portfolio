@@ -1,49 +1,22 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { reveal } from '$lib/actions/reveal';
-  import Badge from '$components/common/Badge.svelte';
-  import LinkBlock from '$components/common/LinkBlock.svelte';
-  import { contacts } from '$lib/data/contacts';
   import Icon from '@iconify/svelte';
   import { MetaTags } from 'svelte-meta-tags';
+  import { reveal } from '$lib/actions/reveal';
+  import { decode } from '$lib/actions/decode';
+  import { wobble } from '$lib/actions/wobble';
+  import { featuredProjects } from '$lib/data/projects';
+  import Badge from '$components/common/Badge.svelte';
+  import LinkBlock from '$components/common/LinkBlock.svelte';
+  import Section from '$components/common/Section.svelte';
+  import HeroCanvas from '$components/HeroCanvas.svelte';
+  import ProjectStrip from '$components/ProjectStrip.svelte';
+  import StackGrid from '$components/StackGrid.svelte';
+  import ContactPad from '$components/ContactPad.svelte';
+  import ExperienceList from '$components/ExperienceList.svelte';
+  import { MS_PROGRAM_URL } from '$lib/data/education';
 
-  type FeaturedProject = {
-    type: string;
-    title: string;
-    description: string;
-    stack: string[];
-    live?: string;
-    github?: string;
-    read?: string;
-  };
-
-  const featuredProjects: FeaturedProject[] = [
-    {
-      type: 'Product',
-      title: 'PomoFriends',
-      description:
-        'A productivity platform built around the Pomodoro method with collaboration and accountability features for teams.',
-      stack: ['TypeScript', 'Next.js', 'Firebase'],
-      live: 'https://pomofriends.com',
-    },
-    {
-      type: 'Platform',
-      title: 'sup4bubb4',
-      description:
-        'A full-stack platform that syncs stream song requests with livestream recordings for creator workflows.',
-      stack: ['Svelte', 'Firebase', 'Cloud Functions'],
-      live: 'https://sup4bubb4.com',
-      github: 'https://github.com/vadimegorov13/sup4bubb4',
-    },
-    {
-      type: 'Research',
-      title: 'EEG Learning Outcomes',
-      description:
-        'Research project exploring student-teacher neural correlation and predicting learning outcomes with EEG data.',
-      stack: ['Python', 'EEG', 'Data Analysis'],
-      read: 'https://docs.google.com/document/d/e/2PACX-1vRhIXIMdK_THCrDiCFVUoPwRJJx9idk9eNi3z67r_S1mKSYXECP9I7q8scigBF9Og/pub',
-    },
-  ];
+  const roles = ['Software Engineer', 'ML Researcher', 'Product Builder'];
 
   const techRow = [
     'Software',
@@ -52,11 +25,32 @@
     'Backend',
     'Machine Learning',
     'Research',
+    'AI Tools',
+    'Data Systems',
+    'Automation',
+    'macOS Apps',
+  ];
+
+  const facts = [
+    {
+      label: 'Education',
+      text: 'M.S. in AI, Data Science, and Engineering at UAA',
+      href: MS_PROGRAM_URL,
+    },
+    {
+      label: 'Experience',
+      text: 'Large-scale web apps, product systems, and workflow-heavy software',
+    },
+    {
+      label: 'Focus',
+      text: 'Web apps, ML, backend logic, and application design',
+    },
   ];
 
   const headshotSrc = 'headshot.jpeg';
   const capybaraSrc = 'coding_capybara.png';
 
+  let roleIndex = $state(0);
   let showAltImage = $state(false);
   let headshotLoaded = $state(false);
   let capybaraLoaded = $state(false);
@@ -65,94 +59,100 @@
   const currentImageAlt = $derived(
     showAltImage ? 'Coding Capybara Illustration' : 'Vadim Egorov Headshot'
   );
-  const currentImageName = $derived(showAltImage ? capybaraSrc : headshotSrc);
   const currentImageLoaded = $derived(
     showAltImage ? capybaraLoaded : headshotLoaded
   );
 
   function markImageLoaded(src: string) {
-    if (src === headshotSrc) {
-      headshotLoaded = true;
-      return;
-    }
-
-    if (src === capybaraSrc) {
-      capybaraLoaded = true;
-    }
+    if (src === headshotSrc) headshotLoaded = true;
+    if (src === capybaraSrc) capybaraLoaded = true;
   }
 
   function preloadImage(src: string) {
     const image = new window.Image();
-
-    if (image.complete) {
-      markImageLoaded(src);
-      return;
-    }
-
     image.onload = () => markImageLoaded(src);
     image.onerror = () => markImageLoaded(src);
     image.src = src;
-
-    if (image.complete) {
-      markImageLoaded(src);
-    }
+    if (image.complete) markImageLoaded(src);
   }
 
   onMount(() => {
     preloadImage(headshotSrc);
     preloadImage(capybaraSrc);
+    const timer = setInterval(
+      () => (roleIndex = (roleIndex + 1) % roles.length),
+      3200
+    );
+    return () => clearInterval(timer);
   });
 
-  function toggleImage() {
-    showAltImage = !showAltImage;
-  }
+  let photoBox: HTMLElement | undefined = $state();
 
-  function isNotExternalMailTo(href?: string) {
-    return Boolean(href && !href.startsWith('mailto:'));
+  // swap pictures with a little pop
+  function swapImage() {
+    showAltImage = !showAltImage;
+    if (!photoBox) return;
+    photoBox.classList.remove('is-popping');
+    void photoBox.offsetWidth;
+    photoBox.classList.add('is-popping');
   }
 </script>
 
 <MetaTags title="Vadim Egorov" description="Vadim Egorov's portfolio" />
 
-<div class="w-full flex flex-col gap-24 pb-8">
-  <section
-    id="home"
-    class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-10 xl:gap-12"
+<section
+  id="home"
+  class="relative flex min-h-[min(92svh,860px)] items-center overflow-hidden border-b border-line"
+>
+  <HeroCanvas />
+  <div
+    class="pointer-events-none absolute inset-0 bg-linear-to-t from-background via-background/70 to-background/10 lg:bg-linear-to-r lg:via-background/60 lg:to-transparent"
+  ></div>
+
+  <div
+    class="relative mx-auto grid w-full max-w-260 grid-cols-1 items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1.3fr_1fr] lg:px-10"
   >
     <div class="flex flex-col gap-6">
-      <h1
-        use:reveal={{ type: 'up', delay: 0 }}
-        class="text-xl font-semibold tracking-tight sm:text-2xl"
-      >
-        <span class="text-primary">/</span>vadim-egorov
-      </h1>
-      <div
-        use:reveal={{ type: 'up', delay: 90 }}
-        class="flex max-w-2xl flex-col gap-3"
-      >
-        <h1
-          class="text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl leading-tight font-semibold text-white"
+      <p class="font-mono text-sm text-ink-3">
+        <span class="text-primary">/</span><span
+          use:decode={{ text: 'vadim-egorov', duration: 800 }}
+          >vadim-egorov</span
         >
-          I build web products and machine learning systems.
-        </h1>
-        <p class="text-zinc-400 text-sm sm:text-base leading-7 max-w-xl">
-          Software engineer and M.S. student in AI.
-        </p>
-      </div>
-
-      <div use:reveal={{ type: 'up', delay: 180 }} class="flex flex-wrap gap-3">
+      </p>
+      <h1
+        class="font-mono text-5xl leading-[0.95] font-semibold tracking-[-0.035em] sm:text-6xl xl:text-7xl"
+        use:decode={{ text: 'Vadim Egorov', duration: 1100, delay: 150 }}
+      >
+        Vadim Egorov
+      </h1>
+      <p class="flex items-center gap-3 font-mono text-lg font-medium">
+        <span class="h-px w-9 bg-primary"></span>
+        <span use:decode={{ text: roles[roleIndex], duration: 700 }}
+          >{roles[0]}</span
+        >
+      </p>
+      <p class="max-w-[46ch] text-lg text-ink-2">
+        I build web products and machine learning systems. Software engineer and
+        <a
+          href={MS_PROGRAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-ink-1 underline decoration-primary/60 underline-offset-4 hover:text-primary"
+          >M.S. student in AI</a
+        >.
+      </p>
+      <div class="flex flex-wrap gap-3">
         <LinkBlock
           href="/projects"
           label="View Projects"
-          icon="pixelarticons:arrow-right"
+          icon="carbon:arrow-right"
           size="lg"
-          isPrimaryText
           isPrimaryBorder
+          attention
         />
         <LinkBlock href="#contacts" label="Get in Touch" size="lg" />
       </div>
-
-      <div use:reveal={{ type: 'up', delay: 260 }} class="flex flex-wrap gap-2">
+      <div class="flex flex-wrap gap-2">
         {#each techRow as tech (tech)}
           <Badge text={tech} />
         {/each}
@@ -160,294 +160,138 @@
     </div>
 
     <div use:reveal={{ type: 'right', delay: 120 }}>
-      <div
-        class="motion-card md:mx-4 lg:mx-0 min-w-0 overflow-hidden border border-border bg-black/20"
-      >
+      <!-- plain figure: the photo plus a mono caption, no frame -->
+      <figure class="flex flex-col gap-3">
         <div
-          class="flex items-center justify-between border border-border border-x-0 border-t-0 px-3 py-2 text-xs text-zinc-400"
-        >
-          <div class="min-w-0 truncate pr-2">
-            {currentImageName}
-          </div>
-          <div class="shrink-0">
-            <button type="button" onclick={toggleImage}>
-              <Icon
-                icon="pixelarticons:arrow-right"
-                width="16px"
-                class="text-zinc-400 hover:text-primary cursor-pointer"
-              />
-            </button>
-          </div>
-        </div>
-        <div
-          class="motion-card-image-wrap relative flex min-h-96 items-center justify-center p-6"
+          bind:this={photoBox}
+          class="relative flex min-h-80 items-center justify-center"
         >
           {#if !currentImageLoaded}
-            <div
-              class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/50 px-6 text-center"
+            <p
+              class="absolute inset-0 flex items-center justify-center font-mono text-xs tracking-[0.18em] text-primary uppercase"
             >
-              <div
-                class="h-9 w-9 animate-pulse rounded-full border border-primary/50"
-              ></div>
-              <div class="space-y-1">
-                <p class="text-xs uppercase tracking-[0.18em] text-primary">
-                  Loading image
-                </p>
-                <p class="text-xs text-zinc-400">{currentImageName}</p>
-              </div>
-            </div>
+              Loading image
+            </p>
           {/if}
-
           <img
             src={currentImageSrc}
             alt={currentImageAlt}
             onload={() => markImageLoaded(currentImageSrc)}
-            class={`motion-card-image h-auto w-full max-h-100 object-contain transition-opacity duration-300 xl:max-h-140 xl:max-w-100 ${currentImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            class={`max-h-96 w-full object-contain transition-opacity duration-300 ${currentImageLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="experience" class="scroll-mt-20 flex flex-col gap-6">
-    <div use:reveal={{ type: 'up' }} class="flex flex-col gap-3">
-      <h2 class="text-xl font-semibold text-white">
-        <span class="text-primary">#</span>experience
-      </h2>
-      <p class="text-zinc-400 text-sm sm:text-base">
-        Professional work focused on business systems, product logic, and
-        large-scale web applications.
-      </p>
-    </div>
-
-    <article
-      use:reveal={{ type: 'scale', delay: 80 }}
-      class="motion-card md:mx-4 flex flex-col gap-4 border border-border bg-black/20 p-6"
-    >
-      <div class="flex flex-col gap-1">
-        <p class="text-white text-lg font-semibold">Software Engineer</p>
-        <p class="text-primary text-sm">
-          <a
-            href="https://www.flyntlok.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-primary inline-flex items-center gap-1 whitespace-nowrap"
+        <figcaption
+          class="flex items-center justify-between gap-3 font-mono text-xs text-ink-3"
+        >
+          <span class="truncate"
+            ><span class="text-primary">/</span>{currentImageSrc}</span
           >
-            <span> Flyntlok </span>
-            <Icon icon="pixelarticons:external-link-sharp" />
-          </a>
-        </p>
-      </div>
-      <p class="text-zinc-300 leading-7 text-sm sm:text-base">
-        Built and maintained product functionality for a cloud-based dealership
-        management platform. Led development of the Sales Project module
-        supporting quoting, purchasing, approvals, and sales workflows.
-      </p>
-      <p class="text-zinc-400 text-sm">
-        Focus areas: application architecture, backend integration, structured
-        state management, workflow-heavy business logic, and bug fixes.
-      </p>
-    </article>
-  </section>
-
-  <section id="projects" class="scroll-mt-20 flex flex-col gap-6">
-    <div use:reveal={{ type: 'up' }} class="flex flex-col gap-3">
-      <h2 class="text-xl font-semibold text-white">
-        <span class="text-primary">#</span>projects
-      </h2>
-      <p class="text-zinc-400 text-sm sm:text-base">
-        A selection of projects across product development, research, and
-        full-stack engineering.
-      </p>
+          <button
+            type="button"
+            class="inline-flex shrink-0 cursor-pointer items-center gap-1.5 hover:text-primary"
+            onclick={swapImage}
+            aria-label="Show the other picture"
+            use:wobble
+          >
+            {showAltImage ? 'show me' : 'show capybara'}
+            <Icon icon="carbon:arrow-right" width="14" />
+          </button>
+        </figcaption>
+      </figure>
     </div>
+  </div>
+</section>
 
-    <div
-      use:reveal={{ type: 'up', delay: 60 }}
-      class="md:mx-4 flex flex-col gap-3 border border-dashed border-primary/40 bg-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between"
-    >
-      <div class="flex flex-col gap-1">
-        <p class="text-primary text-xs uppercase flex items-center gap-2">
-          <span class="wip-dot inline-block h-2 w-2 rounded-full bg-primary"
-          ></span>
-          In progress
-        </p>
-        <p class="text-white text-sm sm:text-base">
-          Teaching models to understand human activity<span
-            class="wip-cursor ml-1"
-          ></span>
-        </p>
-      </div>
-      <p class="text-zinc-500 text-xs">Currently training. Details soon.</p>
-    </div>
-
-    <div
-      use:reveal={{ type: 'stagger', delay: 40 }}
-      class="reveal-stagger md:mx-4 grid grid-cols-1 gap-5 lg:grid-cols-3"
-    >
-      {#each featuredProjects as project (project.title)}
-        <article
-          class="stagger-item motion-card flex flex-col gap-4 border border-border bg-black/20 p-4"
-        >
-          <p class="text-primary text-xs uppercase">{project.type}</p>
-          <h3 class="text-white text-lg font-semibold">{project.title}</h3>
-          <p class="text-zinc-400 text-sm leading-6">{project.description}</p>
-
-          <div class="flex flex-wrap gap-2">
-            {#each project.stack as tag (tag)}
-              <Badge text={tag} size="sm" />
-            {/each}
-          </div>
-
-          <div class="flex flex-wrap gap-2 mt-auto text-sm">
-            {#if project.live}
-              <LinkBlock
-                href={project.live}
-                label="Live"
-                target="_blank"
-                rel="noopener noreferrer"
-                size="sm"
-                isPrimaryText
-                isExternal
-              />
-            {/if}
-            {#if project.github}
-              <LinkBlock
-                href={project.github}
-                label="GitHub"
-                target="_blank"
-                rel="noopener noreferrer"
-                size="sm"
-                isPrimaryText
-                isExternal
-              />
-            {/if}
-            {#if project.read}
-              <LinkBlock
-                href={project.read}
-                label="Read"
-                target="_blank"
-                rel="noopener noreferrer"
-                size="sm"
-                isPrimaryText
-                isExternal
-              />
-            {/if}
-          </div>
-        </article>
-      {/each}
-    </div>
-
-    <div use:reveal={{ type: 'up', delay: 80 }}>
-      <LinkBlock
-        href="/projects"
-        label="View all projects"
-        icon="pixelarticons:arrow-right"
-        isPrimaryText
-        noBorder
-        size="sm"
-      />
-    </div>
-  </section>
-
-  <section
-    id="about"
-    class="scroll-mt-20 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-6"
+<Section id="about">
+  <p use:reveal={{ type: 'up' }} class="lead">
+    I'm a software engineer currently pursuing an M.S. in Artificial
+    Intelligence, Data Science, and Engineering at the University of Alaska
+    Anchorage.
+  </p>
+  <p use:reveal={{ type: 'up', delay: 60 }} class="text-ink-2">
+    My work spans product development, business systems, and machine learning,
+    with a focus on building software that is practical, reliable, and well
+    designed.
+  </p>
+  <dl
+    use:reveal={{ type: 'up', delay: 100 }}
+    class="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-3"
   >
-    <div use:reveal={{ type: 'left' }} class="flex flex-col gap-3">
-      <h2 class="text-xl font-semibold text-white">
-        <span class="text-primary">#</span>about
-      </h2>
-      <p class="text-zinc-300 leading-7 text-sm sm:text-base max-w-2xl">
-        I'm a software engineer currently pursuing an M.S. in Artificial
-        Intelligence, Data Science, and Engineering at the University of Alaska
-        Anchorage. My work spans product development, business systems, and
-        machine learning, with a focus on building software that is practical,
-        reliable, and well designed.
-      </p>
-    </div>
-
-    <div
-      use:reveal={{ type: 'stagger', delay: 40 }}
-      class="reveal-stagger md:mx-4 lg:mx-0 grid grid-cols-1 gap-3"
-    >
-      <div
-        class="stagger-item motion-card border border-border bg-black/20 p-4"
-      >
-        <p class="text-primary text-xs uppercase">Education</p>
-        <p class="text-zinc-300 text-sm mt-2">
-          M.S. in AI, Data Science, and Engineering at UAA
-        </p>
-      </div>
-      <div
-        class="stagger-item motion-card border border-border bg-black/20 p-4"
-      >
-        <p class="text-primary text-xs uppercase">Experience</p>
-        <p class="text-zinc-300 text-sm mt-2">
-          Large-scale web apps, product systems, and workflow-heavy software
-        </p>
-      </div>
-      <div
-        class="stagger-item motion-card border border-border bg-black/20 p-4"
-      >
-        <p class="text-primary text-xs uppercase">Focus</p>
-        <p class="text-zinc-300 text-sm mt-2">
-          Web apps, ML, backend logic, and application design
-        </p>
-      </div>
-    </div>
-
-    <div use:reveal={{ type: 'up', delay: 80 }}>
-      <LinkBlock
-        href="/about"
-        label="Read more"
-        icon="pixelarticons:arrow-right"
-        isPrimaryText
-        noBorder
-        size="sm"
-      />
-    </div>
-  </section>
-
-  <section id="contacts" class="scroll-mt-20 flex flex-col gap-6">
-    <div use:reveal={{ type: 'up' }} class="flex max-w-3xl flex-col gap-3">
-      <h2 class="text-xl font-semibold text-white">
-        <span class="text-primary">#</span>contacts
-      </h2>
-    </div>
-
-    <div
-      use:reveal={{ type: 'stagger', delay: 50 }}
-      class="reveal-stagger md:mx-4 lg:mx-0 grid grid-cols-1 gap-3 lg:grid-cols-3"
-    >
-      {#each contacts as contact (contact.name)}
-        <div
-          class="stagger-item motion-card flex gap-3 border border-border bg-black/20 p-4"
-        >
-          {#if contact.icon}
-            <div class="w-9 h-9 min-w-9 flex items-center justify-center">
-              <Icon icon={contact.icon} width="34px" class="text-zinc-300" />
-            </div>
-          {/if}
-          <div class="flex flex-col gap-1">
-            <p class="text-zinc-200 text-sm">{contact.name}</p>
+    {#each facts as fact (fact.label)}
+      <div class="flex flex-col gap-1 bg-background p-5">
+        <dt class="font-mono text-xs tracking-widest text-ink-3 uppercase">
+          {fact.label}
+        </dt>
+        <dd class="text-base leading-snug text-ink-1">
+          {#if fact.href}
             <a
-              href={contact.href}
-              target={isNotExternalMailTo(contact.href) ? '_blank' : undefined}
-              rel={isNotExternalMailTo(contact.href)
-                ? 'noopener noreferrer'
-                : undefined}
-              class="text-primary text-sm break-all inline-flex items-center gap-1 whitespace-nowrap"
+              href={fact.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline decoration-primary/60 underline-offset-4 hover:text-primary"
+              >{fact.text} ↗</a
             >
-              <span>
-                {contact.value}
-              </span>
-              {#if isNotExternalMailTo(contact.href)}
-                <Icon icon="pixelarticons:external-link-sharp" />
-              {/if}
-            </a>
-          </div>
-        </div>
-      {/each}
-    </div>
-  </section>
-</div>
+          {:else}
+            {fact.text}
+          {/if}
+        </dd>
+      </div>
+    {/each}
+  </dl>
+  <div>
+    <LinkBlock
+      href="/about"
+      label="Read more"
+      icon="carbon:arrow-right"
+      noBorder
+    />
+  </div>
+</Section>
+
+<Section id="experience">
+  <p use:reveal={{ type: 'up' }} class="text-ink-2">
+    Professional work focused on business systems, product logic, and
+    large-scale web applications.
+  </p>
+  <ExperienceList />
+  <div class="flex flex-wrap gap-2">
+    <Badge text="application architecture" />
+    <Badge text="backend integration" />
+    <Badge text="structured state management" />
+    <Badge text="workflow-heavy business logic" />
+    <Badge text="bug fixes" />
+    <Badge text="product analytics" />
+  </div>
+  <div>
+    <LinkBlock
+      href="/about#experience"
+      label="Full experience"
+      icon="carbon:arrow-right"
+      noBorder
+    />
+  </div>
+</Section>
+
+<ProjectStrip id="projects" projects={featuredProjects} />
+
+<Section id="stack" wide>
+  <p use:reveal={{ type: 'up' }} class="lead">Tools I reach for.</p>
+  <StackGrid />
+</Section>
+
+<Section id="contacts">
+  <p
+    use:reveal={{ type: 'up' }}
+    class="font-mono text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl"
+  >
+    Have a role or an idea? <span class="text-primary">Let's talk.</span>
+  </p>
+  <p class="text-ink-2">
+    If you'd like to connect, discuss a project, or just reach out, I'd be glad
+    to hear from you. Email is the easiest way to reach me, and you can also
+    find me on GitHub and LinkedIn.
+  </p>
+  <div use:reveal={{ type: 'scale' }}>
+    <ContactPad />
+  </div>
+</Section>
