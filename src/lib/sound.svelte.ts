@@ -5,7 +5,8 @@ const STORAGE_KEY = 've-sound';
 
 let ac: AudioContext | null = null;
 
-export const sound = $state({ on: true });
+// ready: the browser has let audio start (needs a click/tap/key first)
+export const sound = $state({ on: true, ready: false });
 
 export function initSound() {
   try {
@@ -13,11 +14,30 @@ export function initSound() {
   } catch {
     // storage blocked; keep default
   }
-  window.addEventListener('pointerdown', unlock, { once: true });
+  // not every event counts as a gesture in every browser (touch pointerdown
+  // doesn't in Chrome, Safari wants click/touchend), so keep listening on all
+  // of them until the context is actually running
+  for (const type of GESTURES) window.addEventListener(type, onGesture, true);
+}
+
+const GESTURES = ['pointerdown', 'pointerup', 'click', 'touchend', 'keydown'];
+
+function onGesture() {
+  unlock();
+  if (ac?.state === 'running') {
+    for (const type of GESTURES)
+      window.removeEventListener(type, onGesture, true);
+  }
 }
 
 export function toggleSound() {
   unlock();
+  // the pill reads "click for sound" until audio is unlocked: that click
+  // should just wake audio up, not mute it
+  if (sound.on && !sound.ready) {
+    sfx.toggle(true);
+    return;
+  }
   // play the "off" sound before muting, the "on" sound after unmuting
   if (sound.on) sfx.toggle(false);
   sound.on = !sound.on;
@@ -81,11 +101,34 @@ function unlock() {
   if (!ac) {
     try {
       ac = new AudioContext();
+      // if the browser suspends it again later (tab switch, iOS interruption),
+      // wait for the next gesture to bring it back
+      ac.addEventListener('statechange', () => {
+        sound.ready = ac?.state === 'running';
+        if (!sound.ready)
+          for (const type of GESTURES)
+            window.addEventListener(type, onGesture, true);
+      });
     } catch {
       return;
     }
   }
-  if (ac.state === 'suspended') void ac.resume();
+  // iOS can also report "interrupted" (e.g. after a call or app switch)
+  if (ac.state !== 'running') ac.resume().catch(() => {});
+}
+
+// Run fn now if audio is live. If it's still waking up from the click that
+// triggered this sound, run it once resume() lands, so the very first click
+// isn't silent. Hover sounds before any click are dropped, not queued.
+function whenRunning(fn: (ctx: AudioContext) => void) {
+  if (!sound.on || !ac) return;
+  if (ac.state === 'running') return fn(ac);
+  if (!navigator.userActivation?.isActive) return;
+  const ctx = ac;
+  ctx
+    .resume()
+    .then(() => sound.on && fn(ctx))
+    .catch(() => {});
 }
 
 type Tone = {
@@ -105,19 +148,20 @@ function tone({
   vol = 0.08,
   delay = 0,
 }: Tone) {
-  if (!sound.on || !ac || ac.state !== 'running') return;
-  const t = ac.currentTime + delay;
-  const o = ac.createOscillator();
-  const g = ac.createGain();
-  o.type = type;
-  o.frequency.setValueAtTime(f, t);
-  if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
-  g.gain.setValueAtTime(0, t);
-  g.gain.linearRampToValueAtTime(vol, t + 0.008);
-  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g).connect(ac.destination);
-  o.start(t);
-  o.stop(t + dur + 0.02);
+  whenRunning((ac) => {
+    const t = ac.currentTime + delay;
+    const o = ac.createOscillator();
+    const g = ac.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(f, t);
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(ac.destination);
+    o.start(t);
+    o.stop(t + dur + 0.02);
+  });
 }
 
 // Low "buuuu" hum, like a phone vibrating: two detuned saws through a
@@ -162,8 +206,6 @@ export function startBuzz(): () => void {
     [...oscs, lfo].forEach((o) => o.stop(now + 0.15));
   };
 }
-
-const PENTATONIC = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21];
 
 export const sfx = {
   tick: () =>
@@ -240,11 +282,47 @@ export const sfx = {
       delay: 0.07,
     });
   },
-  pluck: (i: number) =>
-    tone({
-      f: 392 * Math.pow(2, PENTATONIC[i % PENTATONIC.length] / 12),
-      type: 'triangle',
-      dur: 0.22,
-      vol: 0.05,
-    }),
 };
+
+// Retro robot voice: SAM (Software Automatic Mouth, 1982), the ancestor of
+// Microsoft Sam. Loaded on first use; renders through the same AudioContext,
+// so the sound toggle mutes it. A new word cuts off the one still playing.
+let sam: Promise<import('sam-js').default> | null = null;
+// plain cache of rendered words, not UI state
+// eslint-disable-next-line svelte/prefer-svelte-reactivity
+const spoken = new Map<string, AudioBuffer | null>();
+let voice: AudioBufferSourceNode | null = null;
+let sayId = 0;
+
+export function say(text: string) {
+  const id = ++sayId;
+  whenRunning((ctx) => void speak(ctx, text, id));
+}
+
+async function speak(ctx: AudioContext, text: string, id: number) {
+  if (!spoken.has(text)) {
+    sam ??= import('sam-js').then(
+      ({ default: SamJs }) =>
+        new SamJs({ speed: 72, pitch: 64, throat: 128, mouth: 128 })
+    );
+    const samples = (await sam).buf32(text);
+    let buffer: AudioBuffer | null = null;
+    if (samples) {
+      buffer = ctx.createBuffer(1, samples.length, 22050);
+      buffer.getChannelData(0).set(samples);
+    }
+    spoken.set(text, buffer);
+  }
+  const buffer = spoken.get(text);
+  // a newer hover already took over, or sound got muted meanwhile
+  if (!buffer || id !== sayId || !sound.on) return;
+
+  voice?.stop();
+  const src = ctx.createBufferSource();
+  const g = ctx.createGain();
+  src.buffer = buffer;
+  g.gain.value = 0.24;
+  src.connect(g).connect(ctx.destination);
+  src.start();
+  voice = src;
+}

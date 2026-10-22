@@ -15,7 +15,14 @@
   <Icon
     icon={sound.on ? 'carbon:volume-up' : 'carbon:volume-mute'}
     width="16"
-    class={sound.on ? 'text-primary' : ''}
+    class={sound.on ? `text-primary ${sound.ready ? '' : 'animate-pulse'}` : ''}
   />
-  <span>sound {sound.on ? 'on' : 'off'}</span>
+  <!-- browsers keep audio locked until the first click/tap; say so -->
+  <span
+    >{sound.on
+      ? sound.ready
+        ? 'sound on'
+        : 'click for sound'
+      : 'sound off'}</span
+  >
 </button>

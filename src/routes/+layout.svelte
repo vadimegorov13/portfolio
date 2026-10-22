@@ -15,7 +15,7 @@
 
   onMount(() => {
     initSound();
-    runBlueprint();
+    void runBlueprint();
   });
 </script>
 

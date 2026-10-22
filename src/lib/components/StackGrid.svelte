@@ -1,14 +1,70 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { stackGroups } from '$lib/data/stack';
-  import { sfx } from '$lib/sound.svelte';
+  import { say } from '$lib/sound.svelte';
   import { reveal } from '$lib/actions/reveal';
 
-  // running index so each tile plays the next note of the scale
-  let n = 0;
+  // how the robot voice should say names it would otherwise spell or mangle
+  const PRONOUNCE: Record<string, string> = {
+    TypeScript: 'type script',
+    JavaScript: 'java script',
+    SQL: 'sequel',
+    Svelte: 'svelt',
+    'Next.js': 'next jay ess',
+    'Node.js': 'node jay ess',
+    GraphQL: 'graph cue el',
+    PostgreSQL: 'post gress',
+    MySQL: 'my sequel',
+    PostHog: 'post hog',
+    PyTorch: 'pie torch',
+    TensorFlow: 'tensor flow',
+    'scikit-learn': 'sigh kit learn',
+    NumPy: 'num pie',
+    Matplotlib: 'mat plot lib',
+    Jupyter: 'jupiter',
+    ChatGPT: 'chat gee pee tee',
+    'GitHub Copilot': 'git hub co pilot',
+    'MCP servers': 'em see pee servers',
+    Xcode: 'ex code',
+  };
   const groups = stackGroups.map((group) => ({
     ...group,
-    items: group.items.map((item) => ({ ...item, note: n++ })),
+    items: group.items.map((item) => ({
+      ...item,
+      spoken: PRONOUNCE[item.name] ?? item.name,
+    })),
   }));
+
+  // Only react to a hover the visitor meant: not when the page scrolls a
+  // tile under a resting cursor, and not when the cursor just passes over.
+  const SCROLL_QUIET = 250; // ms after the last scroll before hovers count
+  const DWELL = 120; // ms on a tile before it speaks
+  let lastScroll = 0;
+  let dwell = 0;
+
+  onMount(() => {
+    const onScroll = () => (lastScroll = performance.now());
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  });
+
+  function onEnter(e: PointerEvent, spoken: string) {
+    clearTimeout(dwell);
+    const tile = e.currentTarget as HTMLElement;
+    // a tap on a touch screen is always on purpose
+    if (
+      e.pointerType === 'mouse' &&
+      performance.now() - lastScroll < SCROLL_QUIET
+    )
+      return;
+    // same jelly wobble as the buttons (app.css)
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      tile.classList.remove('is-wobbling');
+      void tile.offsetWidth; // restart the animation
+      tile.classList.add('is-wobbling');
+    }
+    dwell = window.setTimeout(() => say(spoken), DWELL);
+  }
 </script>
 
 <div class="flex flex-col gap-8">
@@ -29,7 +85,10 @@
               class="tile"
               role="img"
               aria-label={item.name}
-              onmouseenter={() => sfx.pluck(item.note)}
+              onpointerenter={(e) => onEnter(e, item.spoken)}
+              onpointerleave={() => clearTimeout(dwell)}
+              onanimationend={(e) =>
+                e.currentTarget.classList.remove('is-wobbling')}
             >
               {#if item.icon}
                 <img
@@ -61,8 +120,8 @@
     padding: 0.5rem;
     border: 1px solid var(--color-line);
     background: var(--color-surface);
+    transform-origin: 50% 60%;
     transition:
-      transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
       border-color 200ms ease,
       background-color 200ms ease;
   }
@@ -70,7 +129,6 @@
   .tile img {
     width: 36px;
     height: 36px;
-    transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .tile img.invert {
@@ -93,13 +151,8 @@
   }
 
   .tile:hover {
-    transform: translateY(-4px);
     border-color: var(--color-primary);
     background: var(--color-surface-2);
-  }
-
-  .tile:hover img {
-    transform: scale(1.12) rotate(-4deg);
   }
 
   .tile:hover span {

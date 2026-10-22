@@ -1,6 +1,7 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
   import { page } from '$app/state';
+  import { replaceState } from '$app/navigation';
   import { sfx } from '$lib/sound.svelte';
   import { wobble } from '$lib/actions/wobble';
   import { copyText, EMAIL } from '$lib/clipboard';
@@ -68,6 +69,14 @@
     }
 
     let ticking = false;
+    let settle = 0;
+    // once scrolling stops, put the current section in the URL (no history
+    // entry, no jump) so a refresh comes back to it; the top clears it
+    const syncHash = () => {
+      const hash = activeSection;
+      if (hash === location.hash) return;
+      replaceState(location.pathname + location.search + hash, page.state);
+    };
     const update = () => {
       ticking = false;
       const anchor = Math.min(window.innerHeight * 0.35, 280);
@@ -79,6 +88,8 @@
       activeSection = current;
     };
     const onScroll = () => {
+      clearTimeout(settle);
+      settle = window.setTimeout(syncHash, 250);
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(update);
@@ -88,6 +99,7 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     return () => {
+      clearTimeout(settle);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };

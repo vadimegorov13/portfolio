@@ -583,6 +583,9 @@ html.bp-fade body::after {
 /* before the script tags individual pieces, tint everything at once */
 html.blueprint:not(.bp-live) :is(main, aside, header, [data-bp-root]) {
   filter: var(--bp-filter);
+  /* no text until the wave brings it (text-fill is inherited and nothing
+     else sets it, so this reaches every nested link and span) */
+  -webkit-text-fill-color: transparent;
 }
 
 :root {
@@ -597,6 +600,19 @@ html.blueprint:not(.bp-live) :is(main, aside, header, [data-bp-root]) {
   filter: var(--bp-filter);
   outline: 1px solid rgb(110 175 255 / 0.55);
   outline-offset: 2px;
+  -webkit-text-fill-color: transparent;
+}
+
+/* a piece the wave is passing over: the same circle as the paper and grid
+   masks (centred on the wave's origin, in the piece's own coordinates via
+   --bp-tx/--bp-ty), so text fills in gradually from the side the wave
+   reaches first */
+[data-bp-sweep] {
+  mask-image: radial-gradient(
+    circle at var(--bp-tx) var(--bp-ty),
+    #000 calc(var(--bp-r) + 40px),
+    transparent calc(var(--bp-r) + 150px)
+  );
 }
 
 /* images are empty blueprint frames: the picture is pushed out of its box
@@ -632,4 +648,152 @@ html.blueprint:not(.bp-live) :is(main, aside, header, [data-bp-root]) svg {
   color: transparent !important;
   background: rgb(80 150 255 / 0.75);
   object-position: -99999px 0;
+}
+
+/* start prompt (src/lib/blueprint.ts): a blueprint title block floating over
+   the dimmed, slightly blurred blueprint, above the grid (z 70) */
+html.bp-gated {
+  overflow: hidden;
+}
+
+.bp-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  padding: 1rem;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  color: #dcebff;
+  background: rgb(4 14 34 / 0.45);
+  backdrop-filter: blur(2px);
+  animation: bp-gate-fade 300ms ease-out both;
+}
+
+/* focused on load for Enter/Space; the blinking caret is the cue */
+.bp-gate:focus {
+  outline: none;
+}
+
+.bp-gate-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 23rem);
+  /* double rule, like a drawing's title block */
+  border: 1px solid #cfe3ff;
+  outline: 1px solid rgb(207 227 255 / 0.45);
+  outline-offset: 4px;
+  background: #0e3f94;
+  box-shadow:
+    0 0 0 9px rgb(14 63 148 / 0.35),
+    0 28px 70px rgb(0 0 0 / 0.55),
+    0 0 60px rgb(79 141 255 / 0.25);
+  text-align: left;
+  animation: bp-gate-draft 520ms steps(7, end) both;
+}
+
+.bp-gate-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9cc3ff;
+}
+
+.bp-gate-row:first-child {
+  border-bottom: 1px solid rgb(207 227 255 / 0.5);
+}
+
+.bp-gate-main {
+  padding: 1.4rem 0.8rem;
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f2f8ff;
+  text-shadow: 0 0 12px rgb(160 205 255 / 0.55);
+}
+
+.bp-gate-main i {
+  font-style: normal;
+  animation: bp-caret 1s steps(1, end) infinite;
+}
+
+/* bottom cells split by vertical rules */
+.bp-gate-cells {
+  padding: 0;
+  border-top: 1px solid rgb(207 227 255 / 0.5);
+}
+
+.bp-gate-cells span {
+  flex: 1;
+  padding: 0.45rem 0.8rem;
+}
+
+.bp-gate-cells span + span {
+  border-left: 1px solid rgb(207 227 255 / 0.5);
+}
+
+/* dimension line under the block: |<---- click anywhere ---->| */
+.bp-gate-dim {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: min(100%, 23rem);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8fbaff;
+  border-inline: 1px solid #6fa8ff;
+  animation: bp-gate-fade 400ms 300ms ease-out both;
+}
+
+.bp-gate-dim::before {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  border-top: 1px solid #6fa8ff;
+}
+
+.bp-gate-dim span {
+  position: relative;
+  padding-inline: 0.6rem;
+  /* masks the line behind the label */
+  background: rgb(9 30 68);
+}
+
+@keyframes bp-gate-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* the block gets "drafted": revealed in jerky steps, top to bottom (the
+   negative insets leave room for the outer rule and glow) */
+@keyframes bp-gate-draft {
+  0% {
+    clip-path: inset(-80px -80px 100% -80px);
+    transform: translateX(-4px);
+  }
+  60% {
+    clip-path: inset(-80px -80px 20% -80px);
+    transform: translateX(3px);
+  }
+  100% {
+    clip-path: inset(-80px);
+    transform: none;
+  }
+}
+
+@keyframes bp-caret {
+  50% {
+    opacity: 0;
+  }
 }

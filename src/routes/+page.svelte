@@ -10,6 +10,7 @@
   import LinkBlock from '$components/common/LinkBlock.svelte';
   import Section from '$components/common/Section.svelte';
   import HeroCanvas from '$components/HeroCanvas.svelte';
+  import NoiseLine from '$components/NoiseLine.svelte';
   import ProjectStrip from '$components/ProjectStrip.svelte';
   import StackGrid from '$components/StackGrid.svelte';
   import ContactPad from '$components/ContactPad.svelte';
@@ -113,12 +114,7 @@
     class="relative mx-auto grid w-full max-w-260 grid-cols-1 items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1.3fr_1fr] lg:px-10"
   >
     <div class="flex flex-col gap-6">
-      <p class="font-mono text-sm text-ink-3">
-        <span class="text-primary">/</span><span
-          use:decode={{ text: 'vadim-egorov', duration: 800 }}
-          >vadim-egorov</span
-        >
-      </p>
+      <NoiseLine />
       <h1
         class="font-mono text-5xl leading-[0.95] font-semibold tracking-[-0.035em] sm:text-6xl xl:text-7xl"
         use:decode={{ text: 'Vadim Egorov', duration: 1100, delay: 150 }}
@@ -189,13 +185,16 @@
           >
           <button
             type="button"
-            class="inline-flex shrink-0 cursor-pointer items-center gap-1.5 hover:text-primary"
+            class="inline-flex shrink-0 cursor-pointer items-center hover:text-primary"
             onclick={swapImage}
-            aria-label="Show the other picture"
+            aria-label={showAltImage ? 'Show my photo' : 'Show the capybara'}
             use:wobble
           >
-            {showAltImage ? 'show me' : 'show capybara'}
-            <Icon icon="carbon:arrow-right" width="14" />
+            {#if showAltImage}
+              show me
+            {:else}
+              <Icon icon="game-icons:capybara" width="22" />
+            {/if}
           </button>
         </figcaption>
       </figure>

@@ -1,12 +1,13 @@
 // "Blueprint" intro, like a game streaming in textures: the page first renders
 // in blueprint blue with a grid (html.blueprint, set in app.html before first
-// paint), then a glitchy wave spreads from a random origin and each piece gets
-// its real colors back as the wave reaches it. Styles live at the end of
-// app.css.
+// paint) under a "click anywhere" window. The click unlocks audio (browsers
+// need one before any sound), then a glitchy wave spreads from where the
+// visitor clicked and each piece gets its real colors back as the wave
+// reaches it. Styles live at the end of app.css.
 
-import { introHum, sfx, tryAutoplay } from '$lib/sound.svelte';
+import { introHum, sfx, sound, tryAutoplay } from '$lib/sound.svelte';
 
-const HOLD = 350; // ms of pure blueprint before the wave starts
+const HOLD = 180; // ms between the click and the wave starting
 const JITTER = 300; // random extra delay per piece, so it "streams" in
 const LATE = 0.12; // share of pieces that pop in late, like slow textures
 
@@ -18,8 +19,9 @@ const isIcon = (el: Element) =>
   el.matches('svg') ||
   (el.matches('img') && el.getBoundingClientRect().width <= 64);
 
-// the smallest things worth tinting: text, chips, tiles, cards (images and
-// icons are handled separately below)
+// the smallest things worth tinting: text, chips, tiles, cards, or anything
+// marked [data-bp-piece] to be tinted as one (images and icons are handled
+// separately below)
 function collectPieces(): HTMLElement[] {
   const roots = document.querySelectorAll<HTMLElement>(ROOTS);
   const picked = new Set<Element>();
@@ -30,7 +32,9 @@ function collectPieces(): HTMLElement[] {
       const hasText = [...el.childNodes].some(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent?.trim()
       );
-      const isBox = el.matches('.chip, .btn, .card, .tile, .pad');
+      const isBox = el.matches(
+        '.chip, .btn, .card, .tile, .pad, [data-bp-piece]'
+      );
       if (hasText || isBox) picked.add(el);
     }
   }
@@ -313,7 +317,65 @@ function streamImage(img: HTMLImageElement): boolean {
   return true;
 }
 
-export function runBlueprint() {
+// Start prompt: a blueprint "title block" (the stamped box on engineering
+// drawings) floating over the dimmed blueprint. The whole screen is the
+// button. Resolves with where the visitor clicked (screen center for a key).
+function waitForEntry(): Promise<[number, number]> {
+  return new Promise((resolve) => {
+    const verb = window.matchMedia('(pointer: coarse)').matches
+      ? 'tap'
+      : 'click';
+    const gate = document.createElement('button');
+    gate.type = 'button';
+    gate.className = 'bp-gate';
+    gate.setAttribute('aria-label', 'Enter the site');
+    gate.innerHTML = `
+      <span class="bp-gate-panel">
+        <span class="bp-gate-row"><span>sheet 01</span><span>portfolio.dwg</span></span>
+        <span class="bp-gate-main">${verb} to build<i>_</i></span>
+        <span class="bp-gate-row bp-gate-cells">
+          <span>rev a</span><span>scale 1:1</span><span>${sound.on ? 'sound on' : 'sound off'}</span>
+        </span>
+      </span>
+      <span class="bp-gate-dim"><span>${verb} anywhere</span></span>`;
+    document.documentElement.classList.add('bp-gated');
+    document.body.append(gate);
+    gate.focus({ preventScroll: true });
+
+    gate.addEventListener(
+      'click',
+      (e) => {
+        // a keyboard "click" has no position (detail 0)
+        const at: [number, number] =
+          e.detail === 0
+            ? [window.innerWidth / 2, window.innerHeight / 2]
+            : [e.clientX, e.clientY];
+        gate.disabled = true;
+        document.documentElement.classList.remove('bp-gated');
+        sfx.glitch();
+        // the panel tears and collapses while the dim lifts
+        gate.querySelector('.bp-gate-panel')?.animate(
+          [
+            { transform: 'none', opacity: 1 },
+            { transform: 'translateX(-8px) skewX(10deg)', opacity: 0.8 },
+            { transform: 'translateX(5px) scaleY(0.5)', opacity: 0.9 },
+            { transform: 'scale(1.04, 0.02)', opacity: 0 },
+          ],
+          { duration: 240, easing: 'steps(4, end)', fill: 'forwards' }
+        );
+        gate.animate([{ opacity: 1 }, { opacity: 0 }], {
+          duration: 320,
+          easing: 'ease-out',
+          fill: 'forwards',
+        }).onfinish = () => gate.remove();
+        resolve(at);
+      },
+      { once: true }
+    );
+  });
+}
+
+export async function runBlueprint() {
   const html = document.documentElement;
   if (!html.classList.contains('blueprint')) return;
 
@@ -329,18 +391,10 @@ export function runBlueprint() {
   accents.forEach((el) => el.setAttribute('data-bpc', ''));
   html.classList.add('bp-live', 'bp-fade');
 
-  // a different wave every time: random origin and speed
+  // the wave starts where the visitor clicked; its speed is random
+  const [ox, oy] = await waitForEntry();
   const w = window.innerWidth;
   const h = window.innerHeight;
-  const origins: [number, number][] = [
-    [0, 0],
-    [w, 0],
-    [0, h],
-    [w, h],
-    [w / 2, h / 2],
-    [Math.random() * w, Math.random() * h],
-  ];
-  const [ox, oy] = origins[Math.floor(Math.random() * origins.length)];
   const wave = 1200 + Math.random() * 600;
   const reach = Math.max(
     Math.hypot(ox, oy),
@@ -374,8 +428,7 @@ export function runBlueprint() {
     fill: 'forwards',
   });
 
-  // sound only plays if the browser allows audio before a click (see
-  // tryAutoplay); otherwise the intro runs silently
+  // the entry click unlocked audio; tryAutoplay just waits for it to be live
   let audible = false;
   let stopHum = () => {};
   let lastBlip = 0;
@@ -391,10 +444,20 @@ export function runBlueprint() {
   });
 
   // What happens to each kind of element when the wave reaches it.
+  const swept: HTMLElement[] = [];
   const restorePiece = (el: HTMLElement, at: number) => {
     const from = getComputedStyle(el).filter;
     // hidden ones are still waiting for their scroll reveal and would flash
     const visible = getComputedStyle(el).opacity === '1';
+    // while the wave is still spreading, let it uncover the piece bit by bit
+    // (app.css [data-bp-sweep]); after it's done, just show it
+    if (at < 1) {
+      const b = el.getBoundingClientRect();
+      el.style.setProperty('--bp-tx', `${ox - b.left}px`);
+      el.style.setProperty('--bp-ty', `${oy - b.top}px`);
+      el.setAttribute('data-bp-sweep', '');
+      swept.push(el);
+    }
     el.removeAttribute('data-bp');
     blip(at);
     // Web Animations so we don't fight the reveal transitions in app.css
@@ -499,6 +562,11 @@ export function runBlueprint() {
       icons.forEach((el) => el.removeAttribute('data-bpi'));
       frames.forEach((el) => el.removeAttribute('data-bpf'));
       accents.forEach((el) => el.removeAttribute('data-bpc'));
+      swept.forEach((el) => {
+        el.removeAttribute('data-bp-sweep');
+        el.style.removeProperty('--bp-tx');
+        el.style.removeProperty('--bp-ty');
+      });
       html.getAnimations().forEach((a) => a.cancel());
       html.style.removeProperty('--bp-x');
       html.style.removeProperty('--bp-y');
