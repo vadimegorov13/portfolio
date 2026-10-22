@@ -159,7 +159,8 @@
       </div>
     </div>
 
-    <div use:reveal={{ type: 'right', delay: 120 }}>
+    <!-- no scroll reveal: the blueprint intro brings this in -->
+    <div>
       <!-- plain figure: the photo plus a mono caption, no frame -->
       <figure class="flex flex-col gap-3">
         <div

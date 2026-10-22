@@ -1,14 +1,14 @@
 // "Blueprint" intro, like a game streaming in textures: the page first renders
 // in blueprint blue with a grid (html.blueprint, set in app.html before first
-// paint), then a wave spreads from the top-left corner and each piece gets its
-// real colors back as the wave reaches it. Styles live at the end of app.css.
+// paint), then a glitchy wave spreads from a random origin and each piece gets
+// its real colors back as the wave reaches it. Styles live at the end of
+// app.css.
 
 import { introHum, sfx, tryAutoplay } from '$lib/sound.svelte';
 
-const HOLD = 350; // ms of pure blueprint before the scan starts
-const WAVE = 1400; // ms for the wave to travel from the top-left corner to the
-// bottom-right one
-const JITTER = 220; // random extra delay per piece, so it "streams" in
+const HOLD = 350; // ms of pure blueprint before the wave starts
+const JITTER = 300; // random extra delay per piece, so it "streams" in
+const LATE = 0.12; // share of pieces that pop in late, like slow textures
 
 // where to look for pieces; mark anything else (like the floating sound
 // button) with data-bp-root
@@ -64,26 +64,44 @@ function collectIcons(): HTMLElement[] {
   );
 }
 
-// square -> triangle -> diamond -> square, with a jittery offset, then the
-// real icon appears. All shapes use four points so clip-path can interpolate.
+// In-between shapes an icon can glitch through on its way from a square to
+// the real icon. All use four points so clip-path can interpolate.
+const SHAPES = [
+  'polygon(50% 0, 50% 0, 100% 100%, 0 100%)', // triangle up
+  'polygon(0 0, 100% 0, 50% 100%, 50% 100%)', // triangle down
+  'polygon(0 0, 100% 50%, 100% 50%, 0 100%)', // triangle right
+  'polygon(0 50%, 100% 0, 100% 100%, 0 100%)', // wedge
+  'polygon(50% 0, 100% 50%, 50% 100%, 0 50%)', // diamond
+  'polygon(25% 0, 100% 0, 75% 100%, 0 100%)', // parallelogram
+  'polygon(0 0, 100% 0, 75% 100%, 25% 100%)', // trapezoid
+  'polygon(0 30%, 100% 30%, 100% 70%, 0 70%)', // bar
+  'polygon(30% 0, 70% 0, 70% 100%, 30% 100%)', // column
+  'polygon(0 0, 100% 100%, 0 100%, 100% 0)', // bow tie
+  'polygon(50% 0, 100% 0, 50% 100%, 0 100%)', // slant
+];
+const SQUARE = 'polygon(0 0, 100% 0, 100% 100%, 0 100%)';
+
+const rand = (min: number, max: number) => min + Math.random() * (max - min);
+const jitter = () =>
+  `translate(${rand(-3, 3).toFixed(1)}px, ${rand(-2, 2).toFixed(1)}px) rotate(${rand(-25, 25).toFixed(0)}deg)`;
+
+// every icon takes its own random route: square -> 2-3 random shapes -> icon
 function morphIcon(el: HTMLElement, audible: boolean) {
   if (audible) sfx.glitch();
-  const shapes = [
-    'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-    'polygon(50% 0, 50% 0, 100% 100%, 0 100%)',
-    'polygon(50% 0, 100% 50%, 50% 100%, 0 50%)',
-    'polygon(15% 15%, 85% 15%, 85% 85%, 15% 85%)',
-  ];
-  const glitch = el.animate(
-    [
-      { clipPath: shapes[0], transform: 'translate(0, 0)' },
-      { clipPath: shapes[1], transform: 'translate(2px, -1px)', offset: 0.3 },
-      { clipPath: shapes[1], transform: 'translate(-2px, 1px)', offset: 0.42 },
-      { clipPath: shapes[2], transform: 'translate(1px, 1px)', offset: 0.7 },
-      { clipPath: shapes[3], transform: 'translate(0, 0)' },
-    ],
-    { duration: 420, easing: 'steps(6, end)' }
-  );
+  const pool = [...SHAPES].sort(() => Math.random() - 0.5);
+  const route = pool.slice(0, 2 + Math.floor(Math.random() * 2));
+
+  const frames: Keyframe[] = [{ clipPath: SQUARE, transform: 'none' }];
+  route.forEach((shape, i) => {
+    const offset = (i + 1) / (route.length + 1);
+    frames.push({ clipPath: shape, transform: jitter(), offset });
+  });
+  frames.push({ clipPath: SQUARE, transform: 'none' });
+
+  const glitch = el.animate(frames, {
+    duration: rand(340, 560),
+    easing: `steps(${4 + Math.floor(Math.random() * 5)}, end)`,
+  });
   glitch.onfinish = () => {
     el.removeAttribute('data-bpi');
     el.animate(
@@ -120,6 +138,181 @@ function collectLines(): HTMLElement[] {
   return found;
 }
 
+// Everything whose look depends on the accent color (dots, bars, the sidebar's
+// active line, pseudo-elements...). Found by swapping --color-primary for a
+// sentinel and seeing whose computed colors change, so nothing is missed.
+function collectAccents(): HTMLElement[] {
+  const html = document.documentElement;
+  const els = [...document.querySelectorAll<HTMLElement>(ROOTS)].flatMap(
+    (root) => [root, ...root.querySelectorAll<HTMLElement>('*')]
+  );
+  const look = (el: Element) =>
+    [null, '::before', '::after']
+      .map((pseudo) => {
+        const cs = getComputedStyle(el, pseudo);
+        return [
+          cs.color,
+          cs.backgroundColor,
+          cs.backgroundImage,
+          cs.borderTopColor,
+          cs.borderBottomColor,
+          cs.borderLeftColor,
+          cs.boxShadow,
+        ].join('|');
+      })
+      .join('#');
+
+  const before = els.map(look);
+  html.style.setProperty('--color-primary', '#00ff01');
+  const changed = els.filter((el, i) => look(el) !== before[i]);
+  html.style.removeProperty('--color-primary');
+  return changed;
+}
+
+// glitchy hand-off from blueprint to the real thing: a hue flash, a sideways
+// tear and a sliced clip before it settles
+function glitchIn(el: HTMLElement, from: string) {
+  const dx = (Math.random() < 0.5 ? -1 : 1) * (2 + Math.random() * 6);
+  const slice = () => {
+    const top = Math.floor(Math.random() * 60);
+    return `inset(${top}% 0 ${Math.floor(Math.random() * (90 - top))}% 0)`;
+  };
+  el.animate(
+    [
+      { filter: from, transform: 'none', clipPath: 'inset(0)' },
+      {
+        filter: `${from} hue-rotate(${90 + Math.random() * 180}deg)`,
+        transform: `translateX(${dx}px) skewX(${dx}deg)`,
+        clipPath: slice(),
+        offset: 0.2,
+      },
+      {
+        filter: from,
+        transform: `translateX(${-dx / 2}px)`,
+        clipPath: slice(),
+        offset: 0.4,
+      },
+      {
+        filter: 'hue-rotate(-40deg) saturate(2)',
+        transform: 'none',
+        clipPath: 'inset(0)',
+        offset: 0.6,
+      },
+      { filter: 'none', transform: 'none', clipPath: 'inset(0)' },
+    ],
+    {
+      duration: 300 + Math.random() * 350,
+      easing: `steps(${3 + Math.floor(Math.random() * 4)}, end)`,
+    }
+  );
+}
+
+// Where object-fit/object-position actually draw the picture inside its box,
+// as a source rect (sx, sy, sw, sh) and a destination rect (dx, dy, dw, dh).
+function drawnRect(img: HTMLImageElement, W: number, H: number) {
+  const cs = getComputedStyle(img);
+  const iw = img.naturalWidth;
+  const ih = img.naturalHeight;
+  const [px, py] = cs.objectPosition
+    .split(' ')
+    .map((v) => (v.endsWith('%') ? parseFloat(v) / 100 : 0.5));
+  if (cs.objectFit === 'cover') {
+    const s = Math.max(W / iw, H / ih);
+    const sw = W / s;
+    const sh = H / s;
+    return [(iw - sw) * px, (ih - sh) * py, sw, sh, 0, 0, W, H];
+  }
+  if (cs.objectFit === 'contain') {
+    const s = Math.min(W / iw, H / ih);
+    const dw = iw * s;
+    const dh = ih * s;
+    return [0, 0, iw, ih, (W - dw) * px, (H - dh) * py, dw, dh];
+  }
+  return [0, 0, iw, ih, 0, 0, W, H];
+}
+
+// Game-style texture streaming: the picture appears as a few big blue-tinted
+// blocks and sharpens through finer and finer resolutions to the real image.
+// Drawn on a canvas laid over the <img>; returns false if it can't run.
+function streamImage(img: HTMLImageElement): boolean {
+  const W = img.offsetWidth;
+  const H = img.offsetHeight;
+  const parent = img.parentElement;
+  if (!img.complete || !img.naturalWidth || !W || !H || !parent) return false;
+
+  // lay the canvas exactly over the image inside its own container
+  const wasStatic = getComputedStyle(parent).position === 'static';
+  if (wasStatic) parent.style.position = 'relative';
+  const ir = img.getBoundingClientRect();
+  const pr = parent.getBoundingClientRect();
+
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const overlay = document.createElement('canvas');
+  overlay.width = W * dpr;
+  overlay.height = H * dpr;
+  Object.assign(overlay.style, {
+    position: 'absolute',
+    left: `${ir.left - pr.left - parent.clientLeft}px`,
+    top: `${ir.top - pr.top - parent.clientTop}px`,
+    width: `${W}px`,
+    height: `${H}px`,
+    pointerEvents: 'none',
+  });
+  const g = overlay.getContext('2d');
+  const small = document.createElement('canvas');
+  const sg = small.getContext('2d');
+  if (!g || !sg) return false;
+
+  const [sx, sy, sw, sh, dx, dy, dw, dh] = drawnRect(img, W, H);
+  // blocks across the picture at each step, then the real thing
+  const levels = [4, 7, 12, 22, 40, 80];
+  const blue = [0.85, 0.7, 0.5, 0.3, 0.15, 0];
+
+  img.removeAttribute('data-bpf');
+  img.style.opacity = '0';
+  parent.appendChild(overlay);
+
+  const draw = (step: number) => {
+    const n = levels[step];
+    const bw = Math.max(1, Math.round(n * (dw / Math.max(dw, dh))));
+    const bh = Math.max(1, Math.round(n * (dh / Math.max(dw, dh))));
+    small.width = bw;
+    small.height = bh;
+    sg.drawImage(img, sx, sy, sw, sh, 0, 0, bw, bh);
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, W, H);
+    g.imageSmoothingEnabled = false;
+    // a little sideways tear on the coarse steps
+    const tear = step < 3 ? (Math.random() - 0.5) * 8 : 0;
+    g.drawImage(small, 0, 0, bw, bh, dx + tear, dy, dw, dh);
+    g.globalCompositeOperation = 'color';
+    g.fillStyle = `rgba(60, 130, 255, ${blue[step]})`;
+    g.fillRect(dx, dy, dw, dh);
+    g.globalCompositeOperation = 'source-over';
+  };
+
+  let step = 0;
+  draw(step);
+  const next = () => {
+    step++;
+    if (step < levels.length) {
+      draw(step);
+      setTimeout(next, 60 + Math.random() * 70);
+      return;
+    }
+    // hand over to the real image
+    img.style.opacity = '';
+    overlay.animate([{ opacity: 1 }, { opacity: 0 }], {
+      duration: 180,
+    }).onfinish = () => {
+      overlay.remove();
+      if (wasStatic) parent.style.position = '';
+    };
+  };
+  setTimeout(next, 60 + Math.random() * 70);
+  return true;
+}
+
 export function runBlueprint() {
   const html = document.documentElement;
   if (!html.classList.contains('blueprint')) return;
@@ -128,50 +321,58 @@ export function runBlueprint() {
   const icons = collectIcons();
   const frames = collectFrames();
   const lines = collectLines();
+  const accents = collectAccents();
   pieces.forEach((el) => el.setAttribute('data-bp', ''));
   icons.forEach((el) => el.setAttribute('data-bpi', ''));
   frames.forEach((el) => el.setAttribute('data-bpf', ''));
   lines.forEach((el) => el.setAttribute('data-bpl', ''));
+  accents.forEach((el) => el.setAttribute('data-bpc', ''));
   html.classList.add('bp-live', 'bp-fade');
 
-  // the wave starts in the top-left corner and spreads diagonally across the
-  // visible screen; anything below the fold finishes with the last pieces
-  const reach = Math.hypot(window.innerWidth, window.innerHeight);
+  // a different wave every time: random origin and speed
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const origins: [number, number][] = [
+    [0, 0],
+    [w, 0],
+    [0, h],
+    [w, h],
+    [w / 2, h / 2],
+    [Math.random() * w, Math.random() * h],
+  ];
+  const [ox, oy] = origins[Math.floor(Math.random() * origins.length)];
+  const wave = 1200 + Math.random() * 600;
+  const reach = Math.max(
+    Math.hypot(ox, oy),
+    Math.hypot(w - ox, oy),
+    Math.hypot(ox, h - oy),
+    Math.hypot(w - ox, h - oy)
+  );
+  html.style.setProperty('--bp-x', `${ox}px`);
+  html.style.setProperty('--bp-y', `${oy}px`);
 
-  // the grid recedes with the wave (mask radius --bp-r, see app.css)
-  html.animate([{ '--bp-r': '0px' }, { '--bp-r': `${reach + 200}px` }], {
-    duration: WAVE,
+  // the grid and paper recede with the wave: smooth motion, with small random
+  // surges and hesitations so it never moves the same way twice
+  // (mask radius --bp-r, see app.css)
+  const points = 18 + Math.floor(Math.random() * 8);
+  const radius: Keyframe[] = [{ '--bp-r': '0px', offset: 0 }];
+  let last = 0;
+  for (let i = 1; i < points; i++) {
+    const wobble = (Math.random() - 0.5) * (0.5 / points);
+    const progress = Math.max(last - 0.01, i / points + wobble);
+    last = progress;
+    radius.push({
+      '--bp-r': `${Math.max(0, progress * (reach + 200))}px`,
+      offset: i / points,
+    });
+  }
+  radius.push({ '--bp-r': `${reach + 260}px`, offset: 1 });
+  const sweep = html.animate(radius, {
+    duration: wave,
     delay: HOLD,
-    easing: 'cubic-bezier(0.4, 0, 0.6, 1)',
+    easing: 'linear',
     fill: 'forwards',
   });
-
-  for (const el of pieces) {
-    const r = el.getBoundingClientRect();
-    const at = Math.min(Math.hypot(r.left, r.top) / reach, 1);
-    const delay = HOLD + at * WAVE + Math.random() * JITTER;
-
-    setTimeout(() => {
-      const from = getComputedStyle(el).filter;
-      // only flicker things that are already visible; hidden ones are still
-      // waiting for their scroll reveal and would flash
-      const flicker = getComputedStyle(el).opacity === '1';
-      el.removeAttribute('data-bp');
-      blip(at);
-      // Web Animations so we don't fight the reveal transitions in app.css
-      el.animate(
-        flicker
-          ? [
-              { filter: from, opacity: 1 },
-              { filter: from, opacity: 0.35, offset: 0.12 },
-              { filter: from, opacity: 1, offset: 0.24 },
-              { filter: 'none', opacity: 1 },
-            ]
-          : [{ filter: from }, { filter: 'none' }],
-        { duration: 600, easing: 'ease-out' }
-      );
-    }, delay);
-  }
 
   // sound only plays if the browser allows audio before a click (see
   // tryAutoplay); otherwise the intro runs silently
@@ -186,71 +387,121 @@ export function runBlueprint() {
   };
   void tryAutoplay().then((ok) => {
     audible = ok;
-    if (ok) stopHum = introHum((HOLD + WAVE) / 1000);
+    if (ok) stopHum = introHum((HOLD + wave) / 1000);
   });
 
-  for (const el of frames) {
-    const r = el.getBoundingClientRect();
-    const at = Math.min(Math.hypot(r.left, r.top) / reach, 1);
-    setTimeout(
-      () => {
-        // the picture flickers into its empty frame
-        el.removeAttribute('data-bpf');
-        el.animate(
-          [
-            { opacity: 0 },
-            { opacity: 0.7, offset: 0.15 },
-            { opacity: 0.15, offset: 0.3 },
-            { opacity: 1 },
-          ],
-          { duration: 600, easing: 'ease-out' }
-        );
-      },
-      HOLD + at * WAVE + Math.random() * JITTER
+  // What happens to each kind of element when the wave reaches it.
+  const restorePiece = (el: HTMLElement, at: number) => {
+    const from = getComputedStyle(el).filter;
+    // hidden ones are still waiting for their scroll reveal and would flash
+    const visible = getComputedStyle(el).opacity === '1';
+    el.removeAttribute('data-bp');
+    blip(at);
+    // Web Animations so we don't fight the reveal transitions in app.css
+    if (visible && Math.random() < 0.7) glitchIn(el, from);
+    else
+      el.animate([{ filter: from }, { filter: 'none' }], {
+        duration: 450,
+        easing: 'ease-out',
+      });
+  };
+  const restoreFrame = (el: HTMLElement) => {
+    if (el instanceof HTMLImageElement && streamImage(el)) return;
+    // fallback (canvas, or an image that hasn't loaded): flicker in
+    el.removeAttribute('data-bpf');
+    el.animate(
+      [
+        { opacity: 0 },
+        { opacity: 0.7, offset: 0.15 },
+        { opacity: 0.15, offset: 0.3 },
+        { opacity: 1 },
+      ],
+      { duration: 600, easing: 'steps(5, end)' }
     );
-  }
+  };
+  const restoreLine = (el: HTMLElement) => {
+    el.removeAttribute('data-bpl');
+    el.animate([{ '--color-line': BLUE_LINE }, { '--color-line': LINE }], {
+      duration: 500,
+      easing: 'steps(4, end)',
+    });
+  };
 
-  for (const el of icons) {
-    const r = el.getBoundingClientRect();
-    const at = Math.min(Math.hypot(r.left, r.top) / reach, 1);
-    setTimeout(
-      () => morphIcon(el, audible),
-      HOLD + at * WAVE + Math.random() * JITTER
-    );
-  }
+  type Pending = {
+    el: HTMLElement;
+    restore: (at: number) => void;
+    /** a bottom-only border is reached along its bottom edge */
+    bottomEdge: boolean;
+    /** extra ms after the wave arrives, so pieces "stream" in unevenly */
+    lag: number;
+    reachedAt?: number;
+  };
+  const lag = () =>
+    Math.random() < LATE ? 250 + Math.random() * 400 : Math.random() * JITTER;
+  const isBottomLine = (el: HTMLElement) => {
+    const cs = getComputedStyle(el);
+    return cs.borderTopWidth === '0px' && cs.borderBottomWidth !== '0px';
+  };
+  let pending: Pending[] = [
+    ...pieces.map((el) => ({
+      el,
+      restore: (at: number) => restorePiece(el, at),
+    })),
+    ...accents.map((el) => ({
+      el,
+      restore: () => el.removeAttribute('data-bpc'),
+    })),
+    ...frames.map((el) => ({ el, restore: () => restoreFrame(el) })),
+    ...icons.map((el) => ({ el, restore: () => morphIcon(el, audible) })),
+    ...lines.map((el) => ({ el, restore: () => restoreLine(el) })),
+  ].map((p) => ({
+    ...p,
+    bottomEdge: lines.includes(p.el) && isBottomLine(p.el),
+    lag: lag(),
+  }));
 
-  for (const el of lines) {
-    const r = el.getBoundingClientRect();
-    // a bottom-only border (section dividers) is reached at its left end
-    const onlyBottom =
-      getComputedStyle(el).borderTopWidth === '0px' &&
-      getComputedStyle(el).borderBottomWidth !== '0px';
-    const at = Math.min(
-      Math.hypot(r.left, onlyBottom ? r.bottom : r.top) / reach,
-      1
-    );
-    setTimeout(
-      () => {
-        el.removeAttribute('data-bpl');
-        el.animate([{ '--color-line': BLUE_LINE }, { '--color-line': LINE }], {
-          duration: 500,
-          easing: 'ease-out',
-        });
-      },
-      HOLD + at * WAVE + Math.random() * JITTER
-    );
-  }
+  // Every frame: read how far the wave has actually spread (the animated mask
+  // radius) and restore whatever it covers at its current spot on screen, so
+  // pieces stay in sync with the wave even if the page scrolls meanwhile.
+  const tick = (now: number) => {
+    const r =
+      parseFloat(getComputedStyle(html).getPropertyValue('--bp-r')) || 0;
+    const front = r + 110; // middle of the mask's soft edge
+    pending = pending.filter((p) => {
+      if (p.reachedAt === undefined) {
+        const b = p.el.getBoundingClientRect();
+        const top = p.bottomEdge ? b.bottom : b.top;
+        const dx = Math.max(b.left - ox, 0, ox - b.right);
+        const dy = Math.max(top - oy, 0, oy - b.bottom);
+        if (Math.hypot(dx, dy) > front) return true;
+        p.reachedAt = now;
+      }
+      if (now - p.reachedAt < p.lag) return true;
+      p.restore(Math.min(r / reach, 1));
+      return false;
+    });
+    if (pending.length) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 
-  const end = HOLD + WAVE + JITTER;
-  setTimeout(() => {
-    html.classList.remove('blueprint', 'bp-live');
-    stopHum();
-    if (audible) sfx.built();
-  }, end);
-  setTimeout(() => {
-    html.classList.remove('bp-fade');
-    icons.forEach((el) => el.removeAttribute('data-bpi'));
-    frames.forEach((el) => el.removeAttribute('data-bpf'));
-    html.getAnimations().forEach((a) => a.cancel());
-  }, end + 1000);
+  void sweep.finished.then(() => {
+    // the wave has covered the whole screen; give late pieces their moment,
+    // then restore anything left (off screen) and wrap up
+    setTimeout(() => {
+      pending.forEach((p) => p.restore(1));
+      pending = [];
+      html.classList.remove('blueprint', 'bp-live');
+      stopHum();
+      if (audible) sfx.built();
+    }, 650);
+    setTimeout(() => {
+      html.classList.remove('bp-fade');
+      icons.forEach((el) => el.removeAttribute('data-bpi'));
+      frames.forEach((el) => el.removeAttribute('data-bpf'));
+      accents.forEach((el) => el.removeAttribute('data-bpc'));
+      html.getAnimations().forEach((a) => a.cancel());
+      html.style.removeProperty('--bp-x');
+      html.style.removeProperty('--bp-y');
+    }, 1650);
+  });
 }

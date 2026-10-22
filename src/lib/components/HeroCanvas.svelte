@@ -12,7 +12,8 @@
       '(prefers-reduced-motion: reduce)'
     ).matches;
     const host = canvas.parentElement!;
-    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
+    // follows the pointer 1:1 (no easing) so the dots react without lag
+    const mouse = { x: -9999, y: -9999 };
     let w = 0;
     let h = 0;
     let frame = 0;
@@ -53,23 +54,17 @@
     };
 
     const loop = (now: number) => {
-      mouse.x += (mouse.tx - mouse.x) * 0.08;
-      mouse.y += (mouse.ty - mouse.y) * 0.08;
-      if (mouse.tx < -999) {
-        mouse.x = mouse.tx;
-        mouse.y = mouse.ty;
-      }
       if (visible) draw(now / 1000);
       frame = requestAnimationFrame(loop);
     };
 
     const onMove = (e: PointerEvent) => {
       const r = canvas.getBoundingClientRect();
-      mouse.tx = e.clientX - r.left;
-      mouse.ty = e.clientY - r.top;
+      mouse.x = e.clientX - r.left;
+      mouse.y = e.clientY - r.top;
     };
     const onLeave = () => {
-      mouse.tx = mouse.ty = -9999;
+      mouse.x = mouse.y = -9999;
     };
 
     const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));

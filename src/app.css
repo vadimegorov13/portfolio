@@ -279,7 +279,8 @@
     transition: box-shadow 250ms ease;
   }
 
-  .attention-glow:hover {
+  .attention-glow:hover,
+  .glow-on-hover:hover {
     animation: none;
     box-shadow:
       0 0 0 4px color-mix(in srgb, var(--color-primary) 30%, transparent),
@@ -304,6 +305,27 @@
 
   .is-vibrating {
     animation: vibrate 110ms linear infinite;
+  }
+
+  /* big things (project cards) jitter without growing */
+  .card.is-vibrating {
+    animation: vibrate-soft 110ms linear infinite;
+  }
+
+  @keyframes vibrate-soft {
+    0%,
+    100% {
+      transform: translate(0, 0) rotate(0);
+    }
+    25% {
+      transform: translate(-1.5px, 1px) rotate(-0.25deg);
+    }
+    50% {
+      transform: translate(1.5px, -1px) rotate(0.25deg);
+    }
+    75% {
+      transform: translate(-1px, -1.5px) rotate(0.1deg);
+    }
   }
 
   @keyframes vibrate {
@@ -507,6 +529,12 @@ html.blueprint:not(.bp-live),
   --color-line: #2e6fd8;
 }
 
+/* accent pink turns blueprint blue too (dots, bars, active lines...) */
+html.blueprint:not(.bp-live),
+[data-bpc] {
+  --color-primary: #4f8dff;
+}
+
 html.bp-fade {
   background: #0f1218;
 }
@@ -520,7 +548,7 @@ html.bp-fade body::before {
   pointer-events: none;
   background: #071a3a;
   mask-image: radial-gradient(
-    circle at 0 0,
+    circle at var(--bp-x, 0px) var(--bp-y, 0px),
     transparent var(--bp-r),
     #000 calc(var(--bp-r) + 220px)
   );
@@ -546,7 +574,7 @@ html.bp-fade body::after {
     24px 24px;
   /* cleared from the top-left corner outward as the wave passes */
   mask-image: radial-gradient(
-    circle at 0 0,
+    circle at var(--bp-x, 0px) var(--bp-y, 0px),
     transparent var(--bp-r),
     #000 calc(var(--bp-r) + 220px)
   );

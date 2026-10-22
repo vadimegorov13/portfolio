@@ -4,6 +4,8 @@
   import { projectLinks } from '$lib/data/projects';
   import { sfx } from '$lib/sound.svelte';
   import LinkBlock from '$components/common/LinkBlock.svelte';
+  import Icon from '@iconify/svelte';
+  import { vibrate } from '$lib/actions/vibrate';
 
   type Props = { id: string; projects: Project[] };
   let { id, projects }: Props = $props();
@@ -50,14 +52,47 @@
       last = index;
     };
 
+    // The browser jumps to a #hash (e.g. #contacts) before this strip makes
+    // the page taller, which leaves the target too high up. Once the height is
+    // final, jump to anything below the strip again.
+    let userScrolled = false;
+    const markScrolled = () => (userScrolled = true);
+    const fixHashJump = () => {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const target = id && document.getElementById(id);
+      if (
+        !userScrolled &&
+        target &&
+        section.compareDocumentPosition(target) &
+          Node.DOCUMENT_POSITION_FOLLOWING
+      ) {
+        target.scrollIntoView({ behavior: 'instant' });
+      }
+    };
+    const onLoad = () => {
+      layout();
+      fixHashJump();
+    };
+
     layout();
+    requestAnimationFrame(fixHashJump);
+    window.addEventListener('wheel', markScrolled, {
+      once: true,
+      passive: true,
+    });
+    window.addEventListener('touchmove', markScrolled, {
+      once: true,
+      passive: true,
+    });
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', layout);
-    window.addEventListener('load', layout);
+    window.addEventListener('load', onLoad);
     return () => {
+      window.removeEventListener('wheel', markScrolled);
+      window.removeEventListener('touchmove', markScrolled);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', layout);
-      window.removeEventListener('load', layout);
+      window.removeEventListener('load', onLoad);
     };
   });
 </script>
@@ -153,18 +188,25 @@
             <p class="font-mono text-xs text-ink-3">
               {project.stack.join(' · ')}
             </p>
-            {#if projectLinks(project).length}
-              <div class="mt-auto flex flex-wrap gap-2 pt-2">
-                {#each projectLinks(project) as link (link.href)}
-                  <LinkBlock
-                    href={link.href}
-                    label={link.label}
-                    size="sm"
-                    isExternal
-                  />
-                {/each}
-              </div>
-            {/if}
+            <div class="mt-auto flex flex-wrap gap-2 pt-2">
+              <!-- hum + glow, and the whole card vibrates (like View Projects) -->
+              <a
+                href={`/projects#${project.slug}`}
+                class="btn btn-primary glow-on-hover px-3 py-1 text-xs"
+                use:vibrate={{ target: 'article' }}
+              >
+                Read more
+                <Icon icon="carbon:arrow-right" class="btn-icon" />
+              </a>
+              {#each projectLinks(project) as link (link.href)}
+                <LinkBlock
+                  href={link.href}
+                  label={link.label}
+                  size="sm"
+                  isExternal
+                />
+              {/each}
+            </div>
           </div>
         </article>
       {/each}
