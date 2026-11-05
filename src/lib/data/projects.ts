@@ -28,6 +28,73 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: 'ar-sandbox-kit',
+    title: 'AR Sandbox Kit',
+    type: 'Tooling',
+    category: 'Open Source / Linux Tooling / UAA College of Engineering',
+    date: 'Nov. 2026',
+    year: 2026,
+    summary:
+      'Install, calibrate and run an Augmented Reality Sandbox on Linux with a few commands and a point-and-click Control Center.',
+    description:
+      'An AR Sandbox is a box of sand with a depth camera and a projector above it: shape the sand and a live topographic map, with contour lines and flowing water, is projected back onto it. I built this kit at the University of Alaska Anchorage College of Engineering to make the open-source SARndbox software easy to install and calibrate.',
+    sections: [
+      {
+        title: 'The problem',
+        body: 'SARndbox by Oliver Kreylos (UC Davis) is powerful but command-line only, it is hard to build on a current Ubuntu, and its projector calibration is easy to get wrong. After several failed calibrations it was clear what a beginner needs to see while calibrating.',
+      },
+      {
+        title: 'The solution',
+        body: 'A one-step installer downloads, verifies, patches and builds Vrui, the Kinect package and SARndbox. A Control Center shows the live status of the camera, graphics driver, displays and calibration, with every tool behind one button. Guided calibration shows the height of every captured point and rejects bad results with a plain explanation instead of installing them.',
+      },
+      {
+        title: 'Details',
+        body: 'Includes desktop launchers, a leveling grid, a geometry wizard, calibration profiles, a one-click NVIDIA driver repair, a full user guide with troubleshooting, and a printable calibration target. Runs on Ubuntu 24.04 with a Kinect v1 and a short-throw projector.',
+      },
+    ],
+    stack: ['Python', 'Shell', 'Linux', 'Kinect', 'SARndbox', 'Claude Code'],
+    img: 'ar-sandbox.png',
+    github: 'https://github.com/vadimegorov13/ar-sandbox-kit',
+    featured: true,
+  },
+  {
+    slug: 'degree-flowchart-planner',
+    title: 'Degree Flowchart Planner',
+    shortTitle: 'Degree Planner',
+    type: 'Tool',
+    category: 'Open Source / Advising Tool / UAA Civil Engineering',
+    date: 'Nov. 2026',
+    year: 2026,
+    summary:
+      'An offline degree planner built on the program’s own flow chart: students type in their courses by semester and the matching boxes color in.',
+    description:
+      'A stand-alone degree planner for the Bachelor of Science in Civil Engineering at the University of Alaska Anchorage. Students fill in a semester grid and the program’s real flow chart colors in: green for completed, yellow for in progress, red for planned, and black for a course placed in a semester it isn’t offered.',
+    sections: [
+      {
+        title: 'Background',
+        body: 'The Department of Civil Engineering used an Excel “live flow chart” for advising and the Intro to Civil Engineering class. This tool takes that idea and turns it into something any student or advisor can open in a browser, for every catalog year.',
+      },
+      {
+        title: 'The solution',
+        body: 'The whole tool is a single HTML file that opens in any browser with no server, login or install, and keeps student data on the student’s computer. Saved plans are HTML files too, so a student can email a plan to their advisor, who just double-clicks it. A rules engine handles pick-N-of-M groups, elective slots filled in term order, old-to-new course numbers, and warnings for duplicates, wrong semesters and unapproved electives.',
+      },
+      {
+        title: 'Details',
+        body: 'Covers seven catalog years (2020–21 through 2026–27). A separate editor file lets the program owner add catalog years from a chart image, drag and resize course boxes, edit the course list and rules, and download a fresh blank template. Includes zoom and pan, a two-page printout, and docs for adapting it to any program that has a flow chart.',
+      },
+    ],
+    metrics: [
+      { value: '1', label: 'HTML file, works offline' },
+      { value: '7', label: 'catalog years' },
+      { value: '0', label: 'servers or logins' },
+      { value: 'v7.0', label: 'current version' },
+    ],
+    stack: ['JavaScript', 'HTML/CSS', 'Python', 'Claude Code'],
+    img: 'degree-planner.png',
+    github: 'https://github.com/vadimegorov13/degree-flowchart-planner',
+    featured: true,
+  },
+  {
     slug: 'certificate-automation',
     title: 'Certificate Automation System',
     shortTitle: 'Certificate Automation',
