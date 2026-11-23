@@ -11,12 +11,11 @@
     CARD_H,
     CARD_W,
     focusAt,
-    gridDone,
+    isResting,
     panelBox,
     place,
     project as flatten,
     smooth,
-    speedAt,
     spotlight,
     mix,
     type Geo,
@@ -56,7 +55,8 @@
   // hover grow: only once the grid is done AND the mouse really moved
   let armed = $state(false);
 
-  const done = $derived(p >= gridDone(picks.length) - 0.005);
+  // all cards in their slots (hover grow and the hint only then)
+  const done = $derived(isResting(p, picks.length));
   const focused = $derived(
     focus.idx >= 0
       ? (projects.find((pr) => pickOf(pr.slug) === focus.idx) ?? null)
@@ -97,7 +97,6 @@
     const ro = new ResizeObserver(measure);
     ro.observe(area);
 
-    let a = 0;
     let last = performance.now();
     let raf = 0;
     let lastFocus = -1;
@@ -111,7 +110,6 @@
       p = reduced
         ? 1
         : Math.min(1, Math.max(0, -rect.top / (span > 0 ? span : 1)));
-      if (!reduced) a += speedAt(p) * dt;
 
       // open / close (~0.45s)
       const step = reduced ? 1 : dt / 0.45;
@@ -134,7 +132,6 @@
           picks: picks.length,
           k: pick < 0 ? k++ : -1,
           kn,
-          a,
           p,
         };
         const placed = place(geo, slot);
@@ -236,8 +233,8 @@
 <section
   {id}
   bind:this={section}
-  class="relative border-b border-line"
-  style="height: {reduced ? 100 : geo.mobile ? 600 : 800}svh"
+  class="relative"
+  style="height: {reduced ? 100 : geo.mobile ? 420 : 460}svh"
 >
   <!-- tapping/clicking empty space closes an open card -->
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->

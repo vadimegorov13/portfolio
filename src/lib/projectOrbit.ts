@@ -1,13 +1,13 @@
 // Layout for the home page projects section (src/lib/components/ProjectOrbit.svelte).
 //
-// Scrolling through the section plays a timeline:
-//   1. every project circles on three orbit rings, slowing down
-//   2. each spotlight pick comes to the front with its description, then
-//      moves up into a "featured" row when the next one comes in
-//   3. the rest of the projects sort themselves into a grid below
+// The section opens on the finished layout: the featured projects in a row on
+// top, everything else in a grid under them. Scrolling through it zooms into
+// each featured project in turn: it grows from its slot into the spotlight
+// (with its description beside it) while the rest dims, then settles back
+// before the next one comes up. Past the last one it's the grid again.
 //
 // All positions are px from the center of the card area; a card is
-// CARD_W × CARD_H at scale 1. z only fakes depth (it scales the card).
+// CARD_W × CARD_H at scale 1.
 
 export const CARD_W = 220;
 export const CARD_H = 150;
@@ -26,11 +26,8 @@ export type Slot = {
   picks: number; // number of spotlight picks
   k: number; // index among the rest (-1 for picks)
   kn: number; // number of the rest
-  a: number; // orbit angle, accumulated over time (rad)
   p: number; // scroll progress through the section, 0..1
 };
-
-const TAU = Math.PI * 2;
 
 export const smooth = (a: number, b: number, v: number) => {
   const t = Math.min(1, Math.max(0, (v - a) / (b - a)));
@@ -47,29 +44,34 @@ export const mix = (A: Pose, B: Pose, t: number): Pose => ({
 
 // ---- timeline (scroll progress 0..1)
 
-const FIRST = 0.14; // first pick starts coming in
-const STEP = 0.2; // scroll per pick
-const IN = 0.06; // fly to the spotlight
-const HOLD = 0.11; // stay in the spotlight
-const OUT = 0.05; // fly up to the featured row
-const DIM = [0.1, 0.16]; // orbit fades back as the first pick comes in
-const GRID_LEN = 0.16; // the rest sorting into the grid
+const FIRST = 0.1; // first pick starts zooming in
+const STEP = 0.28; // scroll per pick
+const IN = 0.08; // zoom into the spotlight
+const HOLD = 0.12; // stay in the spotlight
+const OUT = 0.08; // settle back into the row
 
-const outAt = (j: number) => FIRST + j * STEP + IN + HOLD;
-// when the last pick has moved up (or the orbit would have slowed down)
-const picksDone = (picks: number) =>
-  picks > 0 ? outAt(picks - 1) + OUT : FIRST;
-export const gridDone = (picks: number) => picksDone(picks) + GRID_LEN;
+const startAt = (j: number) => FIRST + j * STEP;
+const outAt = (j: number) => startAt(j) + IN + HOLD;
 
-// orbit spin (rad/s): an unhurried drift that eases a little more by the
-// time the first pick comes in
-export const speedAt = (p: number) =>
-  0.06 + (0.28 - 0.06) * (1 - smooth(0, FIRST, p)) ** 1.6;
+// how far pick j is zoomed in (0 in its slot, 1 in the spotlight)
+const zoomOf = (j: number, p: number) =>
+  smooth(startAt(j), startAt(j) + IN, p) *
+  (1 - smooth(outAt(j), outAt(j) + OUT, p));
+
+// how much the spotlight is in use right now (dims everything else)
+const zoomAt = (p: number, picks: number) => {
+  let z = 0;
+  for (let j = 0; j < picks; j++) z = Math.max(z, zoomOf(j, p));
+  return z;
+};
+
+/** every card sits in its slot (start, between picks, and at the end) */
+export const isResting = (p: number, picks: number) => zoomAt(p, picks) < 0.001;
 
 // which pick is in the spotlight and how visible its text is (0..1)
 export function focusAt(p: number, picks: number) {
   for (let j = 0; j < picks; j++) {
-    const start = FIRST + j * STEP;
+    const start = startAt(j);
     if (p >= start && p < outAt(j) + OUT) {
       const amt = Math.min(
         smooth(start + IN * 0.5, start + IN, p),
@@ -82,25 +84,6 @@ export function focusAt(p: number, picks: number) {
 }
 
 // ---- poses
-
-// three rings turning in opposite directions
-function orbit(g: Geo, c: Slot): Pose {
-  const ring = c.i % 3;
-  const per = Math.ceil(c.n / 3);
-  const idx = Math.floor(c.i / 3);
-  const dir = ring % 2 ? -1 : 1;
-  const th = (idx / per) * TAU + c.a * dir * (1 - ring * 0.25) + ring;
-  const rx = [0.17, 0.31, 0.45][ring] * g.w;
-  const ry = [0.1, 0.19, 0.29][ring] * g.h;
-  const front = (Math.sin(th) + 1) / 2;
-  return {
-    x: Math.cos(th) * rx,
-    y: Math.sin(th) * ry,
-    z: Math.sin(th) * 70,
-    s: (0.62 + 0.1 * front) * (g.mobile ? 0.62 : 1),
-    o: 0.75 + 0.25 * front,
-  };
-}
 
 // big card in front: left half on desktop (text on the right), top on phones
 // (text below)
@@ -135,8 +118,8 @@ export function panelBox(g: Geo) {
   };
 }
 
-// end state: featured row on top, the rest in a grid under it, the whole
-// block centered vertically; cards shrink until everything fits
+// the resting layout: featured row on top, the rest in a grid under it, the
+// whole block centered vertically; cards shrink until everything fits
 function finalLayout(g: Geo, picks: number, kn: number) {
   const gap = g.mobile ? 10 : 20;
   const between = g.mobile ? 20 : 36;
@@ -203,44 +186,28 @@ function gridSlot(g: Geo, c: Slot): Pose {
 }
 
 // where a card is at this point of the timeline. `zi` is its stacking order:
-// the pick coming in > picks in the row > the orbit (by depth)
+// the pick in the spotlight > the other picks > the grid
 export function place(g: Geo, c: Slot): Placed {
-  const o = orbit(g, c);
-  const dim = smooth(DIM[0], DIM[1], c.p) * (c.picks ? 1 : 0);
-  // on phones the text sits over the orbit, so it fades out almost fully
-  const fade = g.mobile ? 0.97 : 0.9;
-  const dimmed: Pose = { ...o, z: o.z - 500 * dim, o: o.o * (1 - fade * dim) };
-
   if (c.pick >= 0) {
-    const start = FIRST + c.pick * STEP;
-    const tin = smooth(start, start + IN, c.p);
-    const tout = smooth(outAt(c.pick), outAt(c.pick) + OUT, c.p);
-    if (tout > 0) {
-      // muted in the row while the other picks have the spotlight, back to
-      // full once the last one has moved up too
-      const last = outAt(c.picks - 1);
-      const mute = tout * (1 - smooth(last, last + OUT, c.p));
-      const pose = mix(spotlight(g), featuredSlot(g, c), tout);
+    const zoom = zoomOf(c.pick, c.p);
+    if (zoom > 0) {
       return {
-        ...pose,
-        o: pose.o * (1 - 0.8 * mute),
+        ...mix(featuredSlot(g, c), spotlight(g), zoom),
         on: true,
-        zi: 3000 + c.pick,
+        zi: 4000 + c.pick,
       };
     }
-    const pose = mix(dimmed, spotlight(g), tin);
-    return {
-      ...pose,
-      on: tin > 0.95,
-      zi: tin > 0 ? 4000 + c.pick : 1000 + Math.round(pose.z),
-    };
   }
-
-  const done = picksDone(c.picks);
-  const start = done + (c.k / Math.max(1, c.kn)) * GRID_LEN * 0.5;
-  const t = smooth(start, start + GRID_LEN * 0.5, c.p);
-  const pose = mix(dimmed, gridSlot(g, c), t);
-  return { ...pose, on: false, zi: 1000 + Math.round(pose.z) };
+  // everything not in the spotlight fades back while one is; on phones the
+  // text sits over the grid, so it fades almost fully
+  const dim = zoomAt(c.p, c.picks) * (g.mobile ? 0.95 : 0.85);
+  const slot = c.pick >= 0 ? featuredSlot(g, c) : gridSlot(g, c);
+  return {
+    ...slot,
+    o: slot.o * (1 - dim),
+    on: c.pick >= 0,
+    zi: c.pick >= 0 ? 2000 + c.pick : 1000,
+  };
 }
 
 // flatten the fake depth into plain scaling, so z-index decides stacking

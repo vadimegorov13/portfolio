@@ -9,12 +9,24 @@
     title: string;
     tag?: string;
     sub?: string;
+    /** a line under the section (off on the home page) */
+    line?: boolean;
     children: Snippet;
   };
-  let { id, title, tag = id, sub = '', children }: Props = $props();
+  let {
+    id,
+    title,
+    tag = id,
+    sub = '',
+    line = true,
+    children,
+  }: Props = $props();
 </script>
 
-<section {id} class="scroll-mt-16 border-b border-line lg:scroll-mt-0">
+<section
+  {id}
+  class="scroll-mt-16 lg:scroll-mt-0 {line ? 'border-b border-line' : ''}"
+>
   <div
     class="mx-auto flex max-w-[1100px] flex-col gap-10 px-5 py-20 sm:px-8 md:py-24 lg:px-10"
   >

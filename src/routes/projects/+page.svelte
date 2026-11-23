@@ -116,26 +116,6 @@
         </div>
       </div>
 
-      {#if p.metrics?.length}
-        <dl
-          use:reveal={{ type: 'up' }}
-          class="grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-4"
-        >
-          {#each p.metrics as m (m.label)}
-            <div class="flex flex-col gap-1 bg-background px-5 py-4">
-              <dt class="order-2 text-[0.92rem] leading-snug text-ink-2">
-                {m.label}
-              </dt>
-              <dd
-                class="font-display text-[1.9rem] leading-none font-extrabold tracking-[-0.03em] text-(--c)"
-              >
-                {m.value}
-              </dd>
-            </div>
-          {/each}
-        </dl>
-      {/if}
-
       {#if p.sections?.length}
         <div
           use:reveal={{ type: 'up' }}

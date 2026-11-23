@@ -43,7 +43,7 @@
 
 <div class="min-h-screen">
   <Sidebar />
-  <main bind:this={main} class="lg:ml-68">
+  <main bind:this={main} class="lg:ml-56">
     {@render children?.()}
     <Footer />
   </main>

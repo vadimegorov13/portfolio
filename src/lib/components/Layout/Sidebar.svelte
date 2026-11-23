@@ -227,16 +227,16 @@
 
 <!-- desktop: fixed sidebar -->
 <aside
-  class="fixed inset-y-0 left-0 z-40 hidden w-68 flex-col border-r border-line bg-background lg:flex"
+  class="fixed inset-y-0 left-0 z-40 hidden w-56 flex-col border-r border-line bg-background lg:flex"
 >
   <a
     href="/"
-    class="flex items-center gap-3 border-b border-line px-6 py-6 no-underline"
+    class="flex items-center gap-3 border-b border-line px-5 py-5 no-underline"
   >
     <img
       src="/headshot.jpeg"
       alt="Vadim Egorov"
-      class="size-11 shrink-0 border border-line object-cover"
+      class="size-10 shrink-0 border border-line object-cover"
     />
     <span class="flex min-w-0 flex-col font-mono leading-tight">
       <span class="text-sm font-medium text-ink-1">Vadim Egorov</span>
@@ -301,8 +301,7 @@
       {/if}
     {/each}
   </nav>
-
-  <div class="flex flex-col gap-3 border-t border-line px-6 py-5">
+  <div class="flex flex-col gap-3 px-5 py-5">
     {@render tools()}
     <p
       class="font-mono text-xs break-all text-ink-3"

@@ -71,9 +71,8 @@
   {#each groups as group (group.title)}
     <div>
       <h3
-        class="mb-3 flex items-center gap-2.5 font-display text-lg font-bold tracking-[-0.01em] text-ink-1"
+        class="mb-3 font-display text-lg font-bold tracking-[-0.01em] text-ink-1"
       >
-        <span class="size-2.5 bg-(--g)" aria-hidden="true"></span>
         {group.title}
       </h3>
       <div

@@ -1,19 +1,17 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
-  import { decode } from '$lib/actions/decode';
   import { shake } from '$lib/actions/shake';
   import { copyText, EMAIL } from '$lib/clipboard';
   import { sfx } from '$lib/sound.svelte';
   import { contacts } from '$lib/data/contacts';
 
-  // One row per contact: a big round button in the spirit of dialed.gg (own
-  // hover sound and motion, caption above changes to match) next to the
-  // address and description from data/contacts.ts.
+  // One card per contact, the whole card is the button: its own hover sound
+  // and icon motion (in the spirit of dialed.gg), with the address and
+  // description from data/contacts.ts.
   type Pad = {
     id: string;
     label: string;
     icon: string;
-    caption: string;
     href?: string;
     hoverSound: () => void;
     motion: string;
@@ -24,7 +22,6 @@
       id: 'Email',
       label: 'Email',
       icon: 'carbon:email',
-      caption: 'Click to copy my email.',
       hoverSound: sfx.boing,
       motion: 'wiggle',
     },
@@ -32,7 +29,6 @@
       id: 'GitHub',
       label: 'GitHub',
       icon: 'carbon:logo-github',
-      caption: 'Read my code.',
       href: 'https://github.com/vadimegorov13',
       hoverSound: sfx.type,
       motion: 'spin',
@@ -41,7 +37,6 @@
       id: 'LinkedIn',
       label: 'LinkedIn',
       icon: 'carbon:logo-linkedin',
-      caption: 'Keep it professional.',
       href: 'https://www.linkedin.com/in/vadimegorov13/',
       hoverSound: sfx.rise,
       motion: 'hop',
@@ -50,34 +45,18 @@
 
   const info = (id: string) => contacts.find((c) => c.name === id);
 
-  const IDLE = 'Pick a channel.';
-
   let card: HTMLElement | undefined = $state();
-  let caption = $state(IDLE);
   let copied = $state(false);
 
   async function copyEmail() {
     copied = await copyText(EMAIL);
-    if (copied) {
-      sfx.success();
-      caption = `Copied ${EMAIL}. Talk soon.`;
-    } else {
-      caption = EMAIL;
-    }
+    if (copied) sfx.success();
     shake(card);
-    setTimeout(() => {
-      copied = false;
-      caption = IDLE;
-    }, 2600);
+    setTimeout(() => (copied = false), 2600);
   }
 </script>
 
 <div bind:this={card} class="attention flex flex-col gap-5">
-  <p class="min-h-6 font-mono text-sm text-ink-1" aria-live="polite">
-    <span class="text-primary">&gt;</span>
-    <span use:decode={{ text: caption, duration: 400 }}>{caption}</span>
-  </p>
-
   <ul class="grid grid-cols-1 gap-4 md:grid-cols-3">
     {#each pads as pad (pad.id)}
       {@const isEmail = pad.id === 'Email'}
@@ -93,13 +72,7 @@
           role={pad.href ? 'link' : 'button'}
           aria-label={isEmail ? `Copy email ${EMAIL}` : pad.label}
           class={`pad pad-${pad.motion} row flex w-full cursor-pointer flex-col items-start gap-5 p-6 text-left`}
-          onmouseenter={() => {
-            pad.hoverSound();
-            if (!copied) caption = pad.caption;
-          }}
-          onmouseleave={() => {
-            if (!copied) caption = IDLE;
-          }}
+          onmouseenter={pad.hoverSound}
           onclick={isEmail ? copyEmail : sfx.pop}
         >
           <span
@@ -115,6 +88,7 @@
           <span class="flex min-w-0 flex-col gap-0.5">
             <span
               class="font-display text-[1.35rem] font-bold tracking-[-0.01em] text-ink-1"
+              aria-live={isEmail ? 'polite' : undefined}
             >
               {isEmail && copied ? 'Copied!' : pad.label}
             </span>

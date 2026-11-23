@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { MetaTags } from 'svelte-meta-tags';
   import { reveal } from '$lib/actions/reveal';
-  import { decode } from '$lib/actions/decode';
   import { featuredProjects } from '$lib/data/projects';
   import Badge from '$components/common/Badge.svelte';
   import LinkBlock from '$components/common/LinkBlock.svelte';
@@ -55,7 +54,7 @@
 
 <section
   id="home"
-  class="relative flex min-h-[min(92svh,880px)] items-center overflow-hidden border-b border-line"
+  class="relative flex min-h-[min(92svh,880px)] items-center overflow-hidden"
 >
   <HeroCanvas />
   <div
@@ -68,15 +67,14 @@
     <div class="flex flex-col gap-6">
       <h1
         class="font-display text-[3.4rem] leading-[0.92] font-extrabold tracking-[-0.045em] sm:text-7xl xl:text-[6.2rem]"
-        use:decode={{ text: 'Vadim Egorov', duration: 1100, delay: 150 }}
       >
         Vadim Egorov
       </h1>
       <p class="flex items-center gap-3 font-mono text-lg font-medium">
         <span class="h-0.5 w-9 bg-primary"></span>
-        <span use:decode={{ text: roles[roleIndex], duration: 700 }}
-          >{roles[0]}</span
-        >
+        {#key roleIndex}
+          <span class="role-swap">{roles[roleIndex]}</span>
+        {/key}
       </p>
       <p
         class="max-w-[34ch] text-[1.3rem] leading-[1.45] text-balance text-ink-1"
@@ -111,7 +109,7 @@
   </div>
 </section>
 
-<PageSection id="about" title="A bit about me">
+<PageSection line={false} id="about" title="A bit about me">
   <div class="grid gap-8 md:grid-cols-2 md:gap-10">
     <p
       use:reveal={{ type: 'up' }}
@@ -146,6 +144,7 @@
 </PageSection>
 
 <PageSection
+  line={false}
   id="experience"
   title="Where I've worked"
   sub="Business systems, product logic, and large-scale web applications."
@@ -169,6 +168,7 @@
 <ProjectOrbit id="projects" projects={featuredProjects} />
 
 <PageSection
+  line={false}
   id="stack"
   title="Tools I reach for"
   sub="With sound on, every tile says its own name."
@@ -177,11 +177,31 @@
 </PageSection>
 
 <PageSection
+  line={false}
   id="contacts"
-  title="Have a role or an idea? Let's talk."
+  title="Let's talk."
   sub="Email is the easiest way to reach me, and you can also find me on GitHub and LinkedIn."
 >
   <div use:reveal={{ type: 'scale' }}>
     <ContactPad />
   </div>
 </PageSection>
+
+<style>
+  /* the role changes with a quiet fade, no scrambling */
+  .role-swap {
+    animation: role-in 400ms ease-out;
+  }
+
+  @keyframes role-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .role-swap {
+      animation: none;
+    }
+  }
+</style>
