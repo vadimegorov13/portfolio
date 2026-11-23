@@ -1,8 +1,10 @@
 import type { Project } from '$lib/types';
 
 // To add a project: append an entry below and drop its screenshot into
-// /static. `featured: true` puts it in the home page strip; every project
-// shows on /projects, newest first by `year`.
+// /static. `featured: true` puts it in the home page projects section, and
+// `spotlight: 1 | 2 | 3` gives it its own stop in front there (the rest go in
+// the grid under them). Every project shows on /projects, newest first by
+// `year`.
 export const projects: Project[] = [
   {
     slug: 'human-activity',
@@ -56,6 +58,7 @@ export const projects: Project[] = [
     img: 'ar-sandbox.png',
     github: 'https://github.com/vadimegorov13/ar-sandbox-kit',
     featured: true,
+    spotlight: 3,
   },
   {
     slug: 'degree-flowchart-planner',
@@ -129,6 +132,42 @@ export const projects: Project[] = [
     stack: ['Google Apps Script', 'JavaScript', 'HTML/CSS', 'Google Drive API'],
     img: 'certificate-generator.png',
     featured: true,
+    spotlight: 2,
+  },
+  {
+    slug: 'product-telemetry',
+    title: 'Product Telemetry System',
+    shortTitle: 'Product Telemetry',
+    type: 'Analytics',
+    category: 'Internship / Product Analytics / Flyntlok',
+    date: 'Summer 2026',
+    year: 2026,
+    summary:
+      'Product telemetry and analytics for Flyntlok’s dealer management platform, built on PostHog, with controls that keep event volume and cost in check.',
+    description:
+      'During my summer 2026 internship at Flyntlok, I designed and built product telemetry and analytics for their multi-tenant dealer management platform on PostHog, along with the internal tools the team uses to instrument features and read the results.',
+    sections: [
+      {
+        title: 'What it does',
+        body: 'The system records how people actually use the product, so the team can follow the usage and adoption of features in PostHog dashboards instead of guessing.',
+      },
+      {
+        title: 'Keeping it in check',
+        body: 'On a multi-tenant platform, collecting every event for everyone gets noisy and expensive. A control system decides what is collected per user, per location, and per tenant, which keeps analytics volume and cost under control.',
+      },
+      {
+        title: 'Tooling',
+        body: 'Internal tools let the team review which UI elements are instrumented and build PostHog dashboards on usage and adoption. AI-assisted tools speed up instrumenting new features and events.',
+      },
+    ],
+    stack: [
+      'PostHog',
+      'Product analytics',
+      'Internal tools',
+      'AI-assisted tooling',
+    ],
+    img: 'product-telemetry.svg',
+    featured: true,
   },
   {
     slug: 'pomofriends',
@@ -167,6 +206,7 @@ export const projects: Project[] = [
     // original 2022 Next.js version, not shown on the site right now:
     // github: 'https://github.com/PomoFriends/pomofriends-app',
     featured: true,
+    spotlight: 1,
   },
   {
     slug: 'sup4bubb4',

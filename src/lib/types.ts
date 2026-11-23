@@ -42,6 +42,9 @@ export type Project = {
   dataset?: string;
   status?: 'wip';
   featured?: boolean;
+  /** home page: gets its own stop in front while scrolling, in this order
+   *  (1, 2, 3); every other featured project ends up in the grid */
+  spotlight?: number;
   /** headline numbers, e.g. { value: '3h → 5min', label: 'per batch' } */
   metrics?: { value: string; label: string }[];
   /** extra write-up blocks on /projects (problem, solution, ...) */

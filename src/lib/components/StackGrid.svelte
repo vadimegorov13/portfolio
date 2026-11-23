@@ -67,12 +67,13 @@
   }
 </script>
 
-<div class="flex flex-col gap-8">
+<div class="stack-groups flex flex-col gap-8">
   {#each groups as group (group.title)}
     <div>
       <h3
-        class="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-ink-3 uppercase"
+        class="mb-3 flex items-center gap-2.5 font-display text-lg font-bold tracking-[-0.01em] text-ink-1"
       >
+        <span class="size-2.5 bg-(--g)" aria-hidden="true"></span>
         {group.title}
       </h3>
       <div
@@ -110,6 +111,27 @@
 </div>
 
 <style>
+  /* one color per group: languages, web, data, ML, AI, other */
+  .stack-groups > div:nth-child(6n + 1) {
+    --g: var(--color-primary);
+  }
+  .stack-groups > div:nth-child(6n + 2) {
+    --g: var(--color-accent-blue);
+  }
+  .stack-groups > div:nth-child(6n + 3) {
+    --g: var(--color-accent-amber);
+  }
+  .stack-groups > div:nth-child(6n + 4) {
+    --g: var(--color-accent-violet);
+  }
+  .stack-groups > div:nth-child(6n + 5) {
+    --g: var(--color-accent-green);
+  }
+  .stack-groups > div:nth-child(6n + 6) {
+    --g: var(--color-ink-2);
+  }
+
+  /* tiles sit open on the page; a box appears on hover */
   .tile {
     display: flex;
     flex-direction: column;
@@ -118,8 +140,8 @@
     gap: 0.5rem;
     aspect-ratio: 1;
     padding: 0.5rem;
-    border: 1px solid var(--color-line);
-    background: var(--color-surface);
+    border: 1px solid transparent;
+    background: transparent;
     transform-origin: 50% 60%;
     transition:
       border-color 200ms ease,
@@ -151,8 +173,8 @@
   }
 
   .tile:hover {
-    border-color: var(--color-primary);
-    background: var(--color-surface-2);
+    border-color: var(--g);
+    background: var(--color-surface);
   }
 
   .tile:hover span {

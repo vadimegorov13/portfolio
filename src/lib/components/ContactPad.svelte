@@ -72,22 +72,18 @@
   }
 </script>
 
-<div
-  bind:this={card}
-  class="attention flex flex-col gap-6 border border-line bg-surface p-6 sm:p-8"
->
+<div bind:this={card} class="attention flex flex-col gap-5">
   <p class="min-h-6 font-mono text-sm text-ink-1" aria-live="polite">
     <span class="text-primary">&gt;</span>
     <span use:decode={{ text: caption, duration: 400 }}>{caption}</span>
   </p>
 
-  <ul class="flex flex-col gap-6">
+  <ul class="grid grid-cols-1 gap-4 md:grid-cols-3">
     {#each pads as pad (pad.id)}
       {@const isEmail = pad.id === 'Email'}
       {@const contact = info(pad.id)}
-      <li
-        class="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-5 sm:gap-7"
-      >
+      <li class="flex">
+        <!-- the whole row is the button (copy email) or the link -->
         <svelte:element
           this={pad.href ? 'a' : 'button'}
           href={pad.href}
@@ -96,7 +92,7 @@
           type={pad.href ? undefined : 'button'}
           role={pad.href ? 'link' : 'button'}
           aria-label={isEmail ? `Copy email ${EMAIL}` : pad.label}
-          class={`pad pad-${pad.motion} cursor-pointer`}
+          class={`pad pad-${pad.motion} row flex w-full cursor-pointer flex-col items-start gap-5 p-6 text-left`}
           onmouseenter={() => {
             pad.hoverSound();
             if (!copied) caption = pad.caption;
@@ -107,7 +103,7 @@
           onclick={isEmail ? copyEmail : sfx.pop}
         >
           <span
-            class="wheel-fill grid size-18 place-items-center rounded-full bg-ink-1 text-background sm:size-22"
+            class="wheel-fill grid size-16 place-items-center bg-ink-1 text-background"
           >
             <span class="pad-icon grid place-items-center">
               <Icon
@@ -116,34 +112,67 @@
               />
             </span>
           </span>
+          <span class="flex min-w-0 flex-col gap-0.5">
+            <span
+              class="font-display text-[1.35rem] font-bold tracking-[-0.01em] text-ink-1"
+            >
+              {isEmail && copied ? 'Copied!' : pad.label}
+            </span>
+            <span class="value w-fit font-mono text-sm break-all text-primary"
+              >{isEmail ? EMAIL : contact?.value}</span
+            >
+            <span class="mt-1 text-[0.95rem] leading-relaxed text-ink-3"
+              >{contact?.description}</span
+            >
+            <span class="hint font-mono text-xs text-ink-3"
+              >{isEmail ? 'click to copy' : 'click to open ↗'}</span
+            >
+          </span>
         </svelte:element>
-        <div class="flex min-w-0 flex-col gap-0.5">
-          <p class="font-mono text-sm text-ink-3">
-            {isEmail && copied ? 'copied!' : pad.label}
-          </p>
-          {#if isEmail}
-            <button
-              type="button"
-              class="w-fit cursor-pointer text-left font-mono text-sm break-all text-primary hover:underline"
-              onclick={copyEmail}>{EMAIL}</button
-            >
-          {:else}
-            <a
-              href={pad.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-fit font-mono text-sm break-all text-primary hover:underline"
-              >{contact?.value}</a
-            >
-          {/if}
-          <p class="text-base text-ink-3">{contact?.description}</p>
-        </div>
       </li>
     {/each}
   </ul>
 </div>
 
 <style>
+  /* each channel is a card; the whole card is the button */
+  .row {
+    height: 100%;
+    border: 1px solid var(--color-line);
+    border-top: 3px solid var(--color-line);
+    background: var(--color-surface);
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .row:hover,
+  .row:focus-visible {
+    border-top-color: var(--color-primary);
+    background: var(--color-surface-2);
+    outline: none;
+  }
+
+  /* plain pink fill on hover instead of the color wheel */
+  .row .wheel-fill::before {
+    background: var(--color-primary);
+    animation: none;
+  }
+
+  .row:hover .value {
+    text-decoration: underline;
+  }
+
+  .hint {
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .row:hover .hint,
+  .row:focus-visible .hint {
+    opacity: 1;
+  }
+
   .pad .wheel-fill {
     transition:
       transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
