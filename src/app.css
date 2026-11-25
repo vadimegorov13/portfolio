@@ -1,5 +1,6 @@
-/* Fira Code for structure (headings, labels), Geist for reading text */
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Geist:wght@400;500;600&display=swap');
+/* Fira Code for labels and code-like bits, Bricolage Grotesque for big
+   headings, Geist for reading text */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap');
 
 @import 'tailwindcss';
 
@@ -12,12 +13,19 @@
   --color-secondary: #6366f1;
   --color-border: var(--color-line);
 
+  /* extra accents: one per kind of project / place of work */
+  --color-accent-blue: #5b9cff;
+  --color-accent-amber: #ffb547;
+  --color-accent-green: #3ecf8e;
+  --color-accent-violet: #b18cff;
+
   --color-ink-1: #eceef2;
   --color-ink-2: #b6bcc8;
   --color-ink-3: #7f8797;
 
   --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
   --font-mono: 'Fira Code', ui-monospace, Menlo, monospace;
+  --font-display: 'Bricolage Grotesque', 'Geist', system-ui, sans-serif;
 
   --breakpoint-sm: 480px;
   --breakpoint-smd: 700px;
@@ -459,6 +467,16 @@
 }
 
 @layer components {
+  /* caret for typed titles (src/lib/actions/typeOn.ts) */
+  .type-caret {
+    display: inline-block;
+    width: 0.5em;
+    height: 0.9em;
+    margin-left: 2px;
+    vertical-align: baseline;
+    background: var(--color-primary);
+  }
+
   .wip-cursor {
     display: inline-block;
     width: 0.55em;

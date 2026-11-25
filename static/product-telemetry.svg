@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+<defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f74080" stop-opacity="0.35"/><stop offset="1" stop-color="#f74080" stop-opacity="0"/></linearGradient><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#1b2029" stroke-width="1"/></pattern></defs>
+<rect width="1600" height="900" fill="#0f1218"/><rect width="1600" height="900" fill="url(#grid)"/>
+<rect x="60" y="56" width="410" height="76" rx="6" fill="#ffffff"/>
+<svg x="80" y="72" width="80" height="44" viewBox="0 0 256 142"><path fill="#f9bd2b" d="M0 112.012c0-4.753 5.746-7.133 9.107-3.772l24.452 24.452c3.361 3.361.98 9.107-3.772 9.107H5.335A5.335 5.335 0 0 1 0 136.464zm0-25.756c0 1.415.562 2.772 1.563 3.773l50.208 50.208c1 1 2.357 1.562 3.772 1.562H83.12c4.753 0 7.134-5.746 3.773-9.107L9.107 54.907C5.747 51.546 0 53.926 0 58.679zm0-53.333c0 1.415.562 2.772 1.563 3.772l103.541 103.542c1 1 2.358 1.562 3.772 1.562h27.578c4.753 0 7.133-5.746 3.772-9.107L9.107 1.573C5.747-1.787 0 .593 0 5.346zm53.333 0c0 1.415.563 2.772 1.563 3.772l95.997 95.997c3.36 3.361 9.107.98 9.107-3.772v-27.578a5.34 5.34 0 0 0-1.563-3.772L62.441 1.573c-3.361-3.36-9.108-.98-9.108 3.773zm62.44-31.35c-3.36-3.36-9.106-.98-9.106 3.773v27.577c0 1.415.562 2.772 1.562 3.772l42.664 42.664c3.36 3.36 9.107.98 9.107-3.773V48.01a5.34 5.34 0 0 0-1.563-3.772z"/><path d="M226.867 112.666L176.651 62.45c-3.361-3.361-9.107-.98-9.107 3.772v70.242a5.335 5.335 0 0 0 5.335 5.335h77.786a5.335 5.335 0 0 0 5.335-5.335v-6.397c0-2.946-2.399-5.299-5.32-5.68a41.2 41.2 0 0 1-23.813-11.72m-33.724 12.066a8.537 8.537 0 0 1-8.533-8.533c0-4.71 3.823-8.534 8.533-8.534a8.537 8.537 0 0 1 8.534 8.534a8.537 8.537 0 0 1-8.534 8.533"/><path fill="#1d4aff" d="m8.656 107.833l.451.406l24.452 24.453c3.215 3.214 1.177 8.612-3.166 9.075l-.606.032H5.335a5.336 5.336 0 0 1-5.3-4.713L0 136.464v-24.452c0-4.547 5.258-6.922 8.656-4.179m0-53.332l.451.406l44.226 44.226V141.8L1.563 90.03a5.34 5.34 0 0 1-1.517-3.072L0 86.257V58.679c0-4.546 5.258-6.921 8.656-4.178M0 5.346C0 .799 5.258-1.576 8.656 1.167l.451.406L53.333 45.8v42.667l-51.77-51.77a5.34 5.34 0 0 1-1.517-3.072L0 32.923z"/><path fill="#f54e00" d="m53.333 45.8l51.771 51.77a5.33 5.33 0 0 1 1.516 3.072l.047.7V141.8L54.896 90.03a5.34 5.34 0 0 1-1.516-3.072l-.047-.701zm0 53.332l33.56 33.56c3.215 3.214 1.176 8.612-3.166 9.075l-.607.032H53.333zM61.99 1.167l.452.406l42.663 42.664a5.33 5.33 0 0 1 1.516 3.07l.047.702v40.457l-51.771-51.77a5.34 5.34 0 0 1-1.516-3.072l-.047-.701V5.346c0-4.547 5.258-6.922 8.656-4.179"/></svg>
+<text x="176" y="104" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="24" font-weight="600" fill="#151922">built on PostHog</text>
+<text x="510" y="92" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="30" font-weight="600" fill="#eceef2">product telemetry</text>
+<text x="510" y="124" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="20" fill="#7f8797">usage · adoption · collection rules</text>
+<rect x="60" y="170" width="980" height="430" fill="#151922" stroke="#242a35" stroke-width="2"/>
+<text x="88" y="218" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="22" letter-spacing="3" fill="#7f8797">EVENTS / DAY</text>
+<line x1="100" y1="260" x2="1000" y2="260" stroke="#242a35" stroke-width="1.5" stroke-dasharray="6 8"/>
+<line x1="100" y1="360" x2="1000" y2="360" stroke="#242a35" stroke-width="1.5" stroke-dasharray="6 8"/>
+<line x1="100" y1="460" x2="1000" y2="460" stroke="#242a35" stroke-width="1.5" stroke-dasharray="6 8"/>
+<line x1="100" y1="560" x2="1000" y2="560" stroke="#242a35" stroke-width="1.5" stroke-dasharray="6 8"/>
+<path d="M100.0 439.9 L115.0 427.4 L130.0 422.1 L145.0 422.9 L160.0 426.8 L175.0 430.2 L190.0 430.0 L205.0 425.1 L220.0 416.7 L235.0 407.9 L250.0 402.6 L265.0 403.7 L280.0 412.6 L295.0 427.7 L310.0 445.7 L325.0 462.1 L340.0 472.9 L355.0 476.1 L370.0 472.0 L385.0 463.2 L400.0 453.5 L415.0 446.4 L430.0 444.0 L445.0 445.8 L460.0 449.4 L475.0 451.1 L490.0 447.7 L505.0 437.4 L520.0 421.0 L535.0 401.4 L550.0 382.9 L565.0 369.8 L580.0 364.5 L595.0 367.4 L610.0 352.2 L625.0 363.0 L640.0 396.1 L655.0 400.6 L670.0 400.0 L685.0 396.3 L700.0 392.6 L715.0 392.4 L730.0 398.0 L745.0 409.5 L760.0 424.3 L775.0 438.7 L790.0 448.2 L805.0 450.1 L820.0 443.4 L835.0 429.9 L850.0 413.4 L865.0 398.0 L880.0 387.2 L895.0 382.1 L910.0 381.7 L925.0 383.1 L940.0 382.6 L955.0 377.6 L970.0 367.3 L985.0 353.3 L1000.0 339.0 L1000 560 L100 560 Z" fill="url(#fill)"/>
+<path d="M100.0 439.9 L115.0 427.4 L130.0 422.1 L145.0 422.9 L160.0 426.8 L175.0 430.2 L190.0 430.0 L205.0 425.1 L220.0 416.7 L235.0 407.9 L250.0 402.6 L265.0 403.7 L280.0 412.6 L295.0 427.7 L310.0 445.7 L325.0 462.1 L340.0 472.9 L355.0 476.1 L370.0 472.0 L385.0 463.2 L400.0 453.5 L415.0 446.4 L430.0 444.0 L445.0 445.8 L460.0 449.4 L475.0 451.1 L490.0 447.7 L505.0 437.4 L520.0 421.0 L535.0 401.4 L550.0 382.9 L565.0 369.8 L580.0 364.5 L595.0 367.4 L610.0 352.2 L625.0 363.0 L640.0 396.1 L655.0 400.6 L670.0 400.0 L685.0 396.3 L700.0 392.6 L715.0 392.4 L730.0 398.0 L745.0 409.5 L760.0 424.3 L775.0 438.7 L790.0 448.2 L805.0 450.1 L820.0 443.4 L835.0 429.9 L850.0 413.4 L865.0 398.0 L880.0 387.2 L895.0 382.1 L910.0 381.7 L925.0 383.1 L940.0 382.6 L955.0 377.6 L970.0 367.3 L985.0 353.3 L1000.0 339.0" fill="none" stroke="#f74080" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="1000.0" cy="339.0" r="8" fill="#f74080"/>
+<rect x="1080" y="170" width="460" height="430" fill="#151922" stroke="#242a35" stroke-width="2"/>
+<text x="1108" y="218" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="22" letter-spacing="3" fill="#7f8797">COLLECTION RULES</text>
+<text x="1108" y="288" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="24" fill="#b6bcc8">tenant</text>
+<text x="1390" y="288" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="18" fill="#7f8797" text-anchor="end">on</text>
+<rect x="1420" y="264" width="72" height="34" rx="17" fill="#f74080" stroke="#242a35" stroke-width="2"/>
+<circle cx="1474" cy="281" r="12" fill="#eceef2"/>
+<text x="1108" y="364" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="24" fill="#b6bcc8">location</text>
+<text x="1390" y="364" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="18" fill="#7f8797" text-anchor="end">sampled</text>
+<rect x="1420" y="340" width="72" height="34" rx="17" fill="#f74080" stroke="#242a35" stroke-width="2"/>
+<circle cx="1474" cy="357" r="12" fill="#eceef2"/>
+<text x="1108" y="440" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="24" fill="#b6bcc8">user</text>
+<text x="1390" y="440" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="18" fill="#7f8797" text-anchor="end">on</text>
+<rect x="1420" y="416" width="72" height="34" rx="17" fill="#f74080" stroke="#242a35" stroke-width="2"/>
+<circle cx="1474" cy="433" r="12" fill="#eceef2"/>
+<text x="1108" y="516" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="24" fill="#b6bcc8">debug UI</text>
+<text x="1390" y="516" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="18" fill="#7f8797" text-anchor="end">off</text>
+<rect x="1420" y="492" width="72" height="34" rx="17" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<circle cx="1438" cy="509" r="12" fill="#7f8797"/>
+<rect x="60" y="640" width="1480" height="220" fill="#151922" stroke="#242a35" stroke-width="2"/>
+<text x="88" y="688" font-family="'Fira Code', ui-monospace, Menlo, Consolas, monospace" font-size="22" letter-spacing="3" fill="#7f8797">FEATURE ADOPTION</text>
+<rect x="120" y="764" width="80" height="66" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="232" y="734" width="80" height="96" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="344" y="782" width="80" height="48" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="456" y="716" width="80" height="114" fill="#f74080" stroke="#f74080" stroke-width="2"/>
+<rect x="568" y="756" width="80" height="74" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="680" y="794" width="80" height="36" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="792" y="744" width="80" height="86" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="904" y="770" width="80" height="60" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="1016" y="728" width="80" height="102" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="1128" y="776" width="80" height="54" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="1240" y="751" width="80" height="79" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+<rect x="1352" y="784" width="80" height="46" fill="#1b2029" stroke="#242a35" stroke-width="2"/>
+</svg>

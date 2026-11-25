@@ -1,7 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  // Dot field that ripples slowly and pushes away from the cursor.
+  // Dot field that stays put (only its brightness breathes, slowly) and
+  // pushes away from the cursor. The dots used to bob on a wave, which read
+  // as the page shaking behind the hero text.
   let canvas: HTMLCanvasElement;
 
   onMount(() => {
@@ -36,14 +38,14 @@
       for (let y = gap / 2; y < h; y += gap) {
         for (let x = gap / 2; x < w; x += gap) {
           const wave =
-            Math.sin(x * 0.012 + t * 0.8) * Math.cos(y * 0.014 - t * 0.6);
+            Math.sin(x * 0.012 + t * 0.25) * Math.cos(y * 0.014 - t * 0.2);
           const dx = x - mouse.x;
           const dy = y - mouse.y;
           const d = Math.hypot(dx, dy);
           const f = Math.max(0, 1 - d / 180);
           const px = x + (d ? dx / d : 0) * f * 22;
-          const py = y + (d ? dy / d : 0) * f * 22 + wave * 3;
-          const s = 1 + (wave + 1) * 0.6 + f * 2;
+          const py = y + (d ? dy / d : 0) * f * 22;
+          const s = 1.6 + f * 2;
           g.fillStyle =
             f > 0.02
               ? `rgba(247,64,128,${0.35 + f * 0.65})`
